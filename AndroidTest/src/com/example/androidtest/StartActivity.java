@@ -27,6 +27,9 @@ public class StartActivity extends Activity {
 				StartActivity.this.finish();
 			}
 		}, 3);
+		
+		Intent service = new Intent(this , HeartbeatService.class);
+		startService(service );
 	}
 
 }
