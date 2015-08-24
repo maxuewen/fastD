@@ -6,6 +6,7 @@
     <string name="hello_world">Hello world!</string>
     <string name="title_activity_login">LoginActivity</string>
     <string name="username_hint">手机号或用户名</string>
+    <string name="password_hint">密码</string>
     <string name="user_login_but">用户登录</string>
     <string name="fastd_login_but">快递员登录</string>
     <string name="dummy_email">jondoe@gmail.com</string>

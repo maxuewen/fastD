@@ -43,6 +43,8 @@ public class LoginActivity extends Activity {
 		
 		viewPager = (ViewPager) findViewById(R.id.viewPager);
 		viewPager.setAdapter(adap);
+		
+		
 	}
 
 }

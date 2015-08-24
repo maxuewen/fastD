@@ -43,7 +43,7 @@
 		android:singleLine="true"
 		android:scrollHorizontally="true"
 		android:maxLength="20"
-		android:hint="@string/username_hint"
+		android:hint="@string/password_hint"
 		android:selectAllOnFocus="true"
 		android:textColorHint="#EDEBE5"
 		android:inputType="textPassword"
