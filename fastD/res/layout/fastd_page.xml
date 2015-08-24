@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent" >
+    
+    <LinearLayout 
+        android:layout_below="@id/login_frame_title"
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="20dp"
+        >
+        
+        <TextView 
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="qwerqwe"/>
+        
+        <cn.zh.Utils.UnderLineEditText
+        android:id="@+id/fastd_username"
+        android:drawableLeft="@drawable/user"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+		android:layout_gravity="center"   
+		android:background="@null"    
+		android:drawableRight="@drawable/close"
+		android:singleLine="true"
+		android:scrollHorizontally="true"
+		android:maxLength="20"
+		android:hint="@string/username_hint"
+		android:selectAllOnFocus="true"
+		android:textColorHint="#EDEBE5"
+        />
+        
+        <cn.zh.Utils.UnderLineEditText
+        android:id="@+id/fastd_password"
+        android:drawableLeft="@drawable/lock"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+		android:layout_gravity="center"   
+		android:background="@null"    
+		android:drawableRight="@drawable/close"
+		android:singleLine="true"
+		android:scrollHorizontally="true"
+		android:maxLength="20"
+		android:hint="@string/username_hint"
+		android:selectAllOnFocus="true"
+		android:textColorHint="#EDEBE5"
+		android:inputType="textPassword"
+		android:layout_marginTop="20dp"
+        />
+        
+        <cn.zh.Utils.ActionProcessButton
+            android:id="@+id/login_but"
+            android:layout_width="350dp"
+            android:layout_height="50dp"
+            android:layout_marginBottom="16dp"
+            android:text="@string/fastd_login_but"
+            android:textColor="@android:color/white"
+            android:textSize="18sp"
+            android:layout_marginTop="40dp"
+            android:layout_gravity="center_horizontal" 
+            />
+    </LinearLayout>
+    
+    <RelativeLayout 
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+		android:layout_alignParentBottom="true"
+		android:layout_marginBottom="11dp">
+        
+        <Button 
+            android:id="@+id/fastd_findPassword_but"
+            android:layout_marginLeft="15dp"
+            android:text="@string/findPassword"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="left"
+            android:textColor="#00B4FA"
+            style="@null"
+            android:background="@null"/>
+        
+        <Button 
+            android:id="@+id/register_but"
+            android:layout_marginRight="15dp"
+            android:text="@string/fastd_register"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+			android:layout_alignParentRight="true"
+			android:textColor="#00B4FA"
+            style="@null"
+            android:background="@null"/>
+        
+    </RelativeLayout>
+
+</RelativeLayout>
