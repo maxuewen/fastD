@@ -31,11 +31,9 @@
     </array>
 
     <string name="findPassword">密码找回</string>
-    
     <string name="user_register_but">用户注册</string>
     <string name="fastd_register">快递员注册</string>
-    
-    
     <string name="title_activity_register">RegisterActivity</string>
+    <string name="title_activity_user_regidter_">User_regidter_Activity</string>
 
 </resources>

@@ -12,8 +12,11 @@
         >
         
         <TextView 
+            android:id="@+id/toast_fast"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:textColor="#DA4035"
+            android:layout_gravity="right"
             android:text=""/>
         
         <cn.zh.Utils.UnderLineEditText
@@ -51,9 +54,9 @@
         />
         
         <cn.zh.Utils.ActionProcessButton
-            android:id="@+id/login_but"
+            android:id="@+id/fast_login_but"
             android:layout_width="350dp"
-            android:layout_height="50dp"
+            android:layout_height="wrap_content"
             android:layout_marginBottom="16dp"
             android:text="@string/fastd_login_but"
             android:textColor="@android:color/white"
@@ -81,7 +84,7 @@
             android:background="@null"/>
         
         <Button 
-            android:id="@+id/register_but"
+            android:id="@+id/fast_register_but"
             android:layout_marginRight="15dp"
             android:text="@string/fastd_register"
             android:layout_width="wrap_content"

@@ -11,9 +11,12 @@
         android:padding="20dp"
         >
         
-        <TextView 
+       <TextView 
+            android:id="@+id/toast_user"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:textColor="#DA4035"
+			android:layout_gravity="right"
             android:text=""/>
         
         <cn.zh.Utils.UnderLineEditText
@@ -49,6 +52,8 @@
 		android:inputType="textPassword"
 		android:layout_marginTop="20dp"
         />
+        
+         
         
         <cn.zh.Utils.ActionProcessButton
             android:id="@+id/user_login_but"

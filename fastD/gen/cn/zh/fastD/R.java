@@ -102,6 +102,7 @@ containing a value of this type.
         public static final int holo_red_light=0x7f050008;
         public static final int purple_progress=0x7f050003;
         public static final int red_error=0x7f050004;
+        public static final int user_registerPage_actionBar=0x7f050009;
     }
     public static final class dimen {
         /**  Default screen margins, per the Android Design guidelines. 
@@ -113,6 +114,7 @@ containing a value of this type.
         public static final int activity_horizontal_margin=0x7f060002;
         public static final int activity_vertical_margin=0x7f060003;
         public static final int corner_radius=0x7f060000;
+        public static final int def=0x7f060004;
         public static final int layer_padding=0x7f060001;
     }
     public static final class drawable {
@@ -124,27 +126,32 @@ containing a value of this type.
         public static final int user=0x7f020005;
     }
     public static final class id {
-        public static final int action_settings=0x7f0b000c;
-        public static final int fastd_findPassword_but=0x7f0b0005;
-        public static final int fastd_password=0x7f0b0003;
-        public static final int fastd_username=0x7f0b0002;
-        public static final int login_but=0x7f0b0004;
+        public static final int action_settings=0x7f0b0010;
+        public static final int fast_login_but=0x7f0b0007;
+        public static final int fast_register_but=0x7f0b0009;
+        public static final int fastd_findPassword_but=0x7f0b0008;
+        public static final int fastd_password=0x7f0b0006;
+        public static final int fastd_username=0x7f0b0005;
         public static final int login_frame_title=0x7f0b0000;
-        public static final int register_but=0x7f0b0006;
-        public static final int user_findPassword_but=0x7f0b000a;
-        public static final int user_login_but=0x7f0b0009;
-        public static final int user_password=0x7f0b0008;
-        public static final int user_register_but=0x7f0b000b;
-        public static final int user_username=0x7f0b0007;
+        public static final int toast_fast=0x7f0b0004;
+        public static final int toast_user=0x7f0b000a;
+        public static final int user_findPassword_but=0x7f0b000e;
+        public static final int user_login_but=0x7f0b000d;
+        public static final int user_password=0x7f0b000c;
+        public static final int user_register=0x7f0b0003;
+        public static final int user_register_but=0x7f0b000f;
+        public static final int user_register_titleBar=0x7f0b0002;
+        public static final int user_username=0x7f0b000b;
         public static final int viewPager=0x7f0b0001;
     }
     public static final class layout {
         public static final int activity_login=0x7f030000;
         public static final int activity_main=0x7f030001;
         public static final int fast_register=0x7f030002;
-        public static final int fastd_page=0x7f030003;
-        public static final int user_page=0x7f030004;
-        public static final int user_register=0x7f030005;
+        public static final int user_register_actionbar=0x7f030003;
+        public static final int user_register_main=0x7f030004;
+        public static final int user_register_viewpage_1=0x7f030005;
+        public static final int user_register_viewpage_2=0x7f030006;
     }
     public static final class menu {
         public static final int main=0x7f0a0000;
@@ -181,6 +188,7 @@ containing a value of this type.
         public static final int password_hint=0x7f07000f;
         public static final int title_activity_login=0x7f07000d;
         public static final int title_activity_register=0x7f070021;
+        public static final int title_activity_user_regidter_=0x7f070022;
         public static final int user_login_but=0x7f070010;
         public static final int user_register_but=0x7f07001f;
         public static final int username_hint=0x7f07000e;
@@ -198,14 +206,20 @@ containing a value of this type.
     
  API 14 theme customizations can go here. 
          */
-        public static final int AppBaseTheme=0x7f090000;
+        public static final int AppBaseTheme=0x7f090002;
+        public static final int Theme_def=0x7f090001;
+        /**  自定义主题 
+         */
+        public static final int myActonBar=0x7f090000;
     }
     public static final class xml {
-        public static final int rect_complete=0x7f040000;
-        public static final int rect_error=0x7f040001;
-        public static final int rect_normal=0x7f040002;
-        public static final int rect_pressed=0x7f040003;
-        public static final int rect_progress=0x7f040004;
+        public static final int fastd_page=0x7f040000;
+        public static final int rect_complete=0x7f040001;
+        public static final int rect_error=0x7f040002;
+        public static final int rect_normal=0x7f040003;
+        public static final int rect_pressed=0x7f040004;
+        public static final int rect_progress=0x7f040005;
+        public static final int user_page=0x7f040006;
     }
     public static final class styleable {
         /** Attributes that can be used with a FlatButton.
