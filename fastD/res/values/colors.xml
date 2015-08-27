@@ -10,5 +10,7 @@
     <color name="holo_green_light">#ff99cc00</color>
     <color name="holo_orange_light">#ffffbb33</color>
     <color name="holo_red_light">#ffff4444</color>
-    <color name="user_registerPage_actionBar">#abcdef</color>
+    <color name="user_registerPage_actionBar">#33B5E5</color>
+    <color name="textColorHint">#BCBCBC</color>
+    <color name="but">#33B5E5</color>
 </resources>

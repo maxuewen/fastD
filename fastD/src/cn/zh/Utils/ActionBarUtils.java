@@ -1,5 +1,6 @@
 package cn.zh.Utils;
 
+import cn.zh.fastD.R;
 import android.app.ActionBar;
 import android.app.Activity;
 import android.app.ActionBar.LayoutParams;
@@ -9,7 +10,7 @@ import android.view.View;
 
 public class ActionBarUtils {
 
-	public static void setAtionBar(Context context , int layout){
+	public static View setAtionBar(Context context , int layout){
 		android.app.ActionBar actionBar =((Activity)context).getActionBar();
 
 		actionBar.setDisplayShowHomeEnabled( false );
@@ -21,6 +22,8 @@ public class ActionBarUtils {
 		    
 		    ActionBar.LayoutParams l = new ActionBar.LayoutParams(LayoutParams.FILL_PARENT, LayoutParams.FILL_PARENT);
 		    actionBar.setCustomView(view,l);
+		    
+		    return view;
 	}
 	
 }

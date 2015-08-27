@@ -2,12 +2,62 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-	android:padding="@dimen/def"
+    android:padding="@dimen/def"
     tools:context=".User_register_Activity" >
-    
-    <Button android:text="giggdmkoglsdjf"
-        android:layout_width="wrap_content"
+
+    <RelativeLayout
+        android:id="@+id/urv1_linear"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_centerInParent="true"/>
+        android:layout_marginTop="100dp"
+        android:orientation="vertical" >
+
+        <cn.zh.Utils.UnderLineEditText
+            android:id="@+id/urv2_pw1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingLeft="5dp"
+            android:layout_centerHorizontal="true"
+            android:layout_marginLeft="30dp"
+            android:layout_marginRight="30dp"
+            android:background="@null"
+            android:hint="@string/urv2_pw1"
+            android:maxLength="20"
+            android:scrollHorizontally="true"
+            android:selectAllOnFocus="true"
+            android:singleLine="true"
+            android:textColorHint="@color/textColorHint"
+            android:inputType="textPassword"
+            android:textSize="17sp" />
+        
+        <cn.zh.Utils.UnderLineEditText
+            android:id="@+id/urv2_pw2"
+            android:inputType="textPassword"
+            android:layout_marginTop="15dp"
+            android:layout_below="@id/urv2_pw1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingLeft="5dp"
+            android:layout_centerHorizontal="true"
+            android:layout_marginLeft="30dp"
+            android:layout_marginRight="30dp"
+            android:background="@null"
+            android:hint="@string/urv2_pw2"
+            android:maxLength="20"
+            android:scrollHorizontally="true"
+            android:selectAllOnFocus="true"
+            android:singleLine="true"
+            android:textColorHint="@color/textColorHint"
+            android:textSize="17sp" />
+    </RelativeLayout>
     
-</RelativeLayout>
+    <Button 
+        android:id="@+id/urv2_but"
+        android:background="@drawable/but_login_selector"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:text="@string/urv2_but"
+        android:layout_margin="40dp"/>
+    	
+    </RelativeLayout>

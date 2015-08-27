@@ -29,10 +29,12 @@
 		android:drawableRight="@drawable/close"
 		android:singleLine="true"
 		android:scrollHorizontally="true"
-		android:maxLength="20"
+		android:maxLength="11"
 		android:hint="@string/username_hint"
 		android:selectAllOnFocus="true"
-		android:textColorHint="#EDEBE5"
+		android:textColorHint="@color/textColorHint"
+		android:paddingBottom="5dp"
+		android:paddingLeft="5dp"
         />
         
         <cn.zh.Utils.UnderLineEditText
@@ -48,9 +50,11 @@
 		android:maxLength="20"
 		android:hint="@string/password_hint"
 		android:selectAllOnFocus="true"
-		android:textColorHint="#EDEBE5"
+		android:textColorHint="@color/textColorHint"
 		android:inputType="textPassword"
 		android:layout_marginTop="20dp"
+		android:paddingBottom="5dp"
+		android:paddingLeft="5dp"
         />
         
          

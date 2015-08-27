@@ -6,6 +6,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.zip.Inflater;
 
+import cn.pedant.SweetAlert.SweetAlertDialog;
 import cn.zh.Utils.ActionProcessButton;
 import cn.zh.Utils.ActionProcessButton.Mode;
 import cn.zh.Utils.ViewPagerScroller;
@@ -48,7 +49,7 @@ public class LoginActivity extends Activity implements OnClickListener,
 	EditText fast_password;
 	TextView fast_toast;
 	
-	TextView tv;	//用于错误信息显示的
+//	TextView tv;	//用于错误信息显示的
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -85,7 +86,7 @@ public class LoginActivity extends Activity implements OnClickListener,
 		username = (EditText) view1.findViewById(R.id.user_username);
 		user_passwrod = (EditText) view1.findViewById(R.id.user_password);
 		user_toast = (TextView) view1.findViewById(R.id.toast_user);
-		tv = user_toast;
+//		tv = user_toast;
 
 		fast_password = (EditText) view2.findViewById(R.id.fastd_password);
 		fastname = (EditText) view2.findViewById(R.id.fastd_username);
@@ -126,16 +127,25 @@ public class LoginActivity extends Activity implements OnClickListener,
 			viewPager.setCurrentItem(0);
 			break;
 		case R.id.fastd_findPassword_but:
-
+			Intent in = new Intent(LoginActivity.this,User_register_Activity.class);
+			in.putExtra("isUser",viewPager.getCurrentItem());
+			in.putExtra("mod",2);
+			startActivity(in);
 			break;
 		case R.id.user_findPassword_but:
-
+			Intent in2 = new Intent(LoginActivity.this,User_register_Activity.class);
+			in2.putExtra("isUser",viewPager.getCurrentItem());
+			in2.putExtra("mod",2);
+			startActivity(in2);
 			break;
 		case R.id.user_login_but:
 			user_login();
 			break;
 		case R.id.user_register_but:
-			startActivity(new Intent(LoginActivity.this,User_register_Activity.class));
+			Intent in1 = new Intent(LoginActivity.this,User_register_Activity.class);
+			in1.putExtra("isUser",viewPager.getCurrentItem());
+			in1.putExtra("mod",1);
+			startActivity(in1);
 			break;
 		}
 
@@ -150,13 +160,11 @@ public class LoginActivity extends Activity implements OnClickListener,
 	@Override
 	public void onPageScrolled(int a, float b, int c) {
 		// TODO Auto-generated method stub
-		System.out.println(a+"==="+b+"===="+c);
 		
 	}
 
 	@Override
 	public void onPageSelected(int a) {
-		System.out.println("onPageSelected====="+a);
 		
 
 	}
@@ -164,20 +172,20 @@ public class LoginActivity extends Activity implements OnClickListener,
 	Handler hand = new Handler();
 	
 	//显示登陆错误提示
-	private void showToast(String str){
-		tv.setText(str);
-		hand.postDelayed(null, 0);
-		hand.postDelayed(new Runnable() {
-			
-			@Override
-			public void run() {
-				if(LoginActivity.this.tv!=null){
-					LoginActivity.this.tv.setText("");
-				}
-				
-			}
-		}, 2000);
-	}
+//	private void showToast(String str){
+//		tv.setText(str);
+//		hand.postDelayed(null, 0);
+//		hand.postDelayed(new Runnable() {
+//			
+//			@Override
+//			public void run() {
+//				if(LoginActivity.this.tv!=null){
+//					LoginActivity.this.tv.setText("");
+//				}
+//				
+//			}
+//		}, 2000);
+//	}
 	
 	
 	//登陆按钮
@@ -185,27 +193,56 @@ public class LoginActivity extends Activity implements OnClickListener,
 		
 		if(!TextUtils.isEmpty(userName)){
 			if(userName.length()!=11){
-				showToast( "手机号不正确");
+//				showToast( "手机号不正确");
+				new SweetAlertDialog(this,SweetAlertDialog.ERROR_TYPE)
+				.setTitleText("提示")
+				.setContentText("手机号长度不正确")
+				.show();
+				
+				
 				return false;
 			}else{
 				Pattern compile = Pattern.compile("^[1]([3][0-9]{1}|59|58|88|89)[0-9]{8}$");
 				Matcher matcher = compile.matcher(userName);
 				if(!matcher.find()){
-					showToast("手机号不正确");
+//					showToast("手机号不正确");
+					
+					new SweetAlertDialog(this,SweetAlertDialog.ERROR_TYPE)
+					.setTitleText("提示")
+					.setContentText("手机号格式不正确")
+					.show();
+					
 					return false;
 				}
 			}
 		}else{
-				showToast( "账号不能为空");
+//				showToast( "账号不能为空");
+			new SweetAlertDialog(this,SweetAlertDialog.ERROR_TYPE)
+			.setTitleText("账号不能为空")
+			.setContentText("")
+			.show();
+			
 			return false;
 		}
 		if(!TextUtils.isEmpty(password)){
 			if(password.length()<6||password.length()>20){
-				showToast("密码不正确");
+//				showToast("密码不正确");
+				
+				new SweetAlertDialog(this,SweetAlertDialog.ERROR_TYPE)
+				.setTitleText("提示")
+				.setContentText("密码长度不正确")
+				.show();
+				
 				return false;
 			}
 		}else{
-				showToast( "密码不能为为空");
+//				showToast( "密码不能为为空");
+			
+			new SweetAlertDialog(this,SweetAlertDialog.ERROR_TYPE)
+			.setTitleText("密码不能为空")
+			.setContentText("")
+			.show();
+			
 			return false;
 		}
 		
@@ -217,7 +254,7 @@ public class LoginActivity extends Activity implements OnClickListener,
 	private void user_login() {
 		String userName = username.getText().toString().trim();
 		String password = user_passwrod.getText().toString().trim();
-		tv=user_toast;
+//		tv=user_toast;
 		if(login_pro(userName,password)){
 			
 		}
@@ -226,7 +263,7 @@ public class LoginActivity extends Activity implements OnClickListener,
 	private void fast_login() {
 		String userName = fastname.getText().toString().trim();
 		String password = fast_password.getText().toString().trim();
-		tv = fast_toast;
+//		tv = fast_toast;
 		if(login_pro(userName,password)){
 			
 		}

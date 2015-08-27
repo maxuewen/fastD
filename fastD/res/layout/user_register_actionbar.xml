@@ -4,16 +4,22 @@
     android:layout_height="match_parent" >
     
     <ImageButton 
+        android:id="@+id/back"
+        android:layout_marginLeft="10dp"
+        android:clickable="true"
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
-        android:background="@drawable/cross"
-        android:layout_alignParentLeft="true"/>
+        android:layout_alignParentLeft="true"
+        android:background="@drawable/back"/>
     
     <TextView 
         android:id="@+id/user_register_titleBar"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_centerInParent="true"
-        android:text="用户注册"/>
+        android:gravity="center"
+        android:textSize="20sp"
+        android:textColor="#fff"
+        android:text="@string/user_register_aciontbarTitle"/>
 
 </RelativeLayout>

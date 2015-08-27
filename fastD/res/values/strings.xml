@@ -35,5 +35,13 @@
     <string name="fastd_register">快递员注册</string>
     <string name="title_activity_register">RegisterActivity</string>
     <string name="title_activity_user_regidter_">User_regidter_Activity</string>
+    <string name="user_register_aciontbarTitle">用户注册</string>
+    <string name="user_register_phone">请输入手机号码</string>
+    <string name="urv1_yanZhengMa">验 证 码</string>
+    <string name="ok">确 定</string>
+    <string name="urv2_pw1">请输入密码</string>
+    <string name="urv2_pw2">确认密码</string>
+    <string name="urv1_next_but">下一步</string>
+    <string name="urv2_but">完  成</string>
 
 </resources>

@@ -5,7 +5,7 @@
     android:versionName="1.0" >
 
     <uses-sdk
-        android:minSdkVersion="11"
+        android:minSdkVersion="14"
         android:targetSdkVersion="17" />
 
     <application
@@ -22,11 +22,13 @@
             android:name="cn.zh.fastD.LoginActivity"
             android:launchMode="singleTask"
             android:theme="@android:style/Theme.NoTitleBar" >
+           
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+            
         </activity>
         <activity android:name="cn.zh.fastD.RegisterActivity" >
         </activity>
@@ -35,6 +37,8 @@
         <activity
             android:name="cn.zh.fastD.User_register_Activity"
             android:theme="@style/Theme_def" >
+            
+             
         </activity>
         
         
