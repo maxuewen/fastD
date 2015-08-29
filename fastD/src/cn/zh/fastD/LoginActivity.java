@@ -124,7 +124,7 @@ public class LoginActivity extends Activity implements OnClickListener,
 			break;
 
 		case R.id.fast_register_but:
-			viewPager.setCurrentItem(0);
+			startActivity(new Intent(LoginActivity.this,Fastr_register_Activity.class));
 			break;
 		case R.id.fastd_findPassword_but:
 			Intent in = new Intent(LoginActivity.this,User_register_Activity.class);

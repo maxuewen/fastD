@@ -8,11 +8,27 @@
         android:minSdkVersion="14"
         android:targetSdkVersion="17" />
 
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
+    <uses-permission android:name="android.permission.CHANGE_WIFI_STATE" />
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+    <uses-permission android:name="android.permission.CHANGE_CONFIGURATION" />
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
+    <uses-permission android:name="android.permission.WRITE_SETTINGS" />
+    
     <application
         android:allowBackup="true"
         android:icon="@drawable/ic_launcher"
-        android:label="@string/app_name" >
+        android:label="@string/app_name"
+        android:theme="@style/Theme_def" >
         
+        <meta-data
+            android:name="com.amap.api.v2.apikey"
+            android:value="1eb697e6c7edc6275630618741412c86" />
         
         <activity
             android:name="cn.zh.fastD.MainActivity"
@@ -22,29 +38,20 @@
             android:name="cn.zh.fastD.LoginActivity"
             android:launchMode="singleTask"
             android:theme="@android:style/Theme.NoTitleBar" >
-           
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-            
-        </activity>
-        <activity android:name="cn.zh.fastD.RegisterActivity" >
-        </activity>
-        <activity android:name="cn.zh.fastD.UserRegister" >
         </activity>
         <activity
-            android:name="cn.zh.fastD.User_register_Activity"
-            android:theme="@style/Theme_def" >
-            
-             
+            android:name="cn.zh.fastD.User_register_Activity">
         </activity>
-        
-        
-        
-        
-        
+        <activity
+             android:windowSoftInputMode="adjustPan|stateHidden"
+            android:name="cn.zh.fastD.Fastr_register_Activity">
+           
+        </activity>
     </application>
 
 </manifest>

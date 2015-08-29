@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content" >
+
+    
+
+        <TextView
+            android:id="@+id/companylist_itme_companyName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="15dp"
+            android:textSize="18sp"
+            android:textColor="#000"
+            android:text="" />
+
+        <TextView
+            android:id="@+id/password"
+            android:layout_below="@id/companylist_itme_companyName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="25dp"
+            android:textSize="15sp"
+            android:textColor="@color/textColorHint"/>
+
+</RelativeLayout>

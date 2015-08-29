@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+   android:background="#fff" >
+    
+    <TextView 
+        android:id="@+id/fr_poipagerBelow_tv"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:singleLine="false"
+        android:background="#EDD1A6"
+        android:text="
+        	接下来，请在地图上按序点选四个地址，这四个地址所围成的四边形内的区域将是你的派送范围，
+ 只有在这个区域内的订单才会推送到你的手机上，如图所示的区域，就代表一个派送范围。请点击下一步开始。
+        "
+        android:padding="10dp"/>
+
+</RelativeLayout>

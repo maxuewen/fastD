@@ -18,7 +18,7 @@
    	    android:inputType="phone"
    	    android:layout_marginRight="15dp"
    	    android:layout_marginLeft="20dp"
-   	    android:layout_weight="4"
+   	    android:layout_weight="5"
    	    android:layout_width="wrap_content"
    	    android:layout_height="wrap_content"
    	    android:layout_gravity="center"
@@ -41,11 +41,10 @@
    	    android:background="@drawable/but_login_selector_min"
    	    android:layout_weight="1"
    	    android:layout_marginLeft="10dp"
-   	    android:layout_width="10dp"
-   	    android:maxWidth="15dp"
+   	    android:layout_width="wrap_content"
    	    android:layout_height="38dp"
    	    android:layout_marginRight="20dp"
-   	    android:text="@string/ok" 
+   	    android:text="@string/ok"
    	    />
    	
 	    
@@ -91,6 +90,8 @@
    	    android:layout_height="wrap_content"
    	    android:text="@string/urv1_next_but"
    	    android:layout_alignParentBottom="true"
-   	    android:layout_margin="40dp"/>
+   	    android:layout_marginLeft="@dimen/long_but_marginLR"
+   		android:layout_marginRight="@dimen/long_but_marginLR"
+   	    android:layout_marginBottom="@dimen/long_but_marginBottom"/>
 
 </RelativeLayout>

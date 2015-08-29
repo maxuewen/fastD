@@ -98,7 +98,8 @@
 			android:layout_alignParentRight="true"
 			android:textColor="#00B4FA"
             style="@null"
-            android:background="@null"/>
+            android:background="@null"
+            />
         
     </RelativeLayout>
 

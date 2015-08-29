@@ -43,5 +43,11 @@
     <string name="urv2_pw2">确认密码</string>
     <string name="urv1_next_but">下一步</string>
     <string name="urv2_but">完  成</string>
+    <string name="title_activity_fast">FastActivity</string>
+    <string name="frv3_Name_hint">请输入你的真实姓名</string>
+    <string name="frv3_compay_hint">请选择快递公司</string>
+    <string name="frv3_pw_hint">请输入密码</string>
+    <string name="frv3_pw_hint2">确认密码</string>
+    <string name="fastregister_actionBar_title">快递员注册</string>
 
 </resources>
