@@ -5,35 +5,49 @@ import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import com.amap.api.location.AMapLocation;
+import com.amap.api.location.AMapLocationListener;
+import com.amap.api.location.LocationManagerProxy;
+import com.amap.api.location.LocationProviderProxy;
 import com.amap.api.maps2d.AMap;
+import com.amap.api.maps2d.AMap.OnMapClickListener;
 import com.amap.api.maps2d.CameraUpdate;
 import com.amap.api.maps2d.CameraUpdateFactory;
 import com.amap.api.maps2d.MapView;
 import com.amap.api.maps2d.UiSettings;
+import com.amap.api.maps2d.model.BitmapDescriptorFactory;
 import com.amap.api.maps2d.model.LatLng;
+import com.amap.api.maps2d.model.Marker;
+import com.amap.api.maps2d.model.MarkerOptions;
 import com.amap.api.maps2d.model.Polyline;
 import com.amap.api.maps2d.model.PolylineOptions;
+import com.amap.api.services.core.LatLonPoint;
+import com.amap.api.services.core.PoiItem;
+import com.amap.api.services.poisearch.PoiItemDetail;
+import com.amap.api.services.poisearch.PoiResult;
+import com.amap.api.services.poisearch.PoiSearch;
+import com.amap.api.services.poisearch.PoiSearch.OnPoiSearchListener;
+import com.amap.api.services.poisearch.PoiSearch.SearchBound;
 
 import cn.pedant.SweetAlert.SweetAlertDialog;
 import cn.zh.Utils.ActionBarUtils;
 import cn.zh.Utils.Constants;
 import cn.zh.Utils.NoTouchViewPager;
 import cn.zh.Utils.ViewPagerScroller;
+import cn.zh.adapter.poiListViewAdp;
 import cn.zh.adapter.viewPagerAdapter;
+import cn.zh.domain.poiPoint;
+import android.location.Location;
 import android.os.Bundle;
+import android.os.Handler;
 import android.app.Activity;
-import android.content.DialogInterface.OnCancelListener;
 import android.content.Intent;
 import android.graphics.Color;
-import android.support.v4.view.ViewPager;
 import android.support.v4.view.ViewPager.OnPageChangeListener;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.TextureView;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.view.ViewTreeObserver.OnScrollChangedListener;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.Button;
@@ -41,8 +55,8 @@ import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
 
-public class Fastr_register_Activity extends Activity implements
-		OnItemClickListener, OnPageChangeListener, OnClickListener {
+public class Fastr_register_Activity extends Activity implements OnMapClickListener,
+		OnItemClickListener, OnPageChangeListener, OnClickListener , AMapLocationListener,OnPoiSearchListener{
 
 	private NoTouchViewPager vp;
 	Bundle savedInstanceState;
@@ -73,11 +87,27 @@ public class Fastr_register_Activity extends Activity implements
 	TextView tv_title;
 	View actionBar;
 	
-	List<LatLng> poiList;				//四个区域端点
+	List<LatLng> poiList;			//四个区域端点
 	private Polyline polyline;
 	private UiSettings mUiSettings;
-
 	
+	
+	
+	//关于定位的字段
+	private AMapLocation aMapLocation;// 用于判断定位超时
+	private LocationManagerProxy aMapLocManager = null;
+	private Handler handler = new Handler();
+	
+	
+	
+	//周边搜索
+	private Marker locationMarker; // 选择的点
+	private PoiSearch poiSearch;
+	private PoiSearch.Query query;// Poi查询条件类
+	private List<PoiItem> poiItems;// poi数据
+	private PoiResult poiResult;
+	private poiListViewAdp poiAdp;
+	private List<poiPoint> poiAdpList;
 	
 
 	@Override
@@ -124,6 +154,7 @@ public class Fastr_register_Activity extends Activity implements
 			mUiSettings = aMap.getUiSettings();
 		}
 		mUiSettings.setZoomControlsEnabled(false);
+		aMap.setOnMapClickListener(this);
 		//===================================================================
 		vp_poiBelow = (NoTouchViewPager) view.findViewById(R.id.fev2_mapbelow);
 		List<View> l = new ArrayList<View>();
@@ -135,6 +166,11 @@ public class Fastr_register_Activity extends Activity implements
 		l.add(view);
 		lv_poiPagerBelowList = (ListView) view
 				.findViewById(R.id.fr_poipagerBelow_lv);
+		poiAdpList = new ArrayList<poiPoint>();
+		poiAdp = new poiListViewAdp(this, poiAdpList);
+		lv_poiPagerBelowList.setAdapter(poiAdp);
+		lv_poiPagerBelowList.setOnItemClickListener(this);
+		
 		view = inflater.inflate(R.layout.fr_poipager_below3,null);
 		but_poiPage_below = (Button)view.findViewById(R.id.but_poiPager_Below);
 		l.add(view);
@@ -198,10 +234,12 @@ public class Fastr_register_Activity extends Activity implements
 				
 			}else if(vp.getCurrentItem() == 1){
 				currentPoint++;
-				if(currentPoint == 5){
+				if(currentPoint == 5){				//进入信息填写页
 					setActionBar("登录", "注册", "");
 					vp.setCurrentItem(2);
-				}else{
+					System.out.println("====================");
+					System.out.println(Fastr_register_Activity.this.poiList.toString());
+				}else{								
 					if(currentPoint != 1 && (poiList==null || poiList.size()<currentPoint-1)){
 						new SweetAlertDialog(Fastr_register_Activity.this, SweetAlertDialog.ERROR_TYPE)
 						.setTitleText("提示")
@@ -211,14 +249,19 @@ public class Fastr_register_Activity extends Activity implements
 						if(currentPoint == 1){
 							polyline.remove();
 							aMap.invalidate();
+							
 						}
 					
 //====================================================选第图的点，此处清空list，代表选完一个点	
-					vp_poiBelow.setCurrentItem(1);
-					setActionBar("登陆", "第 "+currentPoint +" 个点", "继续");
-					
+					vp_poiBelow.setCurrentItem(1);							
+					setActionBar("登录", "第 "+currentPoint +" 个点", "");
+					location();
+//					if(poiList.size()==1)draLineOnMap(poiList.get(0),poiList.get(1));
+//					if(poiList.size()==2)draLineOnMap(poiList.get(0),poiList.get(1),poiList.get(3));
+//					if(poiList.size()==3)draLineOnMap(poiList.get(0),poiList.get(1),poiList.get(3),poiList.get(0));
 					}
 				}
+				
 			}
 		case R.id.urv1_getvarify_but:
 			getVarify();
@@ -230,6 +273,7 @@ public class Fastr_register_Activity extends Activity implements
 		case R.id.but_poiPager_Below:
 //====================================================选第图的点，此处清空list，代表选完一个点	
 			vp_poiBelow.setCurrentItem(1);
+			this.poiList.remove(currentPoint-1);
 			break;
 		}
 
@@ -237,65 +281,68 @@ public class Fastr_register_Activity extends Activity implements
 
 	
 	private void urv1_next_but() {
-		// TODO Auto-generated method stub
-		String str_varify = et_varify.getText().toString().trim();
-		String str_phone = et_phone.getText().toString().trim();
 		
-		if(!TextUtils.isEmpty(str_phone)){
-			//手机号不为空，判断格式是否正确
-			Pattern compile = Pattern.compile("^[1]([3][0-9]{1}|59|58|88|89)[0-9]{8}$");
-			Matcher matcher = compile.matcher(str_phone);
-			if(!matcher.find()){
-				new SweetAlertDialog(this,SweetAlertDialog.ERROR_TYPE)
-				.setTitleText("提示")
-				.setContentText("手机号格式不正确")
-				.show();
-				return;
-			}else{
-				//手机号格式正确，判断验证码是否为空，是否位数字
-				if(!TextUtils.isEmpty(str_varify)){
-					if(str_varify.matches("[0-9]+")){
-						
-//======================================================================================================
-						//判断验证码是否正确
-						
-						
-						
-//========================================================================================================	
-					//验证通过，设置viewage到第二界面
-						setActionBar("登录", "注册", "下一步");
-						vp.setCurrentItem(1);
-						
-					}else
-					{
-						//验证吗的格式不正确
-						new SweetAlertDialog(this,SweetAlertDialog.ERROR_TYPE)
-						.setTitleText("提示")
-						.setContentText("验证码格式不正确")
-						.show();
-						return;
-					}
-				}else{
-					//判断验证码是否为空
-					new SweetAlertDialog(this,SweetAlertDialog.ERROR_TYPE)
-					.setTitleText("提示")
-					.setContentText("验证码不能为空")
-					.show();
-					return;
-				}
-				
-				
-			}
-			
-			
-		}else{
-			//手机号为空
-			new SweetAlertDialog(this,SweetAlertDialog.ERROR_TYPE)
-			.setTitleText("手机号不能为空")
-			.setContentText("")
-			.show();
-			return;
-		}
+		vp.setCurrentItem(1);
+		
+//		// TODO Auto-generated method stub
+//		String str_varify = et_varify.getText().toString().trim();
+//		String str_phone = et_phone.getText().toString().trim();
+//		
+//		if(!TextUtils.isEmpty(str_phone)){
+//			//手机号不为空，判断格式是否正确
+//			Pattern compile = Pattern.compile("^[1]([3][0-9]{1}|59|58|88|89)[0-9]{8}$");
+//			Matcher matcher = compile.matcher(str_phone);
+//			if(!matcher.find()){
+//				new SweetAlertDialog(this,SweetAlertDialog.ERROR_TYPE)
+//				.setTitleText("提示")
+//				.setContentText("手机号格式不正确")
+//				.show();
+//				return;
+//			}else{
+//				//手机号格式正确，判断验证码是否为空，是否位数字
+//				if(!TextUtils.isEmpty(str_varify)){
+//					if(str_varify.matches("[0-9]+")){
+//						
+////======================================================================================================
+//						//判断验证码是否正确
+//						
+//						
+//						
+////========================================================================================================	
+//					//验证通过，设置viewage到第二界面
+//						setActionBar("登录", "注册", "下一步");
+//						vp.setCurrentItem(1);
+//						
+//					}else
+//					{
+//						//验证吗的格式不正确
+//						new SweetAlertDialog(this,SweetAlertDialog.ERROR_TYPE)
+//						.setTitleText("提示")
+//						.setContentText("验证码格式不正确")
+//						.show();
+//						return;
+//					}
+//				}else{
+//					//判断验证码是否为空
+//					new SweetAlertDialog(this,SweetAlertDialog.ERROR_TYPE)
+//					.setTitleText("提示")
+//					.setContentText("验证码不能为空")
+//					.show();
+//					return;
+//				}
+//				
+//				
+//			}
+//			
+//			
+//		}else{
+//			//手机号为空
+//			new SweetAlertDialog(this,SweetAlertDialog.ERROR_TYPE)
+//			.setTitleText("手机号不能为空")
+//			.setContentText("")
+//			.show();
+//			return;
+//		}
 	}
 
 	//获取验证码
@@ -342,9 +389,15 @@ public class Fastr_register_Activity extends Activity implements
 	}
 
 	@Override
-	public void onItemClick(AdapterView<?> parent, View view, int position,
-			long id) {
-
+	public void onItemClick(AdapterView<?> parent, View view, int position,long id) {
+		
+		if(currentPoint == 1){
+			this.poiList = new ArrayList<LatLng>();
+		}
+		
+		this.poiList.add(poiAdpList.get(position).getLatlng());
+		vp_poiBelow.setCurrentItem(2);
+		setActionBar("登录", "第 "+currentPoint +" 个点", "继续");
 	}
 	/**
 	 * page的监听器，
@@ -352,7 +405,6 @@ public class Fastr_register_Activity extends Activity implements
 	@Override
 	public void onPageScrollStateChanged(int a) {
 		
-		if(a==2){}
 	}
 
 	@Override
@@ -363,13 +415,6 @@ public class Fastr_register_Activity extends Activity implements
 
 	@Override
 	public void onPageSelected(int a) {
-		// TODO Auto-generated method stub
-		System.out.println(a);
-		System.out.println(currentPoint);;
-		System.out.println(vp.getCurrentItem());;
-		System.out.println("====================");
-
-		
 	
 	}
 	
@@ -391,6 +436,7 @@ public class Fastr_register_Activity extends Activity implements
 	protected void onPause() {
 		super.onPause();
 		mapview.onPause();
+		stopLocation();// 停止定位
 	}
 
 	/**
@@ -439,6 +485,168 @@ public class Fastr_register_Activity extends Activity implements
 		aMap.invalidate();
 	}
 	
+	
+	/**
+	 * =======================================================yi下是关于定位的方法
+	 */
+	
+	//销毁定位
+	private void stopLocation() {
+		if (aMapLocManager != null) {
+			aMapLocManager.removeUpdates(this);
+			aMapLocManager.destroy();
+		}
+		aMapLocManager = null;
+	}
+	
+	private void location(){
+		if(aMapLocManager == null)aMapLocManager = LocationManagerProxy.getInstance(this);
+		aMapLocManager.requestLocationData(
+				LocationProviderProxy.AMapNetwork, -1, 10, this);
+		handler.postDelayed(new Runnable() {
+			
+			@Override
+			public void run() {
+				if (aMapLocation == null) {
+					cn.zh.Utils.ToastUtil.show(Fastr_register_Activity.this, "ToastUtil.java");
+					stopLocation();// 销毁掉定位
+				}
+			}
+		}, 12*1000);
+
+	}
+
+	@Override
+	public void onLocationChanged(Location location) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void onStatusChanged(String provider, int status, Bundle extras) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void onProviderEnabled(String provider) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void onProviderDisabled(String provider) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void onLocationChanged(AMapLocation location) {
+
+		if (location != null) {
+			this.aMapLocation = location;// 判断超时机制
+			Double lat = location.getLatitude();
+			Double lng = location.getLongitude();
+			String cityCode = "";
+			String desc = "";
+			Bundle locBundle = location.getExtras();
+			if (locBundle != null) {
+				cityCode = locBundle.getString("citycode");
+				desc = locBundle.getString("desc");
+			}
+//			String str = ("定位成功:(" + geoLng + "," + geoLat + ")"
+//					+ "\n精    度    :" + location.getAccuracy() + "米"
+//					+ "\n定位方式:" + location.getProvider() + "\n定位时间:"
+//					+ AMapUtil.convertToTime(location.getTime()) + "\n城市编码:"
+//					+ cityCode + "\n位置描述:" + desc + "\n省:"
+//					+ location.getProvince() + "\n市:" + location.getCity()
+//					+ "\n区(县):" + location.getDistrict() + "\n区域编码:" + location
+//					.getAdCode());
+			moveCamera(new LatLng(lat, lng));
+			searchAround(new LatLng(lat , lng));
+		}
+		
+	}
+	
+	private void moveCamera(LatLng l){
+		aMap.moveCamera(new CameraUpdateFactory().newLatLngZoom(l, 14));
+	}
+	
+	
+	//周边搜索
+	private void searchAround(LatLng latng){
+
+		// 第一个参数表示搜索字符串，第二个参数表示poi搜索类型，第三个参数表示poi搜索区域（空字符串代表全国）
+		query = new PoiSearch.Query("", "", "");
+		query.setPageSize(20);// 设置每页最多返回多少条poiitem
+		query.setPageNum(0);// 设置查第一页
+
+			query.setLimitDiscount(false);
+			query.setLimitGroupbuy(false);
+		
+		if (aMapLocation != null) {
+			poiSearch = new PoiSearch(this, query);
+			poiSearch.setOnPoiSearchListener(this);
+			poiSearch.setBound(new SearchBound(
+					new LatLonPoint(latng.latitude, latng.longitude), 1000, true));
+			
+			poiSearch.searchPOIAsyn();// 异步搜索
+		}
+	
+	}
+
+	@Override
+	public void onPoiItemDetailSearched(PoiItemDetail arg0, int arg1) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void onPoiSearched(PoiResult result, int rCode) {
+		if (rCode == 0) {
+			if (result != null && result.getQuery() != null) {// 搜索poi的结果
+				if (result.getQuery().equals(query)) {// 是否是同一条
+					poiResult = result;
+					poiItems = poiResult.getPois();// 取得第一页的poiitem数据，页数从数字0开始
+					
+					if (poiItems != null && poiItems.size() > 0) {
+					}else {
+						cn.zh.Utils.ToastUtil.show(Fastr_register_Activity.this,
+								"没有结果");
+					}
+				}
+			} else {
+				cn.zh.Utils.ToastUtil
+						.show(Fastr_register_Activity.this, "没有结果");
+			}
+		} else if (rCode == 27) {
+			cn.zh.Utils.ToastUtil
+					.show(Fastr_register_Activity.this, "网络错误");
+		}
+		poiAdpList.clear();
+		for(int i = 0;i<poiItems.size();i++){
+			poiAdpList.add(new poiPoint(new LatLng(
+					poiItems.get(i).getLatLonPoint().getLatitude(), poiItems.get(i).getLatLonPoint().getLongitude())
+					, poiItems.get(i).getTitle(), poiItems.get(i).getAdName()));
+		}
+		poiAdp.setList(poiAdpList);
+		poiAdp.notifyDataSetChanged();
+	}
+
+	@Override
+	public void onMapClick(LatLng latng) {
+		
+		aMap.clear();// 清理之前的图标
+		
+		this.aMapLocation.setLatitude(latng.latitude);
+		this.aMapLocation.setLatitude(latng.longitude);
+		
+		locationMarker = aMap.addMarker(new MarkerOptions().anchor(0.5f, 1)
+				.position(latng));
+		
+		
+		searchAround(latng);
+	}
 	
 	
 	

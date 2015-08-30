@@ -38,11 +38,7 @@
             android:name="cn.zh.fastD.LoginActivity"
             android:launchMode="singleTask"
             android:theme="@android:style/Theme.NoTitleBar" >
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
+           
         </activity>
         <activity
             android:name="cn.zh.fastD.User_register_Activity">
@@ -50,7 +46,13 @@
         <activity
              android:windowSoftInputMode="adjustPan|stateHidden"
             android:name="cn.zh.fastD.Fastr_register_Activity">
-           
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+            
+            
         </activity>
     </application>
 

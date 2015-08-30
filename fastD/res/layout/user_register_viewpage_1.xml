@@ -37,12 +37,11 @@
     	
    	<Button
    	    android:id="@+id/urv1_getvarify_but"
-   	    android:padding="0dp"
    	    android:background="@drawable/but_login_selector_min"
    	    android:layout_weight="1"
    	    android:layout_marginLeft="10dp"
    	    android:layout_width="wrap_content"
-   	    android:layout_height="38dp"
+   	    android:layout_height="35dp"
    	    android:layout_marginRight="20dp"
    	    android:text="@string/ok"
    	    />
@@ -87,7 +86,7 @@
    	    
    	    android:background="@drawable/but_login_selector"
    	    android:layout_width="match_parent"
-   	    android:layout_height="wrap_content"
+   	    android:layout_height="40dp"
    	    android:text="@string/urv1_next_but"
    	    android:layout_alignParentBottom="true"
    	    android:layout_marginLeft="@dimen/long_but_marginLR"
