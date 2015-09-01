@@ -38,5 +38,13 @@ public class Constants {
 	public static final LatLng yy = new LatLng(39.897727, 116.437667);// 中环学院
 	public static final LatLng yx = new LatLng(39.897727, 116.357505);// 中环学院
 	
+	
+	public static final String[] companyList = {
+		
+		"邮政快递","宅急送","天天快递"
+		,"韵达快递","百世汇通","中通快递","圆通快递","申通快递","顺丰快递","EMS","北京EMS","城际速递","凡客订单",
+		"高铁速递","京东快递","民航快递","香港邮政","邮政国际邮件","中邮物流","中铁快运","芝麻开门"		
+	};
+	
 
 }

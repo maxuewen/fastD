@@ -5,12 +5,12 @@
 
     <cn.zh.Utils.UnderLineEditText
         android:id="@+id/frv3_fastName"
-        android:layout_marginTop="100dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
         android:layout_marginLeft="20dp"
         android:layout_marginRight="20dp"
+        android:layout_marginTop="100dp"
         android:background="@null"
         android:hint="@string/frv3_Name_hint"
         android:maxLength="15"
@@ -23,8 +23,6 @@
 
     <cn.zh.Utils.UnderLineEditText
         android:id="@+id/frv3_company"
-        android:clickable="true"
-        android:cursorVisible="false"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/frv3_fastName"
@@ -32,6 +30,10 @@
         android:layout_marginRight="20dp"
         android:layout_marginTop="30dp"
         android:background="@null"
+        android:clickable="true"
+        android:cursorVisible="false"
+        android:focusable="false"
+        android:focusableInTouchMode="false"
         android:hint="@string/frv3_compay_hint"
         android:paddingLeft="5dp"
         android:scrollHorizontally="true"
@@ -78,18 +80,16 @@
         android:singleLine="true"
         android:textColorHint="@color/textColorHint"
         android:textSize="17sp" />
-    
-        
-    <Button 
+
+    <Button
         android:id="@+id/frv3_but"
-        android:background="@drawable/but_login_selector"
         android:layout_width="match_parent"
         android:layout_height="40dp"
         android:layout_alignParentBottom="true"
-        android:text="@string/urv2_but"
+        android:layout_marginBottom="@dimen/long_but_marginBottom"
         android:layout_marginLeft="@dimen/long_but_marginLR"
         android:layout_marginRight="@dimen/long_but_marginLR"
-        android:layout_marginBottom="@dimen/long_but_marginBottom"/>
-    
+        android:background="@drawable/but_login_selector"
+        android:text="@string/urv2_but" />
 
 </RelativeLayout>

@@ -1,7 +1,9 @@
 package cn.zh.fastD;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -11,8 +13,10 @@ import com.amap.api.location.LocationManagerProxy;
 import com.amap.api.location.LocationProviderProxy;
 import com.amap.api.maps2d.AMap;
 import com.amap.api.maps2d.AMap.OnMapClickListener;
+import com.amap.api.maps2d.AMapUtils;
 import com.amap.api.maps2d.CameraUpdate;
 import com.amap.api.maps2d.CameraUpdateFactory;
+import com.amap.api.maps2d.LocationSource;
 import com.amap.api.maps2d.MapView;
 import com.amap.api.maps2d.UiSettings;
 import com.amap.api.maps2d.model.BitmapDescriptorFactory;
@@ -34,6 +38,7 @@ import cn.zh.Utils.ActionBarUtils;
 import cn.zh.Utils.Constants;
 import cn.zh.Utils.NoTouchViewPager;
 import cn.zh.Utils.ViewPagerScroller;
+import cn.zh.adapter.companyListViewAdp;
 import cn.zh.adapter.poiListViewAdp;
 import cn.zh.adapter.viewPagerAdapter;
 import cn.zh.domain.poiPoint;
@@ -41,13 +46,16 @@ import android.location.Location;
 import android.os.Bundle;
 import android.os.Handler;
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.support.v4.view.ViewPager.OnPageChangeListener;
+import android.text.InputType;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.Button;
@@ -56,7 +64,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 public class Fastr_register_Activity extends Activity implements OnMapClickListener,
-		OnItemClickListener, OnPageChangeListener, OnClickListener , AMapLocationListener,OnPoiSearchListener{
+		OnItemClickListener, OnPageChangeListener, OnClickListener , AMapLocationListener,OnPoiSearchListener, LocationSource{
 
 	private NoTouchViewPager vp;
 	Bundle savedInstanceState;
@@ -187,11 +195,14 @@ public class Fastr_register_Activity extends Activity implements OnMapClickListe
 		et_passwrod = (EditText) view.findViewById(R.id.frv3_password);
 		et_passwrod2 = (EditText) view.findViewById(R.id.frv3_password2);
 		but_finishRegister = (Button) view.findViewById(R.id.frv3_but);
+		et_company.setOnClickListener(this);
 
 		// fast_register_companylist
 		view = inflater.inflate(R.layout.fast_register_companylist, null);
 		list.add(view);
 		lv_companyList = (ListView) view.findViewById(R.id.frv4_listView);
+		lv_companyList.setOnItemClickListener(this);
+		lv_companyList.setAdapter(new companyListViewAdp(this));
 		
 		//设置vp的界面，添加adapter
 		vp.setAdapter(new viewPagerAdapter(this, list));
@@ -208,6 +219,12 @@ public class Fastr_register_Activity extends Activity implements OnMapClickListe
 		but_poiPage_below.setOnClickListener(this);
 
 		lv_companyList.setOnItemClickListener(this);
+		
+		UiSettings s = aMap.getUiSettings();
+		s.setMyLocationButtonEnabled(true);
+		aMap.setMyLocationEnabled(true);
+		aMap.setLocationSource(this);
+		
 		
 		//地图上画默认的区域
 		draLineOnMap(Constants.xx,Constants.xy,Constants.yy,Constants.yx,Constants.xx);
@@ -230,16 +247,21 @@ public class Fastr_register_Activity extends Activity implements OnMapClickListe
 			proRegister();
 			break;
 		case R.id.fr_next:
-			if(vp.getCurrentItem() == 0){
-				
-			}else if(vp.getCurrentItem() == 1){
+			if(vp.getCurrentItem() == 1){
 				currentPoint++;
-				if(currentPoint == 5){				//进入信息填写页
-					setActionBar("登录", "注册", "");
-					vp.setCurrentItem(2);
-					System.out.println("====================");
-					System.out.println(Fastr_register_Activity.this.poiList.toString());
-				}else{								
+				if(currentPoint == 3){		//进入信息填写页
+					if(canTOInfoPager() == true){
+						setActionBar("登录", "注册", "");
+						vp.setCurrentItem(2);
+					}else{
+						currentPoint = 1;
+						vp.setCurrentItem(1);
+						vp_poiBelow.setCurrentItem(1);
+						setActionBar("登录", "第 1 个点","");
+						poiList.clear();
+						aMap.clear();
+					}
+				}else{		
 					if(currentPoint != 1 && (poiList==null || poiList.size()<currentPoint-1)){
 						new SweetAlertDialog(Fastr_register_Activity.this, SweetAlertDialog.ERROR_TYPE)
 						.setTitleText("提示")
@@ -248,17 +270,13 @@ public class Fastr_register_Activity extends Activity implements OnMapClickListe
 					}else{
 						if(currentPoint == 1){
 							polyline.remove();
-							aMap.invalidate();
-							
 						}
 					
 //====================================================选第图的点，此处清空list，代表选完一个点	
-					vp_poiBelow.setCurrentItem(1);							
+					vp_poiBelow.setCurrentItem(1);
 					setActionBar("登录", "第 "+currentPoint +" 个点", "");
 					location();
-//					if(poiList.size()==1)draLineOnMap(poiList.get(0),poiList.get(1));
-//					if(poiList.size()==2)draLineOnMap(poiList.get(0),poiList.get(1),poiList.get(3));
-//					if(poiList.size()==3)draLineOnMap(poiList.get(0),poiList.get(1),poiList.get(3),poiList.get(0));
+
 					}
 				}
 				
@@ -274,7 +292,14 @@ public class Fastr_register_Activity extends Activity implements OnMapClickListe
 //====================================================选第图的点，此处清空list，代表选完一个点	
 			vp_poiBelow.setCurrentItem(1);
 			this.poiList.remove(currentPoint-1);
+			aMap.clear();
 			break;
+			
+			
+		case R.id.frv3_company:
+		       et_company.setInputType(InputType.TYPE_NULL);
+			vp.setCurrentItem(3);
+			
 		}
 
 	}
@@ -391,14 +416,35 @@ public class Fastr_register_Activity extends Activity implements OnMapClickListe
 	@Override
 	public void onItemClick(AdapterView<?> parent, View view, int position,long id) {
 		
-		if(currentPoint == 1){
-			this.poiList = new ArrayList<LatLng>();
+		if(parent.getAdapter() == poiAdp){
+			
+			if(currentPoint == 1){
+				this.poiList = new ArrayList<LatLng>();
+			}
+			this.poiList.add(poiAdpList.get(position).getLatlng());
+			vp_poiBelow.setCurrentItem(2);
+			if(currentPoint == 2){
+				setActionBar("登录", "第 "+currentPoint +" 个点", "下一步");
+				draLineOnMap(poiList.get(0),new LatLng(getLat(0), getLng(1)),poiList.get(1),new LatLng(getLat(1), getLng(0)),poiList.get(0));
+			}else{
+				setActionBar("登录", "第 "+currentPoint +" 个点", "继续");
+			}
+			
+		}else{
+			et_company.setText(Constants.companyList[position]);
+			vp.setCurrentItem(2);
 		}
-		
-		this.poiList.add(poiAdpList.get(position).getLatlng());
-		vp_poiBelow.setCurrentItem(2);
-		setActionBar("登录", "第 "+currentPoint +" 个点", "继续");
+			
 	}
+	
+	private double getLat(int a){
+		return poiList.get(a).latitude;
+	}
+	private double getLng(int a){
+		return poiList.get(a).longitude;
+	}
+	
+	
 	/**
 	 * page的监听器，
 	 */
@@ -482,7 +528,6 @@ public class Fastr_register_Activity extends Activity implements OnMapClickListe
 	private void draLineOnMap(LatLng ... list){
 		polyline = aMap.addPolyline(new PolylineOptions().add(list).color(Color.BLUE).width(3));
 		aMap.moveCamera(CameraUpdateFactory.zoomTo(12));
-		aMap.invalidate();
 	}
 	
 	
@@ -554,22 +599,14 @@ public class Fastr_register_Activity extends Activity implements OnMapClickListe
 				cityCode = locBundle.getString("citycode");
 				desc = locBundle.getString("desc");
 			}
-//			String str = ("定位成功:(" + geoLng + "," + geoLat + ")"
-//					+ "\n精    度    :" + location.getAccuracy() + "米"
-//					+ "\n定位方式:" + location.getProvider() + "\n定位时间:"
-//					+ AMapUtil.convertToTime(location.getTime()) + "\n城市编码:"
-//					+ cityCode + "\n位置描述:" + desc + "\n省:"
-//					+ location.getProvince() + "\n市:" + location.getCity()
-//					+ "\n区(县):" + location.getDistrict() + "\n区域编码:" + location
-//					.getAdCode());
 			moveCamera(new LatLng(lat, lng));
-			searchAround(new LatLng(lat , lng));
+			searchAround(new LatLng(lat,lng));
 		}
 		
 	}
 	
 	private void moveCamera(LatLng l){
-		aMap.moveCamera(new CameraUpdateFactory().newLatLngZoom(l, 14));
+		aMap.moveCamera(new CameraUpdateFactory().newLatLngZoom(l, 12));
 	}
 	
 	
@@ -636,16 +673,35 @@ public class Fastr_register_Activity extends Activity implements OnMapClickListe
 	@Override
 	public void onMapClick(LatLng latng) {
 		
-		aMap.clear();// 清理之前的图标
-		
+		if(Fastr_register_Activity.this.currentPoint != 0){
+			aMap.clear();// 清理之前的图标
+		}
 		this.aMapLocation.setLatitude(latng.latitude);
 		this.aMapLocation.setLatitude(latng.longitude);
-		
 		locationMarker = aMap.addMarker(new MarkerOptions().anchor(0.5f, 1)
 				.position(latng));
-		
-		
 		searchAround(latng);
+	}
+	private Boolean canTOInfoPager(){
+		if(AMapUtils.calculateArea(poiList.get(0),poiList.get(1))>1E6){
+			new SweetAlertDialog(this)
+			.setTitleText("所选择的区域太小，请重新选择")
+			.show();
+			
+			return false;
+		}
+		return true;
+	}
+
+	@Override
+	public void activate(OnLocationChangedListener arg0) {
+		location();
+	}
+
+	@Override
+	public void deactivate() {
+		// TODO Auto-generated method stub
+		System.out.println("deactivate");
 	}
 	
 	
