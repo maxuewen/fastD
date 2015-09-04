@@ -26,8 +26,8 @@ public class HttpUtils {
 	static{
 		Properties prop = new Properties();
 		try {
-		prop.load(HttpUtils.class.getClassLoader().getResourceAsStream("ip.properties"));
-			url=prop.get("ip").toString();
+		prop.load(HttpUtils.class.getClassLoader().getResourceAsStream("parameter.properties"));
+			url=prop.get("url").toString();
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -39,19 +39,19 @@ public class HttpUtils {
 	
 	
 	/**
-	 * ���� ����
+	 * 发送 请求
 	 */
 	public static String getRequest(final String url)throws Exception{
 		FutureTask<String> task = new FutureTask<String>(
 				new Callable<String>() {
 					public String call() throws ClientProtocolException, IOException  {
-						//����httpget����
+						//创建httpget对象
 						HttpResponse httpResponse = httpCilent.execute(new HttpGet(url));
 						if(httpResponse.getStatusLine().getStatusCode()==200){
-							//��ȡ����������Ӧ�ַ�
+							//获取服务器的相应字符串
 							return EntityUtils.toString(httpResponse.getEntity());
 						}
-						return "����������";
+						return "服务器错误";
 					}
 				}
 				);
@@ -60,7 +60,7 @@ public class HttpUtils {
 	}
 	
 	/**
-	 *  ��������post 
+	 *  发送请求，post 
 	 * @throws ExecutionException 
 	 * @throws InterruptedException 
 	 */
@@ -84,7 +84,7 @@ public class HttpUtils {
 						if(httpResponse.getStatusLine().getStatusCode()==200){
 							return EntityUtils.toString(httpResponse.getEntity());
 						}
-						return "����������";
+						return "服务器错误";
 					};
 				}
 				);

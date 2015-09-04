@@ -37,6 +37,7 @@ import cn.pedant.SweetAlert.SweetAlertDialog;
 import cn.zh.Utils.ActionBarUtils;
 import cn.zh.Utils.Constants;
 import cn.zh.Utils.NoTouchViewPager;
+import cn.zh.Utils.Snippet;
 import cn.zh.Utils.ViewPagerScroller;
 import cn.zh.adapter.companyListViewAdp;
 import cn.zh.adapter.poiListViewAdp;
@@ -129,6 +130,7 @@ public class Fastr_register_Activity extends Activity implements OnMapClickListe
 
 	private void init() {
 
+//		System.out.println(Snippet.uuid());
 		
 		//获取和初次设置actionbar
 		actionBar = ActionBarUtils.setAtionBar(this,

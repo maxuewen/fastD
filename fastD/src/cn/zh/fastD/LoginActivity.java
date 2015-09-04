@@ -1,16 +1,25 @@
 package cn.zh.fastD;
 
+import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Properties;
+import java.util.concurrent.ExecutionException;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.zip.Inflater;
 
+import com.google.gson.Gson;
+
 import cn.pedant.SweetAlert.SweetAlertDialog;
 import cn.zh.Utils.ActionProcessButton;
 import cn.zh.Utils.ActionProcessButton.Mode;
+import cn.zh.Utils.Constants;
+import cn.zh.Utils.HttpUtils;
 import cn.zh.Utils.ViewPagerScroller;
 import cn.zh.adapter.viewPagerAdapter;
+import cn.zh.domain.user;
 import android.os.Bundle;
 import android.os.Handler;
 import android.app.Activity;
@@ -50,6 +59,17 @@ public class LoginActivity extends Activity implements OnClickListener,
 	TextView fast_toast;
 	
 //	TextView tv;	//用于错误信息显示的
+	
+//	static{
+//		Properties pro = new Properties();
+//		try {
+//			pro.load(LoginActivity.class.getClassLoader().getResourceAsStream("parameter.properties"));
+//			Constants.url = pro.getProperty("url");
+//		} catch (IOException e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//		}
+//	}
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -171,22 +191,6 @@ public class LoginActivity extends Activity implements OnClickListener,
 	
 	Handler hand = new Handler();
 	
-	//显示登陆错误提示
-//	private void showToast(String str){
-//		tv.setText(str);
-//		hand.postDelayed(null, 0);
-//		hand.postDelayed(new Runnable() {
-//			
-//			@Override
-//			public void run() {
-//				if(LoginActivity.this.tv!=null){
-//					LoginActivity.this.tv.setText("");
-//				}
-//				
-//			}
-//		}, 2000);
-//	}
-	
 	
 	//登陆按钮
 	private Boolean login_pro(String userName,String password){
@@ -254,8 +258,13 @@ public class LoginActivity extends Activity implements OnClickListener,
 	private void user_login() {
 		String userName = username.getText().toString().trim();
 		String password = user_passwrod.getText().toString().trim();
-//		tv=user_toast;
+//		To=user_toast;
 		if(login_pro(userName,password)){
+			HashMap<String, String> map = new HashMap<String, String>();
+//			map.put("method", Constants.get_user);
+//			map.put("str", "15822858570");
+
+			
 			
 		}
 		

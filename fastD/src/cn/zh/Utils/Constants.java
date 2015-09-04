@@ -46,5 +46,21 @@ public class Constants {
 		"高铁速递","京东快递","民航快递","香港邮政","邮政国际邮件","中邮物流","中铁快运","芝麻开门"		
 	};
 	
+	public static String url = null;
+	
+	//关于fast的静态字段
+	public static String e_fastPhone_exist = "fast_phone_exist";
+	public static String f_fastRegiste = "fast_registe_finish";
+	public static String get_fast= "get_fast";
+	
+	//关于form的
+	public static String s_finish = "form _ finish";
+	public static String s_unfinish = "form_nufinish";
+	
+	//关于user的
+	public static String e_userPhone_exist = "user_phone_exist";
+	public static String f_userRegiste = "user_registe_finish";
+	public static String get_user = "get_user";
+	
 
 }
