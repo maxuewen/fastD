@@ -5,4 +5,6 @@
     
     <dimen name="long_but_marginLR">15dp</dimen>
     <dimen name="long_but_marginBottom">20dp</dimen>
+    
+    <dimen name="bottom_tab_font_size">11sp</dimen>
 </resources>

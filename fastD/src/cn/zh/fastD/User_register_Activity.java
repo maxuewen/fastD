@@ -28,6 +28,7 @@ import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 public class User_register_Activity extends Activity implements OnPageChangeListener,OnClickListener{
@@ -48,7 +49,7 @@ public class User_register_Activity extends Activity implements OnPageChangeList
 	private Button varify_but;
 	private Button rigister_finish;
 	private View actionBarView;
-	private ImageButton back_but;
+	private RelativeLayout back_but;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -88,7 +89,7 @@ public class User_register_Activity extends Activity implements OnPageChangeList
 		tv = (TextView)v1.findViewById(R.id.urv1_toast);
 		next_but = (Button)v1.findViewById(R.id.urv1_next_but);
 		varify_but= (Button)v1.findViewById(R.id.urv1_getvarify_but);
-		back_but = (ImageButton)actionBarView.findViewById(R.id.back);
+		back_but = (RelativeLayout)actionBarView.findViewById(R.id.back);
 //用于密码找会页面		
 		if(mod==2 && isUser==0){
 			TextView title = (TextView) actionBarView.findViewById(R.id.user_register_titleBar);

@@ -10,8 +10,6 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.zip.Inflater;
 
-import com.google.gson.Gson;
-
 import cn.pedant.SweetAlert.SweetAlertDialog;
 import cn.zh.Utils.ActionProcessButton;
 import cn.zh.Utils.ActionProcessButton.Mode;
@@ -259,14 +257,15 @@ public class LoginActivity extends Activity implements OnClickListener,
 		String userName = username.getText().toString().trim();
 		String password = user_passwrod.getText().toString().trim();
 //		To=user_toast;
-		if(login_pro(userName,password)){
-			HashMap<String, String> map = new HashMap<String, String>();
-//			map.put("method", Constants.get_user);
-//			map.put("str", "15822858570");
-
-			
-			
-		}
+//		if(login_pro(userName,password)){
+//			HashMap<String, String> map = new HashMap<String, String>();
+////			map.put("method", Constants.get_user);
+////			map.put("str", "15822858570");
+//
+//			
+//			
+//		}
+		
 		
 	}
 	private void fast_login() {

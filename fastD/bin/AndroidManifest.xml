@@ -33,6 +33,13 @@
         <activity
             android:name="cn.zh.fastD.MainActivity"
             android:label="@string/app_name" >
+            
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+            
         </activity>
         <activity
             android:name="cn.zh.fastD.LoginActivity"
@@ -46,11 +53,7 @@
         <activity
              android:windowSoftInputMode="adjustPan|stateHidden"
             android:name="cn.zh.fastD.Fastr_register_Activity">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
+            
             
             
         </activity>
