@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent" 
+    android:background="#fff">
+
+   <FrameLayout 
+       android:layout_width="match_parent"
+       android:layout_height="match_parent"
+       android:background="#fff">
+       
+        <ListView
+	        android:id="@+id/lv_user_m3_receipt"
+	        android:layout_width="match_parent"
+	        android:layout_height="match_parent" >
+	    	</ListView>
+    
+        
+        <ImageView 
+            android:id="@+id/iv_user_m3_centent"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_gravity="center"
+            android:src="@drawable/null_data"/>
+       
+   </FrameLayout>
+    
+
+</RelativeLayout>

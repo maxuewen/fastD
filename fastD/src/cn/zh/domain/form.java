@@ -12,6 +12,9 @@ public class form {
 	private String state;
 	private String fast_id;
 	private String mark;
+	
+	
+	
 	public String getUser_id() {
 		return user_id;
 	}

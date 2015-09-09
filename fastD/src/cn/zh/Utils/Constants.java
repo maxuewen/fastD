@@ -1,5 +1,10 @@
 package cn.zh.Utils;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import cn.zh.domain.main;
+
 import com.amap.api.maps2d.model.LatLng;
 
 public class Constants {
@@ -56,11 +61,17 @@ public class Constants {
 	//关于form的
 	public static String s_finish = "form _ finish";
 	public static String s_unfinish = "form_nufinish";
+	public static String formState_unfinish = "未接收";
+	public static String formState_doing = "已接收";
+	public static String formState_finish = "已完成";
 	
 	//关于user的
 	public static String e_userPhone_exist = "user_phone_exist";
 	public static String f_userRegiste = "user_registe_finish";
 	public static String get_user = "get_user";
+	
+	
+	public static final List list_form_m1 = new ArrayList<main>();
 	
 
 }

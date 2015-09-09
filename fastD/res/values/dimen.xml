@@ -7,4 +7,5 @@
     <dimen name="long_but_marginBottom">20dp</dimen>
     
     <dimen name="bottom_tab_font_size">11sp</dimen>
+    <dimen name="paddingLeft">15dp</dimen>
 </resources>

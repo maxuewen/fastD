@@ -8,6 +8,34 @@ public class fast {
 	private String company;
 	private double xx;
 	private double yy;
+	private double cu_x;
+	private double cu_y;
+	
+	public fast(String fast_id, String phone, String password, String name,
+			String company, double xx, double yy, double cu_x, double cu_y) {
+		super();
+		this.fast_id = fast_id;
+		this.phone = phone;
+		this.password = password;
+		this.name = name;
+		this.company = company;
+		this.xx = xx;
+		this.yy = yy;
+		this.cu_x = cu_x;
+		this.cu_y = cu_y;
+	}
+	public double getCu_x() {
+		return cu_x;
+	}
+	public void setCu_x(double cu_x) {
+		this.cu_x = cu_x;
+	}
+	public double getCu_y() {
+		return cu_y;
+	}
+	public void setCu_y(double cu_y) {
+		this.cu_y = cu_y;
+	}
 	public String getFast_id() {
 		return fast_id;
 	}

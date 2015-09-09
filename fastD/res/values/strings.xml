@@ -49,5 +49,9 @@
     <string name="frv3_pw_hint">请输入密码</string>
     <string name="frv3_pw_hint2">确认密码</string>
     <string name="fastregister_actionBar_title">快递员注册</string>
+    <string name="but_receiptAd">添加收货地址</string>
+    <string name="but_commitFormAd">确定</string>
+    <string name="tv_Adtip">请先选择收货地址:</string>
+    <string name="tv_user_adTip">请先选择收货地址</string>
 
 </resources>
