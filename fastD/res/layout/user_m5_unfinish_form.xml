@@ -5,10 +5,10 @@
     android:orientation="vertical">
 
     <com.amap.api.maps2d.MapView
-        android:id="@+id/frv2_map"
+        android:id="@+id/user_m5_map"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
-        android:layout_marginTop="50dp"
+        android:layout_marginTop="48dp"
         android:layout_weight="1" />
     
 
@@ -23,7 +23,7 @@
             android:layout_height="wrap_content" >
             
              <!-- 公司 -->
-    <RelativeLayout 
+    <RelativeLayout
         android:id="@+id/company"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

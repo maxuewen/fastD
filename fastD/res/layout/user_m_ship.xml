@@ -4,12 +4,6 @@
     android:layout_height="match_parent"
     android:background="#fff" >
 
-        <ListView
-            android:id="@+id/lv_user_m2_ship"
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:background="#abc">
-        </ListView>
     
 
 </RelativeLayout>

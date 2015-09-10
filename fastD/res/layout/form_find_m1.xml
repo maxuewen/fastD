@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent" >
+    
+    
+    <cn.zh.Utils.UnderLineEditText
+        android:id="@+id/form"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:layout_marginTop="80dp"
+        android:background="@null"
+        android:hint="@string/et_formNUm"
+        android:maxLength="15"
+        android:paddingLeft="5dp"
+        android:scrollHorizontally="true"
+        android:selectAllOnFocus="true"
+        android:singleLine="true"
+        android:inputType="number"
+        android:textColorHint="@color/textColorHint"
+        android:textSize="17sp" />
+    
+    
+     <Button
+        android:id="@+id/but_formFind_next"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="@dimen/long_but_marginBottom"
+        android:layout_marginLeft="@dimen/long_but_marginLR"
+        android:layout_marginRight="@dimen/long_but_marginLR"
+        android:background="@drawable/but_login_selector"
+        android:text="@string/find_form" />
+
+</RelativeLayout>

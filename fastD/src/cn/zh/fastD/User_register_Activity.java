@@ -14,6 +14,7 @@ import cn.zh.adapter.viewPagerAdapter;
 import android.R.integer;
 import android.os.Bundle;
 import android.os.Handler;
+import android.provider.ContactsContract.CommonDataKinds.Im;
 import android.app.Activity;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -49,11 +50,12 @@ public class User_register_Activity extends Activity implements OnPageChangeList
 	private Button varify_but;
 	private Button rigister_finish;
 	private View actionBarView;
-	private RelativeLayout back_but;
+	private ImageButton back_but;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		
 		setContentView(R.layout.user_register_main);
 		
 		mod = getIntent().getIntExtra("mod",1);
@@ -64,13 +66,11 @@ public class User_register_Activity extends Activity implements OnPageChangeList
 
 	private void init() {
 		// TODO Auto-generated method stub
-		
 		vp = (NoTouchViewPager) findViewById(R.id.user_register);
 		LayoutInflater inflater = LayoutInflater.from(this);
 		List<View> list = new ArrayList<View>();
 		View v1 = inflater.inflate(R.layout.user_register_viewpage_1, null);
 		View v2 = inflater.inflate(R.layout.user_register_viewpage_2, null);
-		
 		list.add(v1);
 		list.add(v2);
 		
@@ -89,8 +89,8 @@ public class User_register_Activity extends Activity implements OnPageChangeList
 		tv = (TextView)v1.findViewById(R.id.urv1_toast);
 		next_but = (Button)v1.findViewById(R.id.urv1_next_but);
 		varify_but= (Button)v1.findViewById(R.id.urv1_getvarify_but);
-		back_but = (RelativeLayout)actionBarView.findViewById(R.id.back);
-//用于密码找会页面		
+		back_but = (ImageButton)actionBarView.findViewById(R.id.back);
+//用于密码找会页面
 		if(mod==2 && isUser==0){
 			TextView title = (TextView) actionBarView.findViewById(R.id.user_register_titleBar);
 			title.setText("用户密码找回");
@@ -100,7 +100,6 @@ public class User_register_Activity extends Activity implements OnPageChangeList
 		}else{
 			
 		}
-		
 		rigister_finish = (Button) v2.findViewById(R.id.urv2_but);
 		password1 = (EditText)v2.findViewById(R.id.urv2_pw1);
 		password2 = (EditText)v2.findViewById(R.id.urv2_pw2);
@@ -109,7 +108,6 @@ public class User_register_Activity extends Activity implements OnPageChangeList
 		varify_but.setOnClickListener(this);
 		back_but.setOnClickListener(this);
 		rigister_finish.setOnClickListener(this);
-		
 	}
 
 	@Override
@@ -150,7 +148,7 @@ public class User_register_Activity extends Activity implements OnPageChangeList
 	@Override
 	public void onClick(View v) {
 		switch(v.getId()){
-		case R.id.urv1_getvarify_but:
+		case R.id.urv1_getvarify_but:			//获取验证码的button
 			
 			break;
 		case  R.id.urv1_next_but:
@@ -253,6 +251,7 @@ public class User_register_Activity extends Activity implements OnPageChangeList
 						
 //======================================================================================================
 						//判断验证码是否正确
+						
 						
 						
 						

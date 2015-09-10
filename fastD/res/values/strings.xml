@@ -53,5 +53,10 @@
     <string name="but_commitFormAd">确定</string>
     <string name="tv_Adtip">请先选择收货地址:</string>
     <string name="tv_user_adTip">请先选择收货地址</string>
+    <string name="title_activity_web">WebActivity</string>
+    <string name="et_formNUm">请输入订单号</string>
+    <string name="find_form">查询</string>
+    <string name="title_activity_reciept_ad">RecieptAdActivity</string>
+    <string name="but_next_addAd">下一步</string>
 
 </resources>

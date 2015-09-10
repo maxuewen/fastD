@@ -16,6 +16,25 @@ public class main {
 	private String user_phone;
 	private String user_name;
 	
+	private String recieptName;		//收货人的姓名
+	private String receiptPhone;
+	
+	public String getReceiptPhone() {
+		return receiptPhone;
+	}
+
+	public void setReceiptPhone(String receiptPhone) {
+		this.receiptPhone = receiptPhone;
+	}
+
+	public String getRecieptName() {
+		return recieptName;
+	}
+
+	public void setRecieptName(String recieptName) {
+		this.recieptName = recieptName;
+	}
+
 	public main(user user , form form){
 		this.user_name = user.getName();
 		this.user_phone = user.getPhone();
@@ -36,6 +55,8 @@ public class main {
 		this.time = form.getTime();
 		this.state = form.getState();
 		this.mark = form.getMark();
+		this.receiptPhone = form.getReceiptPhone();
+		this.recieptName = form.getRecieptName();
 		
 		this.fast_name = fast.getName();
 		this.fast_phone = fast.getPhone();

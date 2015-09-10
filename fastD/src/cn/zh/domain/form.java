@@ -5,6 +5,7 @@ public class form {
 	private String formNum;
 	private String riceiptAd;
 	private String receiptPhone;
+	private String recieptName;
 	private String shipPhone;
 	private double poi_x;
 	private double poi_y;
@@ -15,6 +16,41 @@ public class form {
 	
 	
 	
+	
+	
+	@Override
+	public String toString() {
+		return "form [user_id=" + user_id + ", formNum=" + formNum
+				+ ", riceiptAd=" + riceiptAd + ", receiptPhone=" + receiptPhone
+				+ ", recieptName=" + recieptName + ", shipPhone=" + shipPhone
+				+ ", poi_x=" + poi_x + ", poi_y=" + poi_y + ", time=" + time
+				+ ", state=" + state + ", fast_id=" + fast_id + ", mark="
+				+ mark + "]";
+	}
+	public form(String user_id, String formNum, String riceiptAd,
+			String receiptPhone, String recieptName, String shipPhone,
+			double poi_x, double poi_y, String time, String state,
+			String fast_id, String mark) {
+		super();
+		this.user_id = user_id;
+		this.formNum = formNum;
+		this.riceiptAd = riceiptAd;
+		this.receiptPhone = receiptPhone;
+		this.recieptName = recieptName;
+		this.shipPhone = shipPhone;
+		this.poi_x = poi_x;
+		this.poi_y = poi_y;
+		this.time = time;
+		this.state = state;
+		this.fast_id = fast_id;
+		this.mark = mark;
+	}
+	public String getRecieptName() {
+		return recieptName;
+	}
+	public void setRecieptName(String recieptName) {
+		this.recieptName = recieptName;
+	}
 	public String getUser_id() {
 		return user_id;
 	}
@@ -81,36 +117,5 @@ public class form {
 	public void setMark(String mark) {
 		this.mark = mark;
 	}
-	public form(String user_id, String formNum, String riceiptAd,
-			String receiptPhone, String shipPhone, double poi_x, double poi_y,
-			String time, String state, String fast_id, String mark) {
-		super();
-		this.user_id = user_id;
-		this.formNum = formNum;
-		this.riceiptAd = riceiptAd;
-		this.receiptPhone = receiptPhone;
-		this.shipPhone = shipPhone;
-		this.poi_x = poi_x;
-		this.poi_y = poi_y;
-		this.time = time;
-		this.state = state;
-		this.fast_id = fast_id;
-		this.mark = mark;
-	}
-	public form(String user_id, String riceiptAd, String receiptPhone,
-			String shipPhone, double poi_x, double poi_y, String time,
-			String state, String mark) {
-		super();
-		this.user_id = user_id;
-		this.riceiptAd = riceiptAd;
-		this.receiptPhone = receiptPhone;
-		this.shipPhone = shipPhone;
-		this.poi_x = poi_x;
-		this.poi_y = poi_y;
-		this.time = time;
-		this.state = state;
-		this.mark = mark;
-	}
-	
 	
 }

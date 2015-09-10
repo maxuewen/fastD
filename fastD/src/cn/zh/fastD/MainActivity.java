@@ -3,7 +3,6 @@ package cn.zh.fastD;
 import android.graphics.Canvas;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.view.Menu;
 import android.view.View;
 
 import com.jeremyfeinstein.slidingmenu.lib.SlidingMenu;
@@ -56,7 +55,9 @@ public class MainActivity extends SlidingFragmentActivity {
 		sm.setFadeEnabled(false);
 		sm.setBehindScrollScale(0.25f);
 		sm.setFadeDegree(0.25f);
-
+		
+		
+		
 		sm.setBackgroundImage(R.drawable.img_frame_background);
 		sm.setBehindCanvasTransformer(new SlidingMenu.CanvasTransformer() {
 			@Override
@@ -74,8 +75,11 @@ public class MainActivity extends SlidingFragmentActivity {
 				canvas.scale(scale, scale, 0, canvas.getHeight() / 2);
 			}
 		});
+		
+		sm.toggle();
 
 	}
+
 
 	@Override
 	public void onSaveInstanceState(Bundle outState) {

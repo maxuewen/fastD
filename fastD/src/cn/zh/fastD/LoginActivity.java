@@ -56,30 +56,11 @@ public class LoginActivity extends Activity implements OnClickListener,
 	EditText fast_password;
 	TextView fast_toast;
 	
-//	TextView tv;	//用于错误信息显示的
-	
-//	static{
-//		Properties pro = new Properties();
-//		try {
-//			pro.load(LoginActivity.class.getClassLoader().getResourceAsStream("parameter.properties"));
-//			Constants.url = pro.getProperty("url");
-//		} catch (IOException e) {
-//			// TODO Auto-generated catch block
-//			e.printStackTrace();
-//		}
-//	}
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_login);
-
-		
-		
-		// ActionProcessButton but = (ActionProcessButton)
-		// findViewById(R.id.login_but);
-		// but.setProgress(50);
-		// but.setMode(Mode.PROGRESS);
 
 		init();
 	}
