@@ -65,10 +65,9 @@ public class HttpUtils {
 	 * @throws InterruptedException 
 	 */
 	public static String postRequest(final String url,final Map<String, String> map) throws InterruptedException, ExecutionException{
-		System.out.println("asdf==============111111111111111111=");
 		FutureTask<String> ft = new FutureTask<String>(
 				new Callable<String>() {
-					public String call() throws Exception {System.out.println("asdf============2222222222222222222222==");
+					public String call() throws Exception {
 						HttpPost httpPost = new HttpPost(url);
 						List<NameValuePair> list = new ArrayList<NameValuePair>();
 						if(map!=null){
@@ -76,7 +75,6 @@ public class HttpUtils {
 								list.add(new BasicNameValuePair(str, map.get(str)));
 							}
 						}
-						System.out.println("asdf=========3333333333333333333333======");
 						httpPost.setEntity(new UrlEncodedFormEntity(list,"utf-8"));
 						System.out.println("34343434343434343");
 						//System.out.println(httpPost);
@@ -88,7 +86,6 @@ public class HttpUtils {
 					};
 				}
 				);
-		System.out.println("asdf======55555555555555555555555=========");
 		new Thread(ft).start();
 		return ft.get();
 	}

@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import cn.zh.domain.main;
+import cn.zh.domain.user_Ad;
 
 import com.amap.api.maps2d.model.LatLng;
 
@@ -44,7 +45,7 @@ public class Constants {
 	public static final LatLng yx = new LatLng(39.897727, 116.357505);// 中环学院
 	
 	
-	public static final String[] companyList = {
+	public static String[] companyList = {
 		
 		"邮政快递","宅急送","天天快递"
 		,"韵达快递","百世汇通","中通快递","圆通快递","申通快递","顺丰快递","EMS","北京EMS","城际速递","凡客订单",
@@ -57,23 +58,41 @@ public class Constants {
 	public static String e_fastPhone_exist = "fast_phone_exist";
 	public static String f_fastRegiste = "fast_registe_finish";
 	public static String get_fast= "get_fast";
+	public static String add_fast = "addfast";
+	public static String set_fast_position = "set_fast_position";
 	
 	//关于form的
-	public static String s_finish = "form _ finish";
-	public static String s_unfinish = "form_nufinish";
 	public static String formState_unfinish = "未接收";
 	public static String formState_doing = "已接收";
 	public static String formState_finish = "已完成";
+	public static String formState_finish_unfinish = "yiwancheng_and_weiwanchegn";
+	public static String getFormByUserId = "getFormByUserId";
+	public static String getFormByUserId_all = "getFormByUserId_all";
+	public static String getFormByFastId_all = "getFormByFastId_all";
+	public static String getFormByFastId = "getFormByFastId";
+	public static String addform = "addform";
+	public static String alertForm = "alertForm";
 	
 	//关于user的
 	public static String e_userPhone_exist = "user_phone_exist";
 	public static String f_userRegiste = "user_registe_finish";
 	public static String get_user = "get_user";
+	public static String add_user = "add_user";
+	public static String set_user_position = "set_user_position";
+	
+	public static String ok = "ok";
+	public static String f = "file";
+	public static String get_user_ad = "getuserad";
 	
 	
-	public static final List list_form_m1 = new ArrayList<main>();
+	public static List list_form_m1 = new ArrayList<main>();
+	public static List list_form_m3 = new ArrayList<main>();
+	public static List list_form_m2 = new ArrayList<user_Ad>();
 	
-	public static final List list_form_m3 = new ArrayList<main>();
+	public static double user_lat;
+	public static double user_lng;
 	
+	public static double fast_lat;
+	public static double fast_lng;
 
 }

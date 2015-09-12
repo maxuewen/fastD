@@ -176,7 +176,6 @@ public class LoginActivity extends Activity implements OnClickListener,
 		
 		if(!TextUtils.isEmpty(userName)){
 			if(userName.length()!=11){
-//				showToast( "手机号不正确");
 				new SweetAlertDialog(this,SweetAlertDialog.ERROR_TYPE)
 				.setTitleText("提示")
 				.setContentText("手机号长度不正确")
@@ -188,7 +187,6 @@ public class LoginActivity extends Activity implements OnClickListener,
 				Pattern compile = Pattern.compile("^[1]([3][0-9]{1}|59|58|88|89)[0-9]{8}$");
 				Matcher matcher = compile.matcher(userName);
 				if(!matcher.find()){
-//					showToast("手机号不正确");
 					
 					new SweetAlertDialog(this,SweetAlertDialog.ERROR_TYPE)
 					.setTitleText("提示")
@@ -199,7 +197,6 @@ public class LoginActivity extends Activity implements OnClickListener,
 				}
 			}
 		}else{
-//				showToast( "账号不能为空");
 			new SweetAlertDialog(this,SweetAlertDialog.ERROR_TYPE)
 			.setTitleText("账号不能为空")
 			.setContentText("")

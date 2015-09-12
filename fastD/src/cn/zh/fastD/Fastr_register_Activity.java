@@ -52,6 +52,7 @@ import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -82,7 +83,7 @@ public class Fastr_register_Activity extends Activity implements OnMapClickListe
 
 	ListView lv_companyList; // fast_register_companylist
 
-	Button but_back; // actionbar
+	ImageButton but_back; // actionbar
 	Button but_next;
 	TextView tv_title;
 	View actionBar;
@@ -126,7 +127,7 @@ public class Fastr_register_Activity extends Activity implements OnMapClickListe
 		//获取和初次设置actionbar
 		actionBar = ActionBarUtils.setAtionBar(this,
 				R.layout.fast_register_actionbar);
-		but_back = (Button) actionBar.findViewById(R.id.fr_back);
+		but_back = (ImageButton) actionBar.findViewById(R.id.fr_back);
 		tv_title = (TextView) actionBar.findViewById(R.id.fr_register_titleBar);
 		but_next = (Button) actionBar.findViewById(R.id.fr_next);
 		setActionBar("登录", "注册", "");
@@ -498,7 +499,7 @@ public class Fastr_register_Activity extends Activity implements OnMapClickListe
 	
 	//设置actionbar上面的提示
 	private void setActionBar(String back,String title ,String next){
-		but_back.setText(back);
+//		but_back.setText(back);
 		but_next.setText(next);
 		tv_title.setText(title);
 		

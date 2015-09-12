@@ -31,27 +31,19 @@
 
         <activity
             android:name="cn.zh.fastD.MainActivity"
-            android:label="@string/app_name" >
-            
-            
-            
-        </activity>
-        <activity
-            android:name="cn.zh.fastD.LoginActivity"
-            android:launchMode="singleTask"
-            android:theme="@android:style/Theme.NoTitleBar" >
-            
-            
-            
-        </activity>
-        <activity android:name="cn.zh.fastD.User_register_Activity" >
-             
+            android:windowSoftInputMode="adjustPan|stateHidden" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-            
+        </activity>
+        <activity
+            android:name="cn.zh.fastD.LoginActivity"
+            android:launchMode="singleTask"
+            android:theme="@android:style/Theme.NoTitleBar" >
+        </activity>
+        <activity android:name="cn.zh.fastD.User_register_Activity" >
         </activity>
         <activity
             android:name="cn.zh.fastD.Fastr_register_Activity"
@@ -64,11 +56,17 @@
             android:label="@string/title_activity_web"
             android:windowSoftInputMode="adjustPan|stateHidden" >
         </activity>
-    	<activity android:name="cn.zh.fastD.AddReceiptAd">
-    	    
-    	   
-    	    
-    	</activity>
+        <activity
+            android:name="cn.zh.fastD.AddReceiptAd"
+            android:windowSoftInputMode="adjustPan|stateHidden" >
+        </activity>
+        <activity
+            android:name="cn.zh.fastD.WebActivity_simple"
+            android:label="@string/title_activity_web_activity_simple" >
+        </activity>
+        
+        <service android:name="cn.zh.Service.userService"></service>
+        
     </application>
 
 </manifest>

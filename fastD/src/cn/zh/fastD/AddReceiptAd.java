@@ -8,17 +8,22 @@ import kankan.wheel.widget.WheelView;
 import kankan.wheel.widget.adapters.ArrayWheelAdapter;
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import cn.pedant.SweetAlert.SweetAlertDialog;
 import cn.zh.Utils.ActionBarUtils;
+import cn.zh.Utils.Constants;
 import cn.zh.Utils.NoTouchViewPager;
 import cn.zh.Utils.ViewPagerScroller;
 import cn.zh.adapter.viewPagerAdapter;
+import cn.zh.domain.user_Ad;
 
 import com.mrwujay.cascade.activity.BaseActivity;
 
@@ -30,6 +35,10 @@ public class AddReceiptAd extends BaseActivity implements OnClickListener, OnWhe
 	private Button mBtnConfirm;
 	
 	private NoTouchViewPager vp_main;
+	private EditText et_name;
+	private EditText et_phone;
+	private EditText et_AdData;
+	
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -55,6 +64,11 @@ public class AddReceiptAd extends BaseActivity implements OnClickListener, OnWhe
 		
 		View v2 = inflater.inflate(R.layout.add_ad_info, null);
 		list.add(v2);
+		et_name = (EditText)v2.findViewById(R.id.r_name);
+		et_phone = (EditText)v2.findViewById(R.id.r_phone);
+		et_AdData = (EditText)v2.findViewById(R.id.r_AdData);
+		((Button)v2.findViewById(R.id.but_Adregister)).setOnClickListener(this);
+		
 		
 		vp_main.setAdapter(new viewPagerAdapter(this, list));
 		ViewPagerScroller vps = new ViewPagerScroller(this);
@@ -142,7 +156,10 @@ public class AddReceiptAd extends BaseActivity implements OnClickListener, OnWhe
 			
 			switch(v.getId()){
 			case R.id.btn_confirm:
+				
+				
 				vp_main.setCurrentItem(1);
+				
 				break;
 				
 			case R.id.back:
@@ -152,13 +169,46 @@ public class AddReceiptAd extends BaseActivity implements OnClickListener, OnWhe
 				}else{
 					vp_main.setCurrentItem(0);
 				}
+				
+			case R.id.but_Adregister:
+				String name = et_name.getText().toString();
+				String phone = et_phone.getText().toString().trim();
+				String AdDate = et_AdData.getText().toString();
+				
+				if(TextUtils.isEmpty(name)){
+					new SweetAlertDialog(this,SweetAlertDialog.ERROR_TYPE)
+					.setTitleText("姓名不能为空")
+					.show();
+					return;
+				}
+				if(TextUtils.isEmpty(phone)){
+					new SweetAlertDialog(this,SweetAlertDialog.ERROR_TYPE)
+					.setTitleText("手机号不能为空")
+					.show();
+					return;
+				}
+				if(TextUtils.isEmpty(AdDate)){
+					new SweetAlertDialog(this,SweetAlertDialog.ERROR_TYPE)
+					.setTitleText("地址信息不能为空")
+					.show();
+					return;
+				}
+				
+//				========================================提交地址，===========================
+				user_Ad u = new user_Ad(/*user_id*/null, showSelectedResult(), AdDate, name, phone);
+				
+				
+				
+//				========================================提交地址，===========================
+				
 			}
 		
 	}
 
-	private void showSelectedResult() {
-		Toast.makeText(AddReceiptAd.this, "当前选中:"+mCurrentProviceName+","+mCurrentCityName+","
-				+mCurrentDistrictName+","+mCurrentZipCode, Toast.LENGTH_SHORT).show();
+	private String showSelectedResult() {
+//		Toast.makeText(AddReceiptAd.this, "当前选中:"+mCurrentProviceName+","+mCurrentCityName+","
+//				+mCurrentDistrictName+","+mCurrentZipCode, Toast.LENGTH_SHORT).show();
+		return mCurrentProviceName+mCurrentCityName+mCurrentDistrictName;
 	}
 	
 }

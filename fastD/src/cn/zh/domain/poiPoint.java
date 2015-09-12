@@ -7,6 +7,9 @@ public class poiPoint {
 	private LatLng latlng;
 	private String title;
 	private String adName;
+	
+	public poiPoint(){}
+	
 	public poiPoint(LatLng latlng, String title, String adName) {
 		super();
 		this.latlng = latlng;

@@ -51,6 +51,7 @@ public class User_register_Activity extends Activity implements OnPageChangeList
 	private Button rigister_finish;
 	private View actionBarView;
 	private ImageButton back_but;
+	private String key;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -60,6 +61,9 @@ public class User_register_Activity extends Activity implements OnPageChangeList
 		
 		mod = getIntent().getIntExtra("mod",1);
 		isUser = getIntent().getIntExtra("isUser",0);
+		
+		key = getIntent().getStringExtra("key");
+		
 		
 		init();
 	}
@@ -155,8 +159,13 @@ public class User_register_Activity extends Activity implements OnPageChangeList
 			nextPagerPro();
 			break;
 		case  R.id.back:
-			startActivity(new Intent(User_register_Activity.this,LoginActivity.class));
-			finish();
+			if(key.equals("1")){
+				startActivity(new Intent(User_register_Activity.this,MainActivity.class));
+				finish();
+			}else{
+				startActivity(new Intent(User_register_Activity.this,LoginActivity.class));
+				finish();
+			}
 			break;
 		case R.id.urv2_but:
 			register();

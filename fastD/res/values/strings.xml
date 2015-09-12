@@ -58,5 +58,13 @@
     <string name="find_form">查询</string>
     <string name="title_activity_reciept_ad">RecieptAdActivity</string>
     <string name="but_next_addAd">下一步</string>
+    <string name="r_name">收货人的姓名</string>
+    <string name="r_phone">收货人手机号</string>
+    <string name="r_AdData">填写详细地址信息</string>
+    <string name="r_register">提交</string>
+    <string name="m5_Ad">系统已定位到你的大概位置，请填写详细位置</string>
+    <string name="beizhu">备注</string>
+    <string name="tijiao">提交</string>
+    <string name="title_activity_web_activity_simple">WebActivity_simple</string>
 
 </resources>

@@ -11,6 +11,8 @@
         android:orientation="vertical" >
 
         <RelativeLayout
+            android:id="@+id/menu_1"
+            android:clickable="true"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" >
 
@@ -19,9 +21,9 @@
                 android:layout_width="50dp"
                 android:layout_height="50dp"
                 android:layout_centerVertical="true"
-                android:layout_marginLeft="20dp"
-                android:layout_marginTop="20dp"
-                android:src="@drawable/img_1" />
+                android:layout_marginLeft="15dp"
+                android:layout_marginTop="10dp"
+                android:src="@null" />
 
             <TextView
                 android:layout_width="fill_parent"
@@ -29,23 +31,25 @@
                 android:layout_centerVertical="true"
                 android:layout_marginLeft="20dp"
                 android:layout_toRightOf="@id/one"
-                android:text="第1个Item"
+                android:text="订单查询"
                 android:textColor="#f0f0f0"
                 android:textSize="20sp" />
         </RelativeLayout>
 
         <RelativeLayout
+            android:id="@+id/menu_2"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" >
+            android:layout_height="wrap_content"
+            android:clickable="true" >
 
             <ImageView
                 android:id="@+id/two"
                 android:layout_width="50dp"
                 android:layout_height="50dp"
                 android:layout_centerVertical="true"
-                android:layout_marginLeft="20dp"
-                android:layout_marginTop="20dp"
-                android:src="@drawable/img_2" />
+                android:layout_marginLeft="15dp"
+                android:layout_marginTop="10dp"
+                android:src="@null" />
 
             <TextView
                 android:layout_width="fill_parent"
@@ -53,23 +57,25 @@
                 android:layout_centerVertical="true"
                 android:layout_marginLeft="20dp"
                 android:layout_toRightOf="@id/two"
-                android:text="第2个Item"
+                android:text="收货地址添加"
                 android:textColor="#f0f0f0"
                 android:textSize="20sp" />
         </RelativeLayout>
 
         <RelativeLayout
+            android:id="@+id/menu_3"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" >
+            android:layout_height="wrap_content"
+            android:clickable="true" >
 
             <ImageView
                 android:id="@+id/three"
                 android:layout_width="50dp"
                 android:layout_height="50dp"
                 android:layout_centerVertical="true"
-                android:layout_marginLeft="20dp"
-                android:layout_marginTop="20dp"
-                android:src="@drawable/img_3" />
+                android:layout_marginLeft="15dp"
+                android:layout_marginTop="10dp"
+                android:src="@null" />
 
             <TextView
                 android:layout_width="fill_parent"
@@ -77,23 +83,25 @@
                 android:layout_centerVertical="true"
                 android:layout_marginLeft="20dp"
                 android:layout_toRightOf="@id/three"
-                android:text="第3个Item"
+                android:text="密码修改"
                 android:textColor="#f0f0f0"
                 android:textSize="20sp" />
         </RelativeLayout>
 
         <RelativeLayout
+            android:id="@+id/menu_4"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" >
+            android:layout_height="wrap_content"
+            android:clickable="true" >
 
             <ImageView
                 android:id="@+id/four"
                 android:layout_width="50dp"
                 android:layout_height="50dp"
                 android:layout_centerVertical="true"
-                android:layout_marginLeft="20dp"
-                android:layout_marginTop="20dp"
-                android:src="@drawable/img_4" />
+                android:layout_marginLeft="15dp"
+                android:layout_marginTop="10dp"
+                android:src="@null" />
 
             <TextView
                 android:layout_width="fill_parent"
@@ -101,31 +109,7 @@
                 android:layout_centerVertical="true"
                 android:layout_marginLeft="20dp"
                 android:layout_toRightOf="@id/four"
-                android:text="第一个Item"
-                android:textColor="#f0f0f0"
-                android:textSize="20sp" />
-        </RelativeLayout>
-
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" >
-
-            <ImageView
-                android:id="@+id/five"
-                android:layout_width="50dp"
-                android:layout_height="50dp"
-                android:layout_centerVertical="true"
-                android:layout_marginLeft="20dp"
-                android:layout_marginTop="20dp"
-                android:src="@drawable/img_5" />
-
-            <TextView
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
-                android:layout_marginLeft="20dp"
-                android:layout_toRightOf="@id/five"
-                android:text="第5个Item"
+                android:text="退出登录"
                 android:textColor="#f0f0f0"
                 android:textSize="20sp" />
         </RelativeLayout>

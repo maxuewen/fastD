@@ -7,15 +7,14 @@ public class form {
 	private String receiptPhone;
 	private String recieptName;
 	private String shipPhone;
-	private double poi_x;
+	private double poi_x;		//等于user的位置
 	private double poi_y;
 	private String time;
 	private String state;
 	private String fast_id;
 	private String mark;
 	
-	
-	
+	public form(){}
 	
 	
 	@Override

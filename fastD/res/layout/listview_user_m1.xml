@@ -17,6 +17,7 @@
         android:layout_height="match_parent"
         android:layout_marginBottom="3dp"
         android:layout_alignParentBottom="true"
+        android:textColor="#797979"
 		android:layout_centerHorizontal="true"
         />
     
@@ -27,6 +28,7 @@
         android:layout_marginBottom="3dp"
 		android:layout_alignParentRight="true"
         android:layout_alignParentBottom="true"
+        android:textColor="#797979"
         android:layout_marginRight="3dp"/>
 
 </RelativeLayout>

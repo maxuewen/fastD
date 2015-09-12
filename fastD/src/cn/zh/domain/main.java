@@ -19,6 +19,7 @@ public class main {
 	private String recieptName;		//收货人的姓名
 	private String receiptPhone;
 	
+	
 	public String getReceiptPhone() {
 		return receiptPhone;
 	}
@@ -35,6 +36,14 @@ public class main {
 		this.recieptName = recieptName;
 	}
 
+	public main(form form){
+		this.formNum = form.getFormNum();
+		this.riceiptAd = form.getRiceiptAd();
+		this.time = form.getTime();
+		this.state = form.getState();
+		this.mark = form.getMark();
+	}
+	
 	public main(user user , form form){
 		this.user_name = user.getName();
 		this.user_phone = user.getPhone();

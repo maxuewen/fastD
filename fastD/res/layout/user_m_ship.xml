@@ -3,7 +3,28 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#fff" >
-
     
+    <FrameLayout 
+       android:layout_width="match_parent"
+       android:layout_height="match_parent"
+       android:layout_marginTop="49dp"
+       android:background="#fff">
 
+        <ListView 
+        android:id="@+id/lv_ReceiptAdInfo"
+        android:background="#fff"
+         android:clickable="true"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"></ListView>
+        
+        
+         <ImageView 
+            android:id="@+id/iv_user_m2_centent"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_gravity="center"
+            android:src="@drawable/null_data"/>
+        
+
+    </FrameLayout>
 </RelativeLayout>

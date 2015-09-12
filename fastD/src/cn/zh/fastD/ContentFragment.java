@@ -10,14 +10,14 @@ import cn.zh.Utils.Constants;
 import cn.zh.Utils.NoTouchViewPager;
 import cn.zh.Utils.ViewPagerScroller;
 import cn.zh.adapter.formListViewAdp_m1;
+import cn.zh.adapter.receiptAdpter;
+import cn.zh.adapter.user_m3_ListViewAdp;
 import cn.zh.adapter.viewPagerAdapter;
 import cn.zh.domain.main;
+import cn.zh.domain.user_Ad;
 import android.annotation.SuppressLint;
-import android.app.ActionBar;
 import android.content.Intent;
-import android.content.res.Resources;
 import android.graphics.Color;
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.text.TextUtils;
@@ -30,13 +30,13 @@ import android.widget.AdapterView.OnItemClickListener;
 import android.widget.CompoundButton;
 import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.RadioButton;
 import android.widget.TextView;
 
-import com.jeremyfeinstein.slidingmenu.lib.SlidingMenu;
 import com.jeremyfeinstein.slidingmenu.lib.app.SlidingFragmentActivity;
 
 @SuppressLint("ValidFragment")
@@ -77,6 +77,18 @@ public class ContentFragment extends Fragment implements OnItemClickListener,OnC
 	private ImageButton but_back;
 	private TextView tv_title;
 	private Button but_next;
+
+	private ListView lv_main;
+	private ImageView tv_tip;
+	private receiptAdpter recieptAdp;
+
+	private EditText tv_m5_info;
+	private TextView tv_m5_mark;
+	private TextView tv_m5_Ad;
+
+	private Button but_conmit;
+	private ListView lv_m3;
+	private user_m3_ListViewAdp user_m3_ListViewAdp;
 
 
 	
@@ -153,12 +165,22 @@ public class ContentFragment extends Fragment implements OnItemClickListener,OnC
 		
 		//=============================主界面第二张
 		v = inflater.inflate(R.layout.user_m_ship, null);
-//		
+		lv_main = (ListView)v.findViewById(R.id.lv_ReceiptAdInfo);
+		tv_tip = (ImageView)v.findViewById(R.id.iv_user_m2_centent);
+		
+		recieptAdp = new receiptAdpter(getActivity());
+		lv_main.setAdapter(recieptAdp);
+		lv_main.setOnItemClickListener(this);
+		
 		list.add(v);
 		
 		//=============================主界面第三张
 		v = inflater.inflate(R.layout.user_m3_receipt, null);
 		iv_noData_m2 = (ImageView)v.findViewById(R.id.iv_user_m3_centent);
+		lv_m3 = (ListView)v.findViewById(R.id.lv_user_m3_receipt);
+		user_m3_ListViewAdp = new user_m3_ListViewAdp(getActivity());
+		lv_m3.setAdapter(user_m3_ListViewAdp);
+		lv_m3.setOnItemClickListener(this);
 		
 		
 		list.add(v);
@@ -177,7 +199,14 @@ public class ContentFragment extends Fragment implements OnItemClickListener,OnC
 			
 		list.add(v);
 		//=============================主界面第五张，显示已完成的订单
-		
+		v = inflater.inflate(R.layout.formconmit_m5, null);
+			tv_m5_info = (EditText)v.findViewById(R.id.tv_m5_info);
+			tv_m5_mark = (TextView)v.findViewById(R.id.tv_m5_mark);
+			tv_m5_Ad = (TextView)v.findViewById(R.id.tv_m5_Ad);
+			but_conmit = (Button)v.findViewById(R.id.but_m5_conmit);
+			but_conmit.setOnClickListener(this);
+			
+		list.add(v);
 		
 		
 		
@@ -258,8 +287,14 @@ public class ContentFragment extends Fragment implements OnItemClickListener,OnC
 			rbut_2.setTextColor(Color.rgb(36,155,255));
 			
 			
-			setActionBar("寄件", "添加");
+			setActionBar("选择收货地址", "添加");
 			setBackground_back(1);
+			
+			if(Constants.list_form_m2.size() == 0 || Constants.list_form_m2 == null){
+				tv_tip.setVisibility(0x00000000);
+			}else{
+				tv_tip.setVisibility(0x00000004);
+			}
 		}else if(a == 3){
 			rbut_3.setTextColor(Color.rgb(36,155,255));
 			
@@ -279,10 +314,11 @@ public class ContentFragment extends Fragment implements OnItemClickListener,OnC
 			long id) {
 		main m = (main) Constants.list_form_m1.get(position);
 		//设置actionbar
-		setActionBar("订单查询", "");
-		setBackground_back(2);
+		
 		
 		if(parent.getAdapter() == formLVadp && !m.getState().equals(Constants.formState_unfinish)){
+			setActionBar("订单查询", "");
+			setBackground_back(2);
 			vps.setScrollDuration(600);
 			vp_main.setCurrentItem(3);
 			vps.setScrollDuration(0);
@@ -299,7 +335,37 @@ public class ContentFragment extends Fragment implements OnItemClickListener,OnC
 			rbut_3.setClickable(false);
 			cu_page = 3;
 			
-		}else{
+		}else if(parent.getAdapter() == recieptAdp){  
+			setBackground_back(2);
+			user_Ad a = (user_Ad) Constants.list_form_m2.get(position);
+			
+			tv_m5_info.setText("姓名："+a.getName()+"\n\n"
+					+"手机号："+a.getPhone()+"\n\n"
+					+"地址："+a.getReceiptAd_1()+"\n\n"
+					+"详细地址："+a.getReceiptAd_2());
+			
+			vps.setScrollDuration(600);
+			vp_main.setCurrentItem(4);
+			vps.setScrollDuration(0);
+			rbut_1.setClickable(false);
+			rbut_3.setClickable(false);
+			setActionBar("寄件", "");
+			setBackground_back(2);
+			cu_page = 4;
+			
+		}else if(parent.getAdapter() == user_m3_ListViewAdp){
+			Intent in = new Intent(getActivity(),WebActivity_simple.class);
+			if(TextUtils.isEmpty(((main) Constants.list_form_m3.get(position)).getFormNum())){
+				in.putExtra("url","0");
+			}else{
+				in.putExtra("url",((main) Constants.list_form_m3.get(position)).getFormNum());
+			}
+			startActivity(in);
+		}
+		else{
+			
+			setActionBar("订单查询", "");
+			setBackground_back(2);
 			
 			Intent in = new Intent(getActivity(), user_form_doing.class);
 			in.putExtra("company", m.getCompany());
@@ -327,10 +393,20 @@ public class ContentFragment extends Fragment implements OnItemClickListener,OnC
 			if(cu_page == 3){
 				vps.setScrollDuration(600);
 				vp_main.setCurrentItem(0);
-				setActionBar("我的寄件", "");
+				setActionBar("我的寄件", "查询");
 				setBackground_back(1);
 				cu_page = 0;
 				rbut_2.setClickable(true);
+				rbut_3.setClickable(true);
+				
+				vps.setScrollDuration(0);
+			}else if(cu_page == 4){
+				vps.setScrollDuration(600);
+				vp_main.setCurrentItem(1);
+				setActionBar("选择收货地址", "添加");
+				setBackground_back(1);
+				cu_page = 0;
+				rbut_1.setClickable(true);
 				rbut_3.setClickable(true);
 				
 				vps.setScrollDuration(0);
@@ -349,6 +425,10 @@ public class ContentFragment extends Fragment implements OnItemClickListener,OnC
 			}else if(but_next.getText().equals("添加")){
 				startActivity(new Intent(getActivity(),AddReceiptAd.class));
 			}
+			
+			
+		case R.id.but_m5_conmit:		//寄件提交按钮
+			
 			
 			
 		}
