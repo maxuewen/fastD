@@ -3,6 +3,8 @@ package cn.zh.fastD;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.http.Header;
+
 import com.amap.api.location.AMapLocation;
 import com.amap.api.location.AMapLocationListener;
 import com.amap.api.location.LocationManagerProxy;
@@ -26,19 +28,31 @@ import com.amap.api.services.poisearch.PoiResult;
 import com.amap.api.services.poisearch.PoiSearch;
 import com.amap.api.services.poisearch.PoiSearch.OnPoiSearchListener;
 import com.amap.api.services.poisearch.PoiSearch.SearchBound;
+import com.google.gson.Gson;
+import com.loopj.android.http.AsyncHttpClient;
+import com.loopj.android.http.AsyncHttpResponseHandler;
+import com.loopj.android.http.RequestParams;
 
 import cn.pedant.SweetAlert.SweetAlertDialog;
+import cn.smssdk.EventHandler;
+import cn.smssdk.SMSSDK;
 import cn.zh.Utils.ActionBarUtils;
 import cn.zh.Utils.Constants;
+import cn.zh.Utils.HttpUtils;
+import cn.zh.Utils.NetUtils;
 import cn.zh.Utils.NoTouchViewPager;
 import cn.zh.Utils.ViewPagerScroller;
+import cn.zh.Utils.myUUID;
 import cn.zh.adapter.companyListViewAdp;
 import cn.zh.adapter.poiListViewAdp;
 import cn.zh.adapter.viewPagerAdapter;
+import cn.zh.domain.fast;
 import cn.zh.domain.poiPoint;
+import cn.zh.domain.user;
 import android.location.Location;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.Message;
 import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Color;
@@ -59,6 +73,10 @@ import android.widget.TextView;
 public class Fastr_register_Activity extends Activity implements OnMapClickListener,
 		OnItemClickListener, OnPageChangeListener, OnClickListener , AMapLocationListener,OnPoiSearchListener, LocationSource{
 
+	private Boolean isExit = false;  	//判断改手机号是否注册过;
+	private String phone = null;
+	
+	
 	private NoTouchViewPager vp;
 	Bundle savedInstanceState;
 	private AMap aMap;
@@ -66,8 +84,8 @@ public class Fastr_register_Activity extends Activity implements OnMapClickListe
 
 	private Button but_urv1_getvatify; // urv1
 	private Button but_urv1_next;
-	private EditText et_phone;
-	private EditText et_varify;
+	private EditText vp1_phone;
+	private EditText varify;
 
 	private MapView mapview; // fast_register_poipager
 	private NoTouchViewPager vp_poiBelow;
@@ -111,6 +129,68 @@ public class Fastr_register_Activity extends Activity implements OnMapClickListe
 	private List<poiPoint> poiAdpList;
 	
 
+	//补充代码-开始
+    String APPKEY = "a58f04b86004";
+    String APPSECRET = "3ae0713d0d78998bcad8507d3a459024";
+
+    String vp1_phone2;
+    String varify2;
+
+    private void initSMS() {
+        SMSSDK.initSDK(this, APPKEY, APPSECRET);
+        EventHandler eh = new EventHandler() {
+            @Override
+            public void afterEvent(int event, int result, Object data) {
+                Message msg = new Message();
+                msg.arg1 = event;
+                msg.arg2 = result;
+                msg.obj = data;
+                handlerSMS.sendMessage(msg);
+            }
+        };
+        SMSSDK.registerEventHandler(eh);
+    }
+
+    Handler handlerSMS = new Handler() {
+        @Override
+        public void handleMessage(Message msg) {
+            super.handleMessage(msg);
+            int event = msg.arg1;
+            int result = msg.arg2;
+            Object data = msg.obj;
+            if (result == SMSSDK.RESULT_COMPLETE) {
+                //回调成功
+                if (event == SMSSDK.EVENT_GET_VERIFICATION_CODE) {
+                    //获取验证码成功
+                    new SweetAlertDialog(Fastr_register_Activity.this, SweetAlertDialog.SUCCESS_TYPE)
+                            .setTitleText("正在发送验证码")
+                            .setContentText("")
+                            .show();
+                } else if (event == SMSSDK.EVENT_SUBMIT_VERIFICATION_CODE) {
+                    //提交验证码成功
+                    //========================================================================进入下一张页面
+                	
+                	if(isExit == true){
+                		vp.setCurrentItem(1);
+                		setActionBar("登录", "注册", "下一步");
+                	}else{
+                		show("手机号已经注册过");
+                		return;
+                	}
+                    
+                }
+            } else {
+                //回调失败
+                //验证失败包含多种因素（比如验证码错误、网络因素等）
+                new SweetAlertDialog(Fastr_register_Activity.this, SweetAlertDialog.ERROR_TYPE)
+                        .setTitleText("验证失败")
+                        .setContentText("")
+                        .show();
+            }
+        }
+    };
+
+    //补充代码-结束
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -118,6 +198,9 @@ public class Fastr_register_Activity extends Activity implements OnMapClickListe
 		this.savedInstanceState = savedInstanceState;
 		
 		init();
+        //补充代码-开始
+        initSMS();
+        //补充代码-结束
 	}
 
 	private void init() {
@@ -142,8 +225,8 @@ public class Fastr_register_Activity extends Activity implements OnMapClickListe
 		but_urv1_getvatify = (Button) view
 				.findViewById(R.id.urv1_getvarify_but);
 		but_urv1_next = (Button) view.findViewById(R.id.urv1_next_but);
-		et_phone = (EditText) view.findViewById(R.id.urv1_phone);
-		et_varify = (EditText) view.findViewById(R.id.urv1_varify);
+		vp1_phone = (EditText) view.findViewById(R.id.urv1_phone);
+		varify = (EditText) view.findViewById(R.id.urv1_varify);
 
 		// fast_register_poipager
 		view = inflater.inflate(R.layout.fast_register_poipager, null);
@@ -222,6 +305,7 @@ public class Fastr_register_Activity extends Activity implements OnMapClickListe
 		
 		//地图上画默认的区域
 		draLineOnMap(Constants.xx,Constants.xy,Constants.yy,Constants.yx,Constants.xx);
+		aMap.moveCamera(CameraUpdateFactory.zoomTo(12));
 
 	}
 
@@ -273,8 +357,8 @@ public class Fastr_register_Activity extends Activity implements OnMapClickListe
 
 					}
 				}
-				
 			}
+			break;
 		case R.id.urv1_getvarify_but:
 			getVarify();
 			break;
@@ -300,77 +384,86 @@ public class Fastr_register_Activity extends Activity implements OnMapClickListe
 
 	
 	private void urv1_next_but() {
+		//补充代码-开始
+        if (!TextUtils.isEmpty(vp1_phone.getText().toString().trim())) {
+            //判断手机号是否为空
+            //若手机号不为空
+            if (vp1_phone.getText().toString().trim().length() == 11) {
+                //判断手机号输入是否合法
+                //若手机号合法
+                vp1_phone2 = vp1_phone.getText().toString().trim();
+                //判断验证码输入是否合法
+                if (varify.getText().toString().trim().length() == 4) {
+                    //若验证码输入合法
+                    varify2 = varify.getText().toString().trim();
+                    //提交验证码
+                    //处理过程交给
+                    SMSSDK.submitVerificationCode("86", vp1_phone2, varify2);
+                } else {
+                    //若验证码输入不合法
+                    new SweetAlertDialog(this, SweetAlertDialog.ERROR_TYPE)
+                            .setTitleText("验证码格式错误")
+                            .setContentText("")
+                            .show();
+                }
+            } else {
+                //若手机号输入不合法
+                new SweetAlertDialog(this, SweetAlertDialog.ERROR_TYPE)
+                        .setTitleText("手机号格式错误")
+                        .setContentText("")
+                        .show();
+                vp1_phone.requestFocus();
+            }
+        } else {
+            //若手机号为空
+            new SweetAlertDialog(this, SweetAlertDialog.ERROR_TYPE)
+                    .setTitleText("手机号不能为空")
+                    .setContentText("")
+                    .show();
+            vp1_phone.requestFocus();
+        }
+        //补充代码-结束
 		
-		vp.setCurrentItem(1);
-		
-//		// TODO Auto-generated method stub
-//		String str_varify = et_varify.getText().toString().trim();
-//		String str_phone = et_phone.getText().toString().trim();
-//		
-//		if(!TextUtils.isEmpty(str_phone)){
-//			//手机号不为空，判断格式是否正确
-//			Pattern compile = Pattern.compile("^[1]([3][0-9]{1}|59|58|88|89)[0-9]{8}$");
-//			Matcher matcher = compile.matcher(str_phone);
-//			if(!matcher.find()){
-//				new SweetAlertDialog(this,SweetAlertDialog.ERROR_TYPE)
-//				.setTitleText("提示")
-//				.setContentText("手机号格式不正确")
-//				.show();
-//				return;
-//			}else{
-//				//手机号格式正确，判断验证码是否为空，是否位数字
-//				if(!TextUtils.isEmpty(str_varify)){
-//					if(str_varify.matches("[0-9]+")){
-//						
-////======================================================================================================
-//						//判断验证码是否正确
-//						
-//						
-//						
-////========================================================================================================	
-//					//验证通过，设置viewage到第二界面
-//						setActionBar("登录", "注册", "下一步");
-//						vp.setCurrentItem(1);
-//						
-//					}else
-//					{
-//						//验证吗的格式不正确
-//						new SweetAlertDialog(this,SweetAlertDialog.ERROR_TYPE)
-//						.setTitleText("提示")
-//						.setContentText("验证码格式不正确")
-//						.show();
-//						return;
-//					}
-//				}else{
-//					//判断验证码是否为空
-//					new SweetAlertDialog(this,SweetAlertDialog.ERROR_TYPE)
-//					.setTitleText("提示")
-//					.setContentText("验证码不能为空")
-//					.show();
-//					return;
-//				}
-//				
-//				
-//			}
-//			
-//			
-//		}else{
-//			//手机号为空
-//			new SweetAlertDialog(this,SweetAlertDialog.ERROR_TYPE)
-//			.setTitleText("手机号不能为空")
-//			.setContentText("")
-//			.show();
-//			return;
-//		}
 	}
 
 	//获取验证码
 	private void getVarify() {
-		// TODO Auto-generated method stub
+		//补充代码-开始
+        //获取验证码
+        if (!TextUtils.isEmpty(vp1_phone.getText().toString().trim())) {
+            //判断手机号是否为空
+            //若手机号不为空
+            if (vp1_phone.getText().toString().trim().length() == 11) {
+                //判断手机号输入是否合法
+                //若手机号输入合法
+                vp1_phone2 = vp1_phone.getText().toString().trim();
+                //获取验证码
+                //处理过程交给handlerSMS
+                phone = vp1_phone.getText().toString().trim();
+                phoneExist(phone);
+                SMSSDK.getVerificationCode("86", vp1_phone2);
+                varify.requestFocus();
+            } else {
+                //若手机号输入不合法
+                new SweetAlertDialog(this, SweetAlertDialog.ERROR_TYPE)
+                        .setTitleText("电话号码有误")
+                        .setContentText("")
+                        .show();
+                vp1_phone.requestFocus();
+            }
+        } else {
+            //若手机号为空
+            new SweetAlertDialog(this, SweetAlertDialog.ERROR_TYPE)
+                    .setTitleText("手机号不能为空")
+                    .setContentText("")
+                    .show();
+            vp1_phone.requestFocus();
+        }
+        //补充代码-结束
 		
 	}
 
-	//注册前的数据检查
+	////////////////========================================================================//注册前的数据检查
 	private void proRegister() {
 		// TODO Auto-generated method stub
 		String fastName = et_fastName.getText().toString().trim();
@@ -402,7 +495,78 @@ public class Fastr_register_Activity extends Activity implements OnMapClickListe
 			.setTitleText("两次密码不一致").show();
 			return;
 		}
+		//=================================================================================开始注册
 		
+		Gson j = new Gson();
+		RequestParams map = new RequestParams();
+		
+		AsyncHttpClient client = new AsyncHttpClient();
+		
+		double xx;double xy;double yx;double yy;
+		//保证两个点的顺序
+		if(getLat(0)>getLat(1)){
+			if(getLng(0)>getLng(1)){
+				xx=getLat(0);xy=getLng(1);yx=getLat(1);yy=getLng(0);
+			}else{
+				xx=getLat(0);xy=getLng(0);yx=getLat(1);yy=getLng(1);
+			}
+		}else{
+			if(getLng(0)>getLng(1)){
+				xx=getLat(1);xy=getLng(1);yx=getLat(0);yy=getLng(0);
+			}else{
+				xx=getLat(1);xy=getLng(0);yx=getLat(0);yy=getLng(1);
+			}
+			
+		}
+		fast f = new fast(myUUID.getUUID(), this.phone, pw, fastName, company, xx, xy, yx, yy, 
+				Constants.fast_lat,Constants.fast_lng);
+		map.put("method", j.toJson(Constants.add_fast));
+		map.put("param", j.toJson(f));
+		
+		client.post(HttpUtils.url+"fastServlet", map, new AsyncHttpResponseHandler(){
+			@Override
+			public void onFailure(int arg0, Header[] arg1, byte[] arg2,
+					Throwable arg3) {
+				
+				if(!NetUtils.isNetworkAvailable(Fastr_register_Activity.this)){
+					show("网络错误");return;
+				}else{
+					show("服务器错误");return;
+				}
+			}
+			@Override
+			public void onStart() {
+				// TODO Auto-generated method stub
+				but_finishRegister.setClickable(false);
+			}
+			@Override
+			public void onSuccess(int statusCode, Header[] arg1, byte[] responseBody) {
+				if (statusCode == 200) {
+					Gson j = new Gson();
+					String str= j.fromJson(new String(responseBody), String.class);
+					if(!str.equals(Constants.ok)){
+						show("注册失败");return;
+					}else{
+						new SweetAlertDialog(Fastr_register_Activity.this, SweetAlertDialog.SUCCESS_TYPE)
+						.setTitleText("注册成功")
+						.setConfirmClickListener(
+								new SweetAlertDialog.OnSweetClickListener() {
+
+									@Override
+									public void onClick(
+											SweetAlertDialog sweetAlertDialog) {
+										startActivity(new Intent(
+												Fastr_register_Activity.this,
+												LoginActivity.class));
+										Fastr_register_Activity.this.finish();
+									}
+								}).show();
+					}
+				}else{
+					show("注册失败");return;
+				}
+			}
+		});
 		
 		
 	}
@@ -419,7 +583,9 @@ public class Fastr_register_Activity extends Activity implements OnMapClickListe
 			vp_poiBelow.setCurrentItem(2);
 			if(currentPoint == 2){
 				setActionBar("登录", "第 "+currentPoint +" 个点", "下一步");
-				draLineOnMap(poiList.get(0),new LatLng(getLat(0), getLng(1)),poiList.get(1),new LatLng(getLat(1), getLng(0)),poiList.get(0));
+				draLineOnMap(poiList.get(0),new LatLng(getLat(0), getLng(1))
+				,poiList.get(1),new LatLng(getLat(1), getLng(0)),poiList.get(0));
+				
 			}else{
 				setActionBar("登录", "第 "+currentPoint +" 个点", "继续");
 			}
@@ -495,6 +661,9 @@ public class Fastr_register_Activity extends Activity implements OnMapClickListe
 	protected void onDestroy() {
 		super.onDestroy();
 		mapview.onDestroy();
+        //补充代码-开始
+        SMSSDK.unregisterAllEventHandler();
+        //补充代码-结束
 	}
 	
 	//设置actionbar上面的提示
@@ -521,7 +690,7 @@ public class Fastr_register_Activity extends Activity implements OnMapClickListe
 	//划线
 	private void draLineOnMap(LatLng ... list){
 		polyline = aMap.addPolyline(new PolylineOptions().add(list).color(Color.BLUE).width(3));
-		aMap.moveCamera(CameraUpdateFactory.zoomTo(12));
+		aMap.moveCamera(CameraUpdateFactory.zoomTo(13));
 	}
 	
 	
@@ -600,7 +769,7 @@ public class Fastr_register_Activity extends Activity implements OnMapClickListe
 	}
 	
 	private void moveCamera(LatLng l){
-		aMap.moveCamera(new CameraUpdateFactory().newLatLngZoom(l, 12));
+		aMap.moveCamera(new CameraUpdateFactory().newLatLngZoom(l, 13));
 	}
 	
 	
@@ -675,9 +844,15 @@ public class Fastr_register_Activity extends Activity implements OnMapClickListe
 		locationMarker = aMap.addMarker(new MarkerOptions().anchor(0.5f, 1)
 				.position(latng));
 		searchAround(latng);
+		
+		if(currentPoint == 2){
+			draLineOnMap(poiList.get(0),new LatLng(getLat(0), getLng(1))
+			,poiList.get(1),new LatLng(getLat(1), getLng(0)),poiList.get(0));
+		}
+		
 	}
 	private Boolean canTOInfoPager(){
-		if(AMapUtils.calculateArea(poiList.get(0),poiList.get(1))>1E6){
+		if(AMapUtils.calculateArea(poiList.get(0),poiList.get(1))<10E4){
 			new SweetAlertDialog(this)
 			.setTitleText("所选择的区域太小，请重新选择")
 			.show();
@@ -699,7 +874,48 @@ public class Fastr_register_Activity extends Activity implements OnMapClickListe
 	}
 	
 	
-	
-	
+private void phoneExist(String phone){
+		
+		Gson j = new Gson();
+		RequestParams map = new RequestParams();
+		map.put("method", j.toJson(Constants.get_fast));
+		map.put("param", j.toJson(phone));
+		AsyncHttpClient client = new AsyncHttpClient();
+		client.post(HttpUtils.url+"fastServlet", map, new AsyncHttpResponseHandler(){
+			@Override
+			public void onFailure(int arg0, Header[] arg1, byte[] arg2,
+					Throwable arg3) {
+			}
+			@Override
+			public void onStart() {
+			}
+			@Override
+			public void onSuccess(int statusCode, Header[] arg1, byte[] responseBody) {
+				if (statusCode == 200) {
+					Gson j = new Gson();
+					fast u= j.fromJson(new String(responseBody), fast.class);
+					if(u != null){
+						isExit = true;
+					}
+				}
+			}
+		});
+	}
+
+
+
+private void show(String str){
+	new SweetAlertDialog(Fastr_register_Activity.this,SweetAlertDialog.ERROR_TYPE)
+	.setTitleText(str)
+	.setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
+							
+							@Override
+							public void onClick(SweetAlertDialog sweetAlertDialog) {
+								but_finishRegister.setClickable(true);
+								sweetAlertDialog.cancel();
+							}
+						})
+	.show();
+}
 
 }

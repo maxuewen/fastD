@@ -1,26 +1,36 @@
 package cn.zh.fastD;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ExecutionException;
 
+import org.apache.http.Header;
 import org.json.JSONObject;
 import org.json.JSONStringer;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.content.SharedPreferences.Editor;
 import android.graphics.Canvas;
 import android.location.Location;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.app.Fragment;
+import android.text.StaticLayout;
+import android.text.TextUtils;
 import android.view.View;
 
-import cn.zh.Service.HeartbeatService;
-import cn.zh.Service.test;
+import cn.pedant.SweetAlert.SweetAlertDialog;
 import cn.zh.Service.userService;
 import cn.zh.Utils.Constants;
 import cn.zh.Utils.HttpUtils;
+import cn.zh.Utils.NetUtils;
+import cn.zh.Utils.ActionProcessButton.Mode;
+import cn.zh.domain.main;
 import cn.zh.domain.user;
+import cn.zh.domain.user_Ad;
 
 import com.amap.api.location.AMapLocation;
 import com.amap.api.location.AMapLocationListener;
@@ -29,8 +39,12 @@ import com.amap.api.location.LocationProviderProxy;
 import com.amap.api.maps2d.model.LatLng;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
+import com.google.gson.reflect.TypeToken;
 import com.jeremyfeinstein.slidingmenu.lib.SlidingMenu;
 import com.jeremyfeinstein.slidingmenu.lib.app.SlidingFragmentActivity;
+import com.loopj.android.http.AsyncHttpClient;
+import com.loopj.android.http.AsyncHttpResponseHandler;
+import com.loopj.android.http.RequestParams;
 
 public class MainActivity extends SlidingFragmentActivity implements AMapLocationListener,Runnable{
 
@@ -39,45 +53,41 @@ public class MainActivity extends SlidingFragmentActivity implements AMapLocatio
 	private LocationManagerProxy aMapLocManager = null;
 	private Handler handler = new Handler();
 	private AMapLocation aMapLocation;// 用于判断定位超时
+	
+	SharedPreferences sh ;
+	
+	@Override
+	protected void onResume() {
+		
+		SharedPreferences sh = getSharedPreferences("fastD", MODE_PRIVATE);
+		
+		if(sh.getString("service", "false").equals("false")){
+			startService(new Intent(MainActivity.this,userService.class));
+		}
+		
+		super.onResume();
+	}
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.m_layout_main);
-		
-		
-		
-		
-		Intent service = new Intent(this , userService.class);
-		startService(service);
-		System.out.println("kaishi ;l ");
-		
-//		/json.fromJson(s, new TypeToken<List<user_Ad>>(){}.getType())
-//		Gson f = new Gson();
-//		user u = new user("asd", "phine", "maxuewe", "xw", 12, 12);
-//		Map<String , String> map = new HashMap<String, String>();
-//		map.put("method", Constants.add_user);
-//		map.put("param", f.toJson(u));
-//		
-//		
-//		
-//		
-//		
-//		try {
-//			HttpUtils.postRequest(HttpUtils.url+"userServlet", map);
-//		} catch (InterruptedException e) {
-//			// TODO Auto-generated catch block
-//			e.printStackTrace();
-//		} catch (ExecutionException e) {
-//			// TODO Auto-generated catch block
-//			e.printStackTrace();
-//		}
-		
+		//=========================================检查账号密码
+		SharedPreferences sh = getSharedPreferences("fastD", MODE_APPEND);
+		if(sh.getString("userLogin", "false").equals("true")){
+			if(NetUtils.isNetworkAvailable(this)){
+				checkUser_password();
+			}else{
+				new SweetAlertDialog(this, SweetAlertDialog.ERROR_TYPE)
+				.setTitleText("还没有联网!")
+				.show();
+			}
+		}
+		//检查账号密码
 		
 		aMapLocManager = LocationManagerProxy.getInstance(this);
 		aMapLocManager.requestLocationData(LocationProviderProxy.AMapNetwork, 60 * 1000, 10, this);
 		handler.postDelayed(this, 12000);// 设置超过12秒还没有定位到就停止定位
-		
 
 		// check if the content frame contains the menu frame
 		if (findViewById(R.id.menu_frame) == null) {
@@ -137,7 +147,7 @@ public class MainActivity extends SlidingFragmentActivity implements AMapLocatio
 		});
 		
 		sm.toggle();
-
+		
 	}
 
 	private void stopLocation() {
@@ -182,6 +192,40 @@ public class MainActivity extends SlidingFragmentActivity implements AMapLocatio
 	public void onProviderDisabled(String provider) {
 		// TODO Auto-generated method stub
 		
+	}
+	
+	
+	private void checkUser_password(){
+		sh = getSharedPreferences("fastD", MODE_APPEND);
+		Gson j = new Gson();
+		
+		RequestParams map = new RequestParams();
+		map.put("method",j.toJson( Constants.get_user));
+		map.put("param", j.toJson(sh.getString("userName", null)));
+		AsyncHttpClient client = new AsyncHttpClient();
+		client.post(HttpUtils.url+"userServlet", map, new AsyncHttpResponseHandler(){
+			@Override
+			public void onSuccess(int statusCode, Header[] arg1, byte[] responseBody) {
+				if (statusCode == 200) {
+					Gson j = new Gson();
+					user u = j.fromJson(new String(responseBody), user.class);
+					if(u != null){
+						if(!u.getPassword().equals(sh.getString("userPassword", null)) ){
+							Intent in = new Intent(MainActivity.this,LoginActivity.class);
+							in.putExtra("method", "MainActivity");
+							startActivity(in);
+						}
+					}
+				}
+			}
+
+			@Override
+			public void onFailure(int arg0, Header[] arg1, byte[] arg2,
+					Throwable arg3) {
+				// TODO Auto-generated method stub
+				
+			}
+		});
 	}
 
 

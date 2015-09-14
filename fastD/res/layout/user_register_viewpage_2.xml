@@ -49,7 +49,29 @@
             android:singleLine="true"
             android:textColorHint="@color/textColorHint"
             android:textSize="17sp" />
-    </RelativeLayout>
+   
+    
+    <cn.zh.Utils.UnderLineEditText
+            android:id="@+id/urv2_userName"
+            android:layout_marginTop="15dp"
+            android:layout_below="@id/urv2_pw2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingLeft="5dp"
+            android:layout_centerHorizontal="true"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
+            android:background="@null"
+            android:hint="姓名"
+            android:maxLength="15"
+            android:scrollHorizontally="true"
+            android:selectAllOnFocus="true"
+            android:singleLine="true"
+            android:textColorHint="@color/textColorHint"
+            android:visibility="invisible"
+            android:textSize="17sp" />
+    
+     </RelativeLayout>
     
     <Button 
         android:id="@+id/urv2_but"

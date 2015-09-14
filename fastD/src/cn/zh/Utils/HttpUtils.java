@@ -44,6 +44,7 @@ public class HttpUtils {
 	public static String getRequest(final String url)throws Exception{
 		FutureTask<String> task = new FutureTask<String>(
 				new Callable<String>() {
+					
 					public String call() throws ClientProtocolException, IOException  {
 						//创建httpget对象
 						HttpResponse httpResponse = httpCilent.execute(new HttpGet(url));
@@ -66,6 +67,7 @@ public class HttpUtils {
 	 */
 	public static String postRequest(final String url,final Map<String, String> map) throws InterruptedException, ExecutionException{
 		FutureTask<String> ft = new FutureTask<String>(
+				
 				new Callable<String>() {
 					public String call() throws Exception {
 						HttpPost httpPost = new HttpPost(url);
@@ -76,9 +78,7 @@ public class HttpUtils {
 							}
 						}
 						httpPost.setEntity(new UrlEncodedFormEntity(list,"utf-8"));
-						System.out.println("34343434343434343");
-						//System.out.println(httpPost);
-						HttpResponse httpResponse = httpCilent.execute(httpPost);System.out.println("asdf====444444444444444444==========");
+						HttpResponse httpResponse = httpCilent.execute(httpPost);
 						if(httpResponse.getStatusLine().getStatusCode()==200){
 							return EntityUtils.toString(httpResponse.getEntity());
 						}

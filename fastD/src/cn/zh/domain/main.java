@@ -150,6 +150,17 @@ public class main {
 	public void setUser_name(String user_name) {
 		this.user_name = user_name;
 	}
+
+	@Override
+	public String toString() {
+		return "main [formNum=" + formNum + ", riceiptAd=" + riceiptAd
+				+ ", time=" + time + ", state=" + state + ", mark=" + mark
+				+ ", fast_phone=" + fast_phone + ", fast_name=" + fast_name
+				+ ", company=" + company + ", cu_x=" + cu_x + ", cu_y=" + cu_y
+				+ ", user_phone=" + user_phone + ", user_name=" + user_name
+				+ ", recieptName=" + recieptName + ", receiptPhone="
+				+ receiptPhone + "]";
+	}
 	
 	
 	

@@ -71,7 +71,7 @@ public class WebActivity extends Activity implements OnClickListener{
 		
 	}
 	
-	class MyWebViewClient extends WebViewClient{ 
+	class MyWebViewClient extends WebViewClient{
         @Override 
         public boolean shouldOverrideUrlLoading(WebView view,String url_){ 
             view.loadUrl(url_); 
@@ -86,7 +86,7 @@ public class WebActivity extends Activity implements OnClickListener{
 			String str = et_form.getText().toString().trim();
 			if(TextUtils.isEmpty(str)){
 				new SweetAlertDialog(WebActivity.this, SweetAlertDialog.ERROR_TYPE)
-				.setContentText("运单号不能为空")
+				.setTitleText("运单号不能为空")
 				.show();
 			}else{
 				String url = "http://m.kuaidi100.com/index_all.html?postid=" + str;

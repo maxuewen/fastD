@@ -7,6 +7,7 @@ import cn.zh.Utils.Constants;
 import cn.zh.domain.main;
 import cn.zh.fastD.R;
 import android.content.Context;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -22,35 +23,28 @@ public class formListViewAdp_m1 extends BaseAdapter {
 
 		this.list = list;
 	}
+	public void clean(){
+		this.list.clear();
+	}
 
-	public formListViewAdp_m1(Context context) {
+	public formListViewAdp_m1(Context context,List<main> list) {
 		super();
-		main m = new main();
-		m.setCompany("中通");
-		m.setFormNum("1234567895");
-		m.setState("未完成");
-		Constants.list_form_m1.add(m);
 		
-		main m1 = new main();
-		m1.setCompany("中阿通");
-		m1.setFormNum("1234567895");
-		m1.setState("历史");
-		Constants.list_form_m1.add(m1);
-		
-		main m2 = new main();
-		m2.setCompany("中通");
-		m2.setFormNum("1234567895");
-		m2.setState("未接收");//
-		Constants.list_form_m1.add(m2);
-		
-		this.list = Constants.list_form_m1;
+		this.list = list;
 		inflater = LayoutInflater.from(context);
+		
+		System.out.println(this.list.size()+"m1");
 	}
 
 	@Override
 	public int getCount() {
 		// TODO Auto-generated method stub
-		return list.size();
+		if(Constants.list_form_m1 != null){
+			return list.size();
+		}else{
+			return 0;
+		}
+		
 	}
 
 	@Override
@@ -75,9 +69,17 @@ public class formListViewAdp_m1 extends BaseAdapter {
 		TextView tv = (TextView)convertView.findViewById(R.id.tv_userlv_m1_company);
 		TextView tv1 = (TextView)convertView.findViewById(R.id.tv_userlv_m1_formId);
 		TextView tv2 = (TextView)convertView.findViewById(R.id.tv_userlv_m1_state);
-		if (list != null || list.size()>0) {
-			tv.setText(list.get(position).getCompany().toString());
-			tv1.setText(list.get(position).getFormNum().toString());
+		if (list != null && list.size()>0) {
+			if(list.get(position).getCompany() != null && !TextUtils.isEmpty(list.get(position).getCompany().toString())){
+				tv.setText(list.get(position).getCompany().toString());
+			}else{
+				tv.setText("等待接收");
+			}
+			if(list.get(position).getFormNum() != null &&!TextUtils.isEmpty(list.get(position).getFormNum())){
+				tv1.setText(list.get(position).getFormNum().toString());
+			}else{
+				tv1.setText(list.get(position).getTime());
+			}
 			tv2.setText(list.get(position).getState().toString());
 		}
 		

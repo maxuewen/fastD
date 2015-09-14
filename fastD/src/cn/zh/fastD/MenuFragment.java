@@ -1,6 +1,8 @@
 package cn.zh.fastD;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.content.SharedPreferences.Editor;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -12,6 +14,7 @@ import android.widget.RelativeLayout;
 public class MenuFragment extends Fragment implements OnClickListener {
 
 	View view;
+	SharedPreferences sh;
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -22,6 +25,9 @@ public class MenuFragment extends Fragment implements OnClickListener {
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		// TODO Auto-generated method stub
+		
+		sh = getActivity().getSharedPreferences("fastD", 0x8000);
+		
 		super.onCreate(savedInstanceState);
 
 		this.view = getActivity().getLayoutInflater().inflate(
@@ -57,7 +63,9 @@ public class MenuFragment extends Fragment implements OnClickListener {
 			break;
 
 		case R.id.menu_4:
-
+			Intent a = new Intent(getActivity(),LoginActivity.class);
+			a.putExtra("islogin", "login_false");
+			startActivity(a);
 			break;
 
 		}

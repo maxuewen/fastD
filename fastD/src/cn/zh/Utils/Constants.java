@@ -60,6 +60,7 @@ public class Constants {
 	public static String get_fast= "get_fast";
 	public static String add_fast = "addfast";
 	public static String set_fast_position = "set_fast_position";
+	public static String alert_fast_ad = "alert_fast_add";
 	
 	//关于form的
 	public static String formState_unfinish = "未接收";
@@ -72,6 +73,8 @@ public class Constants {
 	public static String getFormByFastId = "getFormByFastId";
 	public static String addform = "addform";
 	public static String alertForm = "alertForm";
+	public static String getMyReceiptForm = "getMyReceiptForm";
+	public static String getFormCanreceipt = "getFormCanreceipt";
 	
 	//关于user的
 	public static String e_userPhone_exist = "user_phone_exist";
@@ -79,20 +82,25 @@ public class Constants {
 	public static String get_user = "get_user";
 	public static String add_user = "add_user";
 	public static String set_user_position = "set_user_position";
+	public static String alert_User_ad = "alert_user_add";
+	public static String alertPasswrod = "alertPasswrod";
 	
 	public static String ok = "ok";
 	public static String f = "file";
 	public static String get_user_ad = "getuserad";
 	
 	
-	public static List list_form_m1 = new ArrayList<main>();
-	public static List list_form_m3 = new ArrayList<main>();
-	public static List list_form_m2 = new ArrayList<user_Ad>();
+	public static List<main> list_form_m1 ;
+	public static List<user_Ad> list_form_m2 ;
+	public static List<main> list_form_m3 ;
 	
-	public static double user_lat;
-	public static double user_lng;
+	public static double user_lat = 39.90403;
+	public static double user_lng = 116.407525;
 	
-	public static double fast_lat;
-	public static double fast_lng;
+	public static double fast_lat = 39.90403;
+	public static double fast_lng = 116.407525;
+	
+	
+	public static Boolean isStartSerivice = false;
 
 }

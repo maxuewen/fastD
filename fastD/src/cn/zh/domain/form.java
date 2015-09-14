@@ -13,10 +13,10 @@ public class form {
 	private String state;
 	private String fast_id;
 	private String mark;
+	private String shipAd;
 	
 	public form(){}
-	
-	
+
 	@Override
 	public String toString() {
 		return "form [user_id=" + user_id + ", formNum=" + formNum
@@ -24,12 +24,117 @@ public class form {
 				+ ", recieptName=" + recieptName + ", shipPhone=" + shipPhone
 				+ ", poi_x=" + poi_x + ", poi_y=" + poi_y + ", time=" + time
 				+ ", state=" + state + ", fast_id=" + fast_id + ", mark="
-				+ mark + "]";
+				+ mark + ", shipAd=" + shipAd + "]";
 	}
+
+	public String getUser_id() {
+		return user_id;
+	}
+
+	public void setUser_id(String user_id) {
+		this.user_id = user_id;
+	}
+
+	public String getFormNum() {
+		return formNum;
+	}
+
+	public void setFormNum(String formNum) {
+		this.formNum = formNum;
+	}
+
+	public String getRiceiptAd() {
+		return riceiptAd;
+	}
+
+	public void setRiceiptAd(String riceiptAd) {
+		this.riceiptAd = riceiptAd;
+	}
+
+	public String getReceiptPhone() {
+		return receiptPhone;
+	}
+
+	public void setReceiptPhone(String receiptPhone) {
+		this.receiptPhone = receiptPhone;
+	}
+
+	public String getRecieptName() {
+		return recieptName;
+	}
+
+	public void setRecieptName(String recieptName) {
+		this.recieptName = recieptName;
+	}
+
+	public String getShipPhone() {
+		return shipPhone;
+	}
+
+	public void setShipPhone(String shipPhone) {
+		this.shipPhone = shipPhone;
+	}
+
+	public double getPoi_x() {
+		return poi_x;
+	}
+
+	public void setPoi_x(double poi_x) {
+		this.poi_x = poi_x;
+	}
+
+	public double getPoi_y() {
+		return poi_y;
+	}
+
+	public void setPoi_y(double poi_y) {
+		this.poi_y = poi_y;
+	}
+
+	public String getTime() {
+		return time;
+	}
+
+	public void setTime(String time) {
+		this.time = time;
+	}
+
+	public String getState() {
+		return state;
+	}
+
+	public void setState(String state) {
+		this.state = state;
+	}
+
+	public String getFast_id() {
+		return fast_id;
+	}
+
+	public void setFast_id(String fast_id) {
+		this.fast_id = fast_id;
+	}
+
+	public String getMark() {
+		return mark;
+	}
+
+	public void setMark(String mark) {
+		this.mark = mark;
+	}
+
+	public String getShipAd() {
+		return shipAd;
+	}
+
+	public void setShipAd(String shipAd) {
+		this.shipAd = shipAd;
+	}
+
 	public form(String user_id, String formNum, String riceiptAd,
 			String receiptPhone, String recieptName, String shipPhone,
 			double poi_x, double poi_y, String time, String state,
-			String fast_id, String mark) {
+			String fast_id, String mark, String shipAd) {
 		super();
 		this.user_id = user_id;
 		this.formNum = formNum;
@@ -43,78 +148,10 @@ public class form {
 		this.state = state;
 		this.fast_id = fast_id;
 		this.mark = mark;
+		this.shipAd = shipAd;
 	}
-	public String getRecieptName() {
-		return recieptName;
-	}
-	public void setRecieptName(String recieptName) {
-		this.recieptName = recieptName;
-	}
-	public String getUser_id() {
-		return user_id;
-	}
-	public void setUser_id(String user_id) {
-		this.user_id = user_id;
-	}
-	public String getFormNum() {
-		return formNum;
-	}
-	public void setFormNum(String formNum) {
-		this.formNum = formNum;
-	}
-	public String getRiceiptAd() {
-		return riceiptAd;
-	}
-	public void setRiceiptAd(String riceiptAd) {
-		this.riceiptAd = riceiptAd;
-	}
-	public String getReceiptPhone() {
-		return receiptPhone;
-	}
-	public void setReceiptPhone(String receiptPhone) {
-		this.receiptPhone = receiptPhone;
-	}
-	public String getShipPhone() {
-		return shipPhone;
-	}
-	public void setShipPhone(String shipPhone) {
-		this.shipPhone = shipPhone;
-	}
-	public double getPoi_x() {
-		return poi_x;
-	}
-	public void setPoi_x(double poi_x) {
-		this.poi_x = poi_x;
-	}
-	public double getPoi_y() {
-		return poi_y;
-	}
-	public void setPoi_y(double poi_y) {
-		this.poi_y = poi_y;
-	}
-	public String getTime() {
-		return time;
-	}
-	public void setTime(String time) {
-		this.time = time;
-	}
-	public String getState() {
-		return state;
-	}
-	public void setState(String state) {
-		this.state = state;
-	}
-	public String getFast_id() {
-		return fast_id;
-	}
-	public void setFast_id(String fast_id) {
-		this.fast_id = fast_id;
-	}
-	public String getMark() {
-		return mark;
-	}
-	public void setMark(String mark) {
-		this.mark = mark;
-	}
+	
+	
+	
 	
 }

@@ -1,5 +1,6 @@
 package cn.zh.adapter;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import cn.zh.Utils.Constants;
@@ -19,34 +20,19 @@ public class receiptAdpter extends BaseAdapter {
 	private List<user_Ad> list;
 	LayoutInflater inflater;
 	
-	
-	
+	public void setList(List<user_Ad> list) {
 
-	public receiptAdpter(Context context) {
+		this.list = list;
+	}
+	
+	public void clean(){
+		this.list.clear();
+	}
+
+	public receiptAdpter(Context context,List<user_Ad> list) {
 		super();
-		user_Ad m = new user_Ad();
-		m.setName("站三");
-		m.setPhone("15822858570");
-		m.setReceiptAd_1("天津 西青 盐和刘庆");
-		m.setReceiptAd_2("柳口路杨柳青正，中环信息学院，柳口路99好");
-		Constants.list_form_m2.add(m);
 		
-		user_Ad m1 = new user_Ad();
-		m1.setName("站三");
-		m1.setPhone("15822858570");
-		m1.setReceiptAd_1("天津 西青 盐和刘庆");
-		m1.setReceiptAd_2("柳口路杨柳青正，中环信息学院，柳口路99好");
-		Constants.list_form_m2.add(m1);
-		
-		user_Ad m2 = new user_Ad();
-		m2.setName("站三");
-		m2.setPhone("15822858570");
-		m2.setReceiptAd_1("天津 西青 盐和刘庆");
-		m2.setReceiptAd_2("柳口路杨柳青正，中环信息学院，柳口路99好");
-		Constants.list_form_m2.add(m2);
-		
-		
-		this.list = Constants.list_form_m2;
+		this.list = list;
 		inflater = LayoutInflater.from(context);
 	}
 
@@ -56,7 +42,8 @@ public class receiptAdpter extends BaseAdapter {
 	@Override
 	public int getCount() {
 		// TODO Auto-generated method stub
-		return list.size();
+			return list.size();
+		
 	}
 
 	@Override
@@ -79,7 +66,7 @@ public class receiptAdpter extends BaseAdapter {
 		}
 		TextView tv = (TextView)convertView.findViewById(R.id.tv_receiptAd_name);
 		TextView tv2 = (TextView)convertView.findViewById(R.id.tv_receiptAd_ad);
-		if (list != null || list.size()>0) {
+		if (list != null && list.size()>0) {
 			tv.setText(list.get(position).getName());
 			tv2.setText(list.get(position).getReceiptAd_2().toString());
 		}

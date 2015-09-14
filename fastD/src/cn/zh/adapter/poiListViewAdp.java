@@ -22,16 +22,6 @@ public class poiListViewAdp extends BaseAdapter {
 	LayoutInflater inflater;
 	
 	public void setList(List<poiPoint> list) {
-		
-//		for (int i = 0; i < list.size(); i++) {
-//			this.list.add(list.get(i));
-//		}
-//		for (int i = 0; i < this.list.size(); i++) {
-//			for (int j = 0; j < list.size(); j++,i++) {
-//				this.list.set(i, list.get(i));
-//			}
-//			this.list.set(i, null);
-//		}
 		this.list = list;
 	}
 

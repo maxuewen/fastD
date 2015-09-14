@@ -1,5 +1,6 @@
 package cn.zh.adapter;
 
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -23,34 +24,29 @@ public class user_m3_ListViewAdp extends BaseAdapter {
 		this.list = list;
 	}
 
-	public user_m3_ListViewAdp(Context context) {
+	
+	public void clean(){
+		this.list.clear();
+	}
+	
+	public user_m3_ListViewAdp(Context context,List<main> list) {
 		super();
-		main m = new main();
-		m.setUser_name("张三");
-		m.setUser_phone("15822858570");
-		m.setTime(String.valueOf(System.currentTimeMillis()));
-		Constants.list_form_m3.add(m);
+		this.list = list;
+//		this.list = Constants.list_form_m3;
 		
-		main m1 = new main();
-		m1.setUser_name("张三");
-		m1.setUser_phone("15822858570");
-		m1.setTime(String.valueOf(System.currentTimeMillis()));
-		Constants.list_form_m3.add(m1);
-		
-		main m2 = new main();
-		m2.setUser_name("张三");
-		m2.setUser_phone("15822858570");
-		m2.setTime(String.valueOf(System.currentTimeMillis()));
-		Constants.list_form_m3.add(m2);
-		
-		this.list = Constants.list_form_m3;
 		inflater = LayoutInflater.from(context);
+		
+		System.out.println(this.list.size()+"m3");
 	}
 
 	@Override
 	public int getCount() {
 		// TODO Auto-generated method stub
-		return list.size();
+		if(this.list != null){
+			return list.size();
+		}else{
+			return 0;
+		}
 	}
 
 	@Override
@@ -75,10 +71,12 @@ public class user_m3_ListViewAdp extends BaseAdapter {
 		TextView tv = (TextView)convertView.findViewById(R.id.tv_m3_name);
 		TextView tv1 = (TextView)convertView.findViewById(R.id.tv_m3_phone);
 		TextView tv2 = (TextView)convertView.findViewById(R.id.tv_m3_time);
-		if (list != null || list.size()>0) {
+		if (list != null && list.size()>0) {
 			tv.setText(list.get(position).getUser_name().toString());
 			tv1.setText(list.get(position).getUser_phone().toString());
 			tv2.setText(list.get(position).getTime().toString());
+			
+			
 		}
 		
 		return convertView;
