@@ -2,6 +2,7 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="#C9C9C9"
      >
 
     <LinearLayout 
@@ -12,14 +13,15 @@
     <cn.zh.Utils.NoTouchViewPager
         android:id="@+id/vp_main"
         android:layout_weight="10"
-        android:background="#000"
+        android:background="#fff"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
 
     <RadioGroup
+        android:id="@+id/RadioGroup"
+        android:layout_marginTop="0.1dp"
         android:layout_weight="0.1"
-        android:background="#0ff"
-        android:id="@id/main_radio"
+        android:background="#fff"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom"
@@ -29,19 +31,19 @@
         <RadioButton
             android:id="@id/radio_button1"
             style="@style/tab_but_1"
-            android:drawableTop="@drawable/icon_1_d"
+            android:drawableTop="@drawable/home1"
             android:text="我的" />
 
         <RadioButton
             android:id="@id/radio_button2"
             style="@style/tab_but_1"
-            android:drawableTop="@drawable/icon_2_d"
+            android:drawableTop="@drawable/ship1"
             android:text="寄件" />
 
         <RadioButton
             android:id="@id/radio_button3"
             style="@style/tab_but_1"
-            android:drawableTop="@drawable/icon_3_d"
+            android:drawableTop="@drawable/receipt1"
             android:text="收件" />
 
     </RadioGroup>

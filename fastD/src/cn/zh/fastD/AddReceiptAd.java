@@ -6,7 +6,12 @@ import java.util.List;
 import kankan.wheel.widget.OnWheelChangedListener;
 import kankan.wheel.widget.WheelView;
 import kankan.wheel.widget.adapters.ArrayWheelAdapter;
+
+import org.apache.http.Header;
+
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.content.SharedPreferences.Editor;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
@@ -15,16 +20,21 @@ import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
-import android.widget.Toast;
-
 import cn.pedant.SweetAlert.SweetAlertDialog;
 import cn.zh.Utils.ActionBarUtils;
 import cn.zh.Utils.Constants;
+import cn.zh.Utils.HttpUtils;
+import cn.zh.Utils.NetUtils;
 import cn.zh.Utils.NoTouchViewPager;
 import cn.zh.Utils.ViewPagerScroller;
 import cn.zh.adapter.viewPagerAdapter;
 import cn.zh.domain.user_Ad;
 
+import com.amap.api.mapcore2d.ed;
+import com.google.gson.Gson;
+import com.loopj.android.http.AsyncHttpClient;
+import com.loopj.android.http.AsyncHttpResponseHandler;
+import com.loopj.android.http.RequestParams;
 import com.mrwujay.cascade.activity.BaseActivity;
 
 public class AddReceiptAd extends BaseActivity implements OnClickListener, OnWheelChangedListener {
@@ -38,6 +48,7 @@ public class AddReceiptAd extends BaseActivity implements OnClickListener, OnWhe
 	private EditText et_name;
 	private EditText et_phone;
 	private EditText et_AdData;
+	private Button but_register;
 	
 
 	@Override
@@ -67,7 +78,8 @@ public class AddReceiptAd extends BaseActivity implements OnClickListener, OnWhe
 		et_name = (EditText)v2.findViewById(R.id.r_name);
 		et_phone = (EditText)v2.findViewById(R.id.r_phone);
 		et_AdData = (EditText)v2.findViewById(R.id.r_AdData);
-		((Button)v2.findViewById(R.id.but_Adregister)).setOnClickListener(this);
+		but_register = ((Button)v2.findViewById(R.id.but_Adregister));
+		but_register.setOnClickListener(this);
 		
 		
 		vp_main.setAdapter(new viewPagerAdapter(this, list));
@@ -156,11 +168,9 @@ public class AddReceiptAd extends BaseActivity implements OnClickListener, OnWhe
 			
 			switch(v.getId()){
 			case R.id.btn_confirm:
-				
-				
 				vp_main.setCurrentItem(1);
-				
 				break;
+				
 				
 			case R.id.back:
 				if(vp_main.getCurrentItem() == 0){
@@ -169,6 +179,8 @@ public class AddReceiptAd extends BaseActivity implements OnClickListener, OnWhe
 				}else{
 					vp_main.setCurrentItem(0);
 				}
+				break;
+				
 				
 			case R.id.but_Adregister:
 				String name = et_name.getText().toString();
@@ -195,14 +207,77 @@ public class AddReceiptAd extends BaseActivity implements OnClickListener, OnWhe
 				}
 				
 //				========================================提交地址，===========================
-				user_Ad u = new user_Ad(/*user_id*/null, showSelectedResult(), AdDate, name, phone);
+				SharedPreferences sh = getSharedPreferences("fastD", MODE_PRIVATE);
+				user_Ad u = new user_Ad(sh.getString("userId", null), showSelectedResult(), AdDate, name, phone);
 				
+				
+				RequestParams map = new RequestParams();
+				map.put("method", Constants.add_userAd);
+				map.put("param", new Gson().toJson(u));
+				
+				AsyncHttpClient client = new AsyncHttpClient();
+				client.post(HttpUtils.url+"userServlet", map, new AsyncHttpResponseHandler(){
+					@Override
+					public void onFailure(int arg0, Header[] arg1, byte[] arg2,
+							Throwable arg3) {
+						if(!NetUtils.isNetworkAvailable(AddReceiptAd.this)){
+							show("网络错误");
+						}else{
+							show(new String(arg2));
+//							show("服务器错误");
+						}
+					}
+					@Override
+					public void onStart() {
+						// TODO Auto-generated method stub
+						super.onStart();
+						but_register.setClickable(false);
+					}
+					@Override
+					public void onSuccess(int statusCode, Header[] arg1, byte[] responseBody) {
+						if (statusCode == 200) {
+							Gson j = new Gson();
+							if(j.fromJson(new String(responseBody), String.class).equals(Constants.ok)){
+								
+								new SweetAlertDialog(AddReceiptAd.this,SweetAlertDialog.ERROR_TYPE)
+								.setTitleText("注册成功")
+								.setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
+														
+														@Override
+														public void onClick(SweetAlertDialog sweetAlertDialog) {
+															// TODO Auto-generated method stub
+														startActivity(new Intent(AddReceiptAd.this, MainActivity.class));
+														}
+													})
+								.show();
+							}
+							}else{
+								show("注册失败");
+							}
+					}
+				});
 				
 				
 //				========================================提交地址，===========================
 				
 			}
 		
+	}
+	
+	
+	private void show(String str){
+		new SweetAlertDialog(AddReceiptAd.this,SweetAlertDialog.ERROR_TYPE)
+		.setTitleText(str)
+		.setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
+								
+								@Override
+								public void onClick(SweetAlertDialog sweetAlertDialog) {
+									// TODO Auto-generated method stub
+									but_register.setClickable(true);
+									sweetAlertDialog.cancel();
+								}
+							})
+		.show();
 	}
 
 	private String showSelectedResult() {

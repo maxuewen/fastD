@@ -3,32 +3,10 @@ package cn.zh.fastD;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
-import java.util.concurrent.ExecutionException;
 
 import org.apache.http.Header;
 
-import com.amap.api.maps2d.AMap;
-
-import cn.pedant.SweetAlert.SweetAlertDialog;
-import cn.zh.Service.userService;
-import cn.zh.Utils.ActionBarUtils;
-import cn.zh.Utils.Constants;
-import cn.zh.Utils.HttpUtils;
-import cn.zh.Utils.NetUtils;
-import cn.zh.Utils.NoTouchViewPager;
-import cn.zh.Utils.ViewPagerScroller;
-import cn.zh.Utils.myUUID;
-import cn.zh.adapter.formListViewAdp_m1;
-import cn.zh.adapter.receiptAdpter;
-import cn.zh.adapter.user_m3_ListViewAdp;
-import cn.zh.adapter.viewPagerAdapter;
-import cn.zh.domain.form;
-import cn.zh.domain.main;
-import cn.zh.domain.user;
-import cn.zh.domain.user_Ad;
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -43,16 +21,33 @@ import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
+import android.widget.Button;
 import android.widget.CompoundButton;
 import android.widget.CompoundButton.OnCheckedChangeListener;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.RadioButton;
 import android.widget.TextView;
+import cn.pedant.SweetAlert.SweetAlertDialog;
+import cn.zh.Service.fastService;
+import cn.zh.Service.userService;
+import cn.zh.Utils.ActionBarUtils;
+import cn.zh.Utils.Constants;
+import cn.zh.Utils.HttpUtils;
+import cn.zh.Utils.NetUtils;
+import cn.zh.Utils.NoTouchViewPager;
+import cn.zh.Utils.ViewPagerScroller;
+import cn.zh.adapter.formListViewAdp_m1;
+import cn.zh.adapter.receiptAdpter;
+import cn.zh.adapter.user_m3_ListViewAdp;
+import cn.zh.adapter.viewPagerAdapter;
+import cn.zh.domain.form;
+import cn.zh.domain.main;
+import cn.zh.domain.user_Ad;
 
+import com.amap.api.maps2d.AMap;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.jeremyfeinstein.slidingmenu.lib.app.SlidingFragmentActivity;
@@ -106,7 +101,7 @@ public class ContentFragment extends Fragment implements OnItemClickListener,
 	private TextView tv_m5_mark;
 	private TextView tv_m5_Ad;
 
-	private Button but_conmit;
+//	private Button but_conmit;
 	private ListView lv_m3;
 	private user_m3_ListViewAdp user_m3_ListViewAdp;
 
@@ -119,21 +114,43 @@ public class ContentFragment extends Fragment implements OnItemClickListener,
 	user_Ad a; // 主界面第二张上的选择的的itme
 
 	@Override
-	public void onResume() {
-		F5();
-		super.onResume();
-	}
-
-	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
 		return view;
+	}
+	
+	@Override
+	public void onStart() {
+		
+		F5();
+		if(sh.getString("service", "false").equals("false")){
+			getActivity().startService(new Intent(getActivity(),userService.class));
+		}
+		
+		super.onStart();
+	}
+	@Override
+	public void onResume() {
+		// TODO Auto-generated method stub
+		super.onResume();
+	}
+	
+	@Override
+	public void onDestroy() {
+//		Editor edit = sh.edit();
+//		Gson g = new Gson();
+//		edit.putString("user_m1",g.toJson(Constants.list_form_m1));
+//		edit.putString("user_m2",g.toJson(Constants.list_form_m2));
+//		edit.putString("user_m3",g.toJson(Constants.list_form_m3));
+//		edit.commit();
+		
 	}
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 
 		sh = getActivity().getSharedPreferences("fastD", 0x8000);
+		
 		actionBar = ActionBarUtils.setAtionBar(getActivity(),
 				R.layout.fast_register_actionbar);
 		but_back = (ImageButton) actionBar.findViewById(R.id.fr_back);
@@ -147,7 +164,10 @@ public class ContentFragment extends Fragment implements OnItemClickListener,
 		super.onCreate(savedInstanceState);
 		this.view = getActivity().getLayoutInflater().inflate(
 				R.layout.m_layout_content, null);
+		
+		
 		init();
+		
 	}
 
 	private void setBackground_back(int a) {
@@ -206,7 +226,7 @@ public class ContentFragment extends Fragment implements OnItemClickListener,
 
 		// =============================主界面第三张
 		v = inflater.inflate(R.layout.user_m3_receipt, null);
-		iv_noData_m2 = (ImageView) v.findViewById(R.id.iv_user_m3_centent);
+		iv_noData_m2 = (ImageView)v.findViewById(R.id.iv_user_m3_centent);
 		lv_m3 = (ListView) v.findViewById(R.id.lv_user_m3_receipt);
 		user_m3_ListViewAdp = new user_m3_ListViewAdp(getActivity(),
 				list_m3_adp);
@@ -232,8 +252,8 @@ public class ContentFragment extends Fragment implements OnItemClickListener,
 		tv_m5_info = (EditText) v.findViewById(R.id.tv_m5_info);
 		tv_m5_mark = (TextView) v.findViewById(R.id.tv_m5_mark);
 		tv_m5_Ad = (TextView) v.findViewById(R.id.tv_m5_Ad);
-		but_conmit = (Button) v.findViewById(R.id.but_m5_conmit);
-		but_conmit.setOnClickListener(this);
+//		but_conmit = (Button) v.findViewById(R.id.but_m5_conmit);
+//		but_conmit.setOnClickListener(this);
 
 		list.add(v);
 
@@ -254,6 +274,30 @@ public class ContentFragment extends Fragment implements OnItemClickListener,
 
 		setBottomRbut(1); // 设置button1为选中状态
 		cu_rbut = rbut_1;
+		
+		///从本地加载数据
+		List<main> m1 = new Gson().fromJson(sh.getString("user_m1", null), new TypeToken<List<main>>(){}.getType());
+		List<user_Ad> m2 = new Gson().fromJson(sh.getString("user_m2", null), new TypeToken<List<user_Ad>>(){}.getType());
+		List<main> m3 = new Gson().fromJson(sh.getString("user_m3", null), new TypeToken<List<main>>(){}.getType());
+		
+		if(m1 != null){
+			Constants.list_form_m1 = new ArrayList<main>();
+			Constants.list_form_m1.addAll(m1);
+			list_m1_adp.addAll(m1);
+			formLVadp.notifyDataSetChanged();
+		}
+		if(m2!= null){
+			Constants.list_form_m2 = new ArrayList<user_Ad>();
+			Constants.list_form_m2.addAll(m2);
+			list_m2_adp.addAll(m2);
+			recieptAdp.notifyDataSetChanged();
+		} 
+		if(m3!= null){
+			Constants.list_form_m3 = new ArrayList<main>();
+			Constants.list_form_m3.addAll(m3);
+			list_m3_adp.addAll(m3);
+			user_m3_ListViewAdp.notifyDataSetChanged();
+		}
 	}
 
 	@Override
@@ -305,7 +349,6 @@ public class ContentFragment extends Fragment implements OnItemClickListener,
 
 			}
 		}
-
 	}
 
 	private void F5() {
@@ -353,12 +396,20 @@ public class ContentFragment extends Fragment implements OnItemClickListener,
 	}
 
 	private void setBottomRbut(int a) {
-		if (cu_rbut != null)
-			cu_rbut.setTextColor(Color.rgb(108, 108, 108));
-
+		if (cu_rbut != null){
+			cu_rbut.setTextColor(Color.rgb(81, 81, 81));
+			
+			if(cu_rbut == rbut_1){
+				rbut_1.setCompoundDrawablesWithIntrinsicBounds(0, R.drawable.home1, 0, 0);
+			}else if(cu_rbut == rbut_2){
+				rbut_2.setCompoundDrawablesWithIntrinsicBounds(0, R.drawable.ship1, 0, 0);
+			}else{
+				rbut_3.setCompoundDrawablesWithIntrinsicBounds(0, R.drawable.receipt1, 0, 0);
+			}
+		}
 		if (a == 1) {
-			rbut_1.setTextColor(Color.rgb(36, 155, 255));
-
+			rbut_1.setTextColor(getActivity().getResources().getColor(R.color.blue_main));
+			rbut_1.setCompoundDrawablesWithIntrinsicBounds(0, R.drawable.home, 0, 0);
 			setActionBar("我的寄件", "查询");
 			setBackground_back(1);
 
@@ -370,8 +421,8 @@ public class ContentFragment extends Fragment implements OnItemClickListener,
 			}
 
 		} else if (a == 2) {
-			rbut_2.setTextColor(Color.rgb(36, 155, 255));
-
+			rbut_2.setTextColor(getActivity().getResources().getColor(R.color.blue_main));
+			rbut_2.setCompoundDrawablesWithIntrinsicBounds(0, R.drawable.ship, 0, 0);
 			setActionBar("选择收货地址", "添加");
 			setBackground_back(1);
 
@@ -382,7 +433,8 @@ public class ContentFragment extends Fragment implements OnItemClickListener,
 				tv_tip.setVisibility(0x00000004);
 			}
 		} else if (a == 3) {
-			rbut_3.setTextColor(Color.rgb(36, 155, 255));
+			rbut_3.setTextColor(getActivity().getResources().getColor(R.color.blue_main));
+			rbut_3.setCompoundDrawablesWithIntrinsicBounds(0, R.drawable.receipt, 0, 0);
 
 			setActionBar("收件", "");
 			setBackground_back(1);
@@ -399,11 +451,11 @@ public class ContentFragment extends Fragment implements OnItemClickListener,
 	@Override
 	public void onItemClick(AdapterView<?> parent, View view, int position,
 			long id) {
-		main m = (main) Constants.list_form_m1.get(position);
 		// 设置actionbar
 
 		if (parent.getAdapter() == formLVadp
-				&& !m.getState().equals(Constants.formState_unfinish)) {
+				&& !((main) Constants.list_form_m1.get(position)).getState().equals(Constants.formState_unfinish)) {
+			main m = ((main) Constants.list_form_m1.get(position));
 			setActionBar("订单查询", "");
 			setBackground_back(2);
 			vps.setScrollDuration(600);
@@ -425,7 +477,6 @@ public class ContentFragment extends Fragment implements OnItemClickListener,
 		} else if (parent.getAdapter() == recieptAdp) { // 提交订单页面===============================
 			setBackground_back(2);
 			a = (user_Ad) Constants.list_form_m2.get(position);
-
 			tv_m5_info.setText("姓名：" + a.getName() + "\n\n" + "手机号："
 					+ a.getPhone() + "\n\n" + "地址：" + a.getReceiptAd_1()
 					+ "\n\n" + "详细地址：" + a.getReceiptAd_2());
@@ -435,8 +486,7 @@ public class ContentFragment extends Fragment implements OnItemClickListener,
 			vps.setScrollDuration(0);
 			rbut_1.setClickable(false);
 			rbut_3.setClickable(false);
-			setActionBar("寄件", "");
-			setBackground_back(2);
+			setActionBar("寄件", "提交");
 			cu_page = 4;
 
 		} else if (parent.getAdapter() == user_m3_ListViewAdp) {
@@ -452,9 +502,9 @@ public class ContentFragment extends Fragment implements OnItemClickListener,
 			startActivity(in);
 		} else {
 
-			setActionBar("订单查询", "");
-			setBackground_back(2);
-
+//			setActionBar("订单查询", "");
+//			setBackground_back(2);
+			main m = ((main) Constants.list_form_m1.get(position));
 			Intent in = new Intent(getActivity(), user_form_doing.class);
 			in.putExtra("company", m.getCompany());
 			in.putExtra("fastName", m.getFast_name());
@@ -467,8 +517,8 @@ public class ContentFragment extends Fragment implements OnItemClickListener,
 				in.putExtra("y", m.getCu_y());
 			}
 			startActivity(in);
-			rbut_2.setClickable(false);
-			rbut_3.setClickable(false);
+//			rbut_2.setClickable(false);
+//			rbut_3.setClickable(false);
 		}
 
 	}
@@ -513,80 +563,89 @@ public class ContentFragment extends Fragment implements OnItemClickListener,
 				startActivity(new Intent(getActivity(),AddReceiptAd.class));
 			}
 			
-			break;
-		case R.id.but_m5_conmit:		//===================================================寄件提交按钮
-			
-			String mark = tv_m5_mark.getText().toString().trim();
-			String shipAd = tv_m5_Ad.getText().toString().trim();
-			SimpleDateFormat formatter = new SimpleDateFormat("yyyy年MM月dd日");
-			
-			if(TextUtils.isEmpty(shipAd)){
-				show("位置信息不能为空");
-			}else{
-				form f = new form(sh.getString("userId", "asdf"), "", a.getReceiptAd_1()
-						, a.getPhone(), a.getName(), sh.getString("userPhone", ""), Constants.user_lat
-						, Constants.user_lng, formatter.format(new Date()), Constants.formState_unfinish, "",
-						mark,shipAd);
-				
-				Gson j = new Gson();
-				RequestParams map = new RequestParams();
-				map.put("method", j.toJson(Constants.addform));
-				map.put("param", j.toJson(f));
-				AsyncHttpClient client = new AsyncHttpClient();
-				client.post(HttpUtils.url+"formServlet", map, new AsyncHttpResponseHandler(){
-					@Override
-					public void onFailure(int arg0, Header[] arg1, byte[] arg2,
-							Throwable arg3) {
-						
-						if(!NetUtils.isNetworkAvailable(getActivity())){
-							show("网络错误");return;
-						}else{
-							show("服务器错误");return;
-						}
-					}
-					@Override
-					public void onSuccess(int statusCode, Header[] arg1, byte[] responseBody) {
-						if (statusCode == 200) {
-							Gson j = new Gson();
-							String str= j.fromJson(new String(responseBody), String.class);
-							if(!str.equals(Constants.ok)){
-								show("提交失败");return;
-							}else{
-								new SweetAlertDialog(getActivity(), SweetAlertDialog.SUCCESS_TYPE)
-								.setTitleText("提交成功")
-								.setConfirmClickListener(
-										new SweetAlertDialog.OnSweetClickListener() {
-
-											@Override
-											public void onClick(
-													SweetAlertDialog sweetAlertDialog) {
-												// TODO Auto-generated method stub
-												vps.setScrollDuration(600);
-												vp_main.setCurrentItem(1);
-												setActionBar("选择收货地址", "添加");
-												setBackground_back(1);
-												cu_page = 0;
-												rbut_1.setClickable(true);
-												rbut_3.setClickable(true);
-												
-												vps.setScrollDuration(0);
-												sweetAlertDialog.cancel();
-											}
-										}).show();
-							}
-						}else{
-							show("提交失败");return;
-						}
-					}
-				});
+			//提交订单的按钮
+			else if(but_next.getText().equals("提交")){
+				commit_form();
 			}
-
 			
 			break;
+//		case R.id.but_m5_conmit:		//===================================================寄件提交按钮
+//			
+//			
+//			break;
 			
 			
 		}
 		
+		
+	}
+	
+	private void commit_form(){
+		String mark = tv_m5_mark.getText().toString().trim();
+		String shipAd = tv_m5_Ad.getText().toString().trim();
+		SimpleDateFormat formatter = new SimpleDateFormat("yyyy年MM月dd日");
+		
+		if(TextUtils.isEmpty(shipAd)){
+			show("位置信息不能为空");
+		}else{
+			form f = new form(sh.getString("userId", "asdf"), "", a.getReceiptAd_1()
+					, a.getPhone(), a.getName(), sh.getString("userPhone", ""), Constants.user_lat
+					, Constants.user_lng, formatter.format(new Date()), Constants.formState_unfinish, "",
+					mark,shipAd);
+			
+			Gson j = new Gson();
+			RequestParams map = new RequestParams();
+			map.put("method", j.toJson(Constants.addform));
+			map.put("param", j.toJson(f));
+			AsyncHttpClient client = new AsyncHttpClient();
+			client.post(HttpUtils.url+"formServlet", map, new AsyncHttpResponseHandler(){
+				@Override
+				public void onFailure(int arg0, Header[] arg1, byte[] arg2,
+						Throwable arg3) {
+					
+					if(!NetUtils.isNetworkAvailable(getActivity())){
+						show("网络错误");return;
+					}else{
+						show("服务器错误");return;
+					}
+				}
+				@Override
+				public void onSuccess(int statusCode, Header[] arg1, byte[] responseBody) {
+					if (statusCode == 200) {
+						Gson j = new Gson();
+						String str= j.fromJson(new String(responseBody), String.class);
+						if(!str.equals(Constants.ok)){
+							show("提交失败");return;
+						}else{
+							new SweetAlertDialog(getActivity(), SweetAlertDialog.SUCCESS_TYPE)
+							.setTitleText("提交成功")
+							.setConfirmClickListener(
+									new SweetAlertDialog.OnSweetClickListener() {
+
+										@Override
+										public void onClick(
+												SweetAlertDialog sweetAlertDialog) {
+											// TODO Auto-generated method stub
+											vps.setScrollDuration(600);
+											vp_main.setCurrentItem(1);
+											setActionBar("选择收货地址", "添加");
+											setBackground_back(1);
+											cu_page = 0;
+											rbut_1.setClickable(true);
+											rbut_3.setClickable(true);
+											
+											vps.setScrollDuration(0);
+											sweetAlertDialog.cancel();
+										}
+									}).show();
+						}
+					}else{
+						show("提交失败");return;
+					}
+				}
+			});
+		}
+
 		
 	}
 	
@@ -610,15 +669,5 @@ public class ContentFragment extends Fragment implements OnItemClickListener,
 		}
 		return c;
 	}
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
 
 }

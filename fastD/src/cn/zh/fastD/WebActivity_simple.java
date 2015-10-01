@@ -20,6 +20,7 @@ public class WebActivity_simple extends Activity implements OnClickListener{
 	private WebView webView;
 	private View actionBar;
 	private ImageButton but_back;
+	private String method = null;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -35,6 +36,8 @@ public class WebActivity_simple extends Activity implements OnClickListener{
 		((TextView) actionBar.findViewById(R.id.fr_register_titleBar)).setText("订单查询");
 		
 		Intent in = getIntent();
+		//in.putExtra("method", "FastActivity");
+		this.method = in.getStringExtra("method");
 		String url = in.getStringExtra("url");
 		
 		webView = (WebView)findViewById(R.id.webView_simple);
@@ -52,11 +55,19 @@ public class WebActivity_simple extends Activity implements OnClickListener{
             return true;
         }}
 
-
 	@Override
 	public void onClick(View v) {
-		startActivity(new Intent(WebActivity_simple.this,MainActivity.class));
-		WebActivity_simple.this.finish();
+		
+		if("FastActivity".equals(this.method)){
+			startActivity(new Intent(WebActivity_simple.this,FastActivity.class));
+			WebActivity_simple.this.finish();
+		}else{
+			startActivity(new Intent(WebActivity_simple.this,MainActivity.class));
+			WebActivity_simple.this.finish();
+		}
+		
+		
+		
 		
 	}
 

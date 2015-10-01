@@ -170,7 +170,7 @@ public class Fastr_register_Activity extends Activity implements OnMapClickListe
                     //提交验证码成功
                     //========================================================================进入下一张页面
                 	
-                	if(isExit == true){
+                	if(isExit == false){
                 		vp.setCurrentItem(1);
                 		setActionBar("登录", "注册", "下一步");
                 	}else{

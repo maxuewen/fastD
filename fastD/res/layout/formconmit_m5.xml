@@ -47,6 +47,8 @@
         android:textColorHint="@color/textColorHint"
         android:textSize="17sp" />
 	
+	<!-- 提交按钮
+	
 	<Button
         android:id="@+id/but_m5_conmit"
         android:layout_width="match_parent"
@@ -57,5 +59,8 @@
         android:layout_marginRight="@dimen/long_but_marginLR"
         android:background="@drawable/but_login_selector"
         android:text="@string/tijiao" />
+        
+        
+         -->
 	
 </RelativeLayout>

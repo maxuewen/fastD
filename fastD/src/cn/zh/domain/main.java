@@ -18,8 +18,24 @@ public class main {
 	
 	private String recieptName;		//收货人的姓名
 	private String receiptPhone;
+	private String shipAd;
 	
 	
+	
+	public main(String str1,String str2,String str3){
+		this.user_name = str1;
+		this.time = str2;
+		this.state = str3;
+	}
+	
+	public String getShipAd() {
+		return shipAd;
+	}
+
+	public void setShipAd(String shipAd) {
+		this.shipAd = shipAd;
+	}
+
 	public String getReceiptPhone() {
 		return receiptPhone;
 	}
@@ -42,6 +58,7 @@ public class main {
 		this.time = form.getTime();
 		this.state = form.getState();
 		this.mark = form.getMark();
+		this.shipAd = form.getShipAd();
 	}
 	
 	public main(user user , form form){
@@ -53,6 +70,7 @@ public class main {
 		this.time = form.getTime();
 		this.state = form.getState();
 		this.mark = form.getMark();
+		this.shipAd = form.getShipAd();
 	}
 	
 	public main(user user , form form , fast fast){
@@ -72,6 +90,9 @@ public class main {
 		this.company = fast.getCompany();
 		this.cu_x = fast.getCu_x();
 		this.cu_y = fast.getCu_y();
+		
+		
+		this.shipAd = form.getShipAd();
 	}
 	public main(){
 		
@@ -159,8 +180,10 @@ public class main {
 				+ ", company=" + company + ", cu_x=" + cu_x + ", cu_y=" + cu_y
 				+ ", user_phone=" + user_phone + ", user_name=" + user_name
 				+ ", recieptName=" + recieptName + ", receiptPhone="
-				+ receiptPhone + "]";
+				+ receiptPhone + ", shipAd=" + shipAd + "]";
 	}
+
+
 	
 	
 	

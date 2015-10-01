@@ -34,7 +34,7 @@
 		android:selectAllOnFocus="true"
 		android:textColorHint="@color/textColorHint"
 		android:paddingBottom="5dp"
-		android:paddingLeft="5dp"
+		android:paddingLeft="10dp"
 		android:inputType="phone"
         />
         
@@ -54,7 +54,7 @@
 		android:textColorHint="@color/textColorHint"
 		android:inputType="textPassword"
 		android:layout_marginTop="20dp"
-		android:paddingBottom="5dp"
+		android:paddingBottom="10dp"
 		android:paddingLeft="5dp"
         />
         

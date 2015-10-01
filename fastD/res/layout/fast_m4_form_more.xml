@@ -1,0 +1,210 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent" >
+    
+    <!-- 名字 -->
+    <RelativeLayout 
+        android:id="@+id/form_m4_name_ship"
+        android:layout_marginTop="49dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <TextView android:id="@+id/m4_name_ship"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/paddingLeft"
+            android:textSize="17sp"
+            android:paddingTop="10dp"
+            android:paddingBottom="10dp"
+            android:textColor="#2C2929"
+            android:text="名字："/>
+        
+        <TextView android:id="@+id/m4_name_ship_"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@id/m4_name_ship"
+            android:layout_marginLeft="10dp"
+            android:textSize="17sp"
+            android:layout_centerVertical="true"/>
+    </RelativeLayout>
+    
+    <!-- 订单号 -->
+    <RelativeLayout 
+        android:id="@+id/form_m4_formNum"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/form_m4_name_ship"
+        android:background="#F5F5F5">
+        <TextView android:id="@+id/m4_formNum"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/paddingLeft"
+            android:textSize="17sp"
+            android:paddingTop="10dp"
+            android:paddingBottom="10dp"
+            android:textColor="#2C2929"
+            android:text="订单号："/>
+        
+        <TextView android:id="@+id/m4_formNum_"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@id/m4_formNum"
+            android:layout_marginLeft="10dp"
+            android:textSize="17sp"
+            android:layout_centerVertical="true"/>
+    </RelativeLayout>
+    
+       <!-- 手机号 -->
+    <RelativeLayout 
+        android:id="@+id/form_m4_shipPhone"
+        android:layout_below="@id/form_m4_formNum"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <TextView android:id="@+id/m4_shipPhone"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingTop="8dp"
+            android:paddingBottom="8dp"
+            android:textColor="#2C2929"
+            android:layout_marginLeft="@dimen/paddingLeft"
+            android:textSize="17sp"
+            android:text="手机号："/>
+        <TextView android:id="@+id/m4_shipPhone_"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@id/m4_shipPhone"
+            android:layout_alignBaseline="@id/m4_shipPhone"
+            android:textSize="17sp"/>
+    </RelativeLayout>
+    
+    
+    <!-- 收货人名字 -->
+    <RelativeLayout 
+        android:id="@+id/form_m4_mame_receipt"
+        android:layout_below="@id/form_m4_shipPhone"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="#F5F5F5">
+        <TextView android:id="@+id/m4_name_receipt"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingTop="8dp"
+            android:paddingBottom="8dp"
+            android:textColor="#2C2929"
+            android:layout_marginLeft="@dimen/paddingLeft"
+            android:textSize="17sp"
+            android:text="收货人名字："/>
+        <TextView android:id="@+id/m4_name_receipt_"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@id/m4_name_receipt"
+            android:layout_alignBaseline="@id/m4_name_receipt"
+            android:textSize="17sp"/>
+    </RelativeLayout>
+    
+    
+    
+    <!-- 收货人电话-->
+    <RelativeLayout 
+        android:id="@+id/form_m4_receiptPhone"
+        android:layout_below="@id/form_m4_mame_receipt"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <TextView android:id="@+id/m4_receipt_phone"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingTop="8dp"
+            android:paddingBottom="8dp"
+            android:textColor="#2C2929"
+            android:layout_marginLeft="@dimen/paddingLeft"
+            android:textSize="17sp"
+            android:text="收货人电话："/>
+        <TextView android:id="@+id/m4_receipt_phone_"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@id/m4_receipt_phone"
+            android:layout_alignBaseline="@id/m4_receipt_phone"
+            android:textSize="17sp"/>
+    </RelativeLayout>
+    
+    
+    <!-- 发货地址-->
+    <RelativeLayout 
+        android:id="@+id/form_m4_shipAd"
+        android:layout_below="@id/form_m4_receiptPhone"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="#F5F5F5">
+        <TextView android:id="@+id/m4_shipAd"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingTop="8dp"
+            android:paddingBottom="8dp"
+            android:textColor="#2C2929"
+            android:layout_marginLeft="@dimen/paddingLeft"
+            android:textSize="17sp"
+            android:text="发货地址："/>
+        <TextView android:id="@+id/m4_shipAd_"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@id/m4_shipAd"
+            android:layout_alignBaseline="@id/m4_shipAd"
+            android:textSize="17sp"/>
+    </RelativeLayout>
+    
+    <!-- 收货地址-->
+    <RelativeLayout 
+        android:id="@+id/form_m4_receiptAd"
+        android:layout_below="@id/form_m4_shipAd"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        >
+        <TextView android:id="@+id/m4_receiptAd"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingTop="8dp"
+            android:paddingBottom="8dp"
+            android:textColor="#2C2929"
+            android:layout_marginLeft="@dimen/paddingLeft"
+            android:textSize="17sp"
+            android:text="收货地址："/>
+        <TextView android:id="@+id/m4_receiptAd_"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@id/m4_receiptAd"
+            android:layout_alignBaseline="@id/m4_receiptAd"
+            android:textSize="17sp"/>
+    </RelativeLayout>
+    
+     <!-- 时间-->
+    <RelativeLayout 
+        android:id="@+id/form_m4_time"
+        android:layout_below="@id/form_m4_receiptAd"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="#F5F5F5">
+        <TextView android:id="@+id/m4_time"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingTop="8dp"
+            android:paddingBottom="8dp"
+            android:textColor="#2C2929"
+            android:layout_marginLeft="@dimen/paddingLeft"
+            android:textSize="17sp"
+            android:minLines="2"
+            android:text="时间："/>
+        <TextView android:id="@+id/m4_time_"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@id/m4_time"
+            android:layout_alignBaseline="@id/m4_time"
+            android:minLines="2"
+            android:textSize="17sp"/>
+    </RelativeLayout>
+    
+    
+    
+    
+    
+
+</RelativeLayout>

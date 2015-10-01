@@ -29,13 +29,9 @@ public class formListViewAdp_m1 extends BaseAdapter {
 
 	public formListViewAdp_m1(Context context,List<main> list) {
 		super();
-		
 		this.list = list;
 		inflater = LayoutInflater.from(context);
-		
-		System.out.println(this.list.size()+"m1");
 	}
-
 	@Override
 	public int getCount() {
 		// TODO Auto-generated method stub
@@ -44,7 +40,6 @@ public class formListViewAdp_m1 extends BaseAdapter {
 		}else{
 			return 0;
 		}
-		
 	}
 
 	@Override
@@ -82,7 +77,6 @@ public class formListViewAdp_m1 extends BaseAdapter {
 			}
 			tv2.setText(list.get(position).getState().toString());
 		}
-		
 		return convertView;
 	}
 

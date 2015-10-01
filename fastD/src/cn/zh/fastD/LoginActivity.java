@@ -11,7 +11,6 @@ import java.util.regex.Pattern;
 import org.apache.http.Header;
 
 import cn.pedant.SweetAlert.SweetAlertDialog;
-import cn.zh.Service.userService;
 import cn.zh.Utils.ActionProcessButton;
 import cn.zh.Utils.ActionProcessButton.Mode;
 import cn.zh.Utils.Constants;
@@ -19,6 +18,7 @@ import cn.zh.Utils.HttpUtils;
 import cn.zh.Utils.NetUtils;
 import cn.zh.Utils.ViewPagerScroller;
 import cn.zh.adapter.viewPagerAdapter;
+import cn.zh.domain.fast;
 import cn.zh.domain.main;
 import cn.zh.domain.user;
 import cn.zh.domain.user_Ad;
@@ -71,7 +71,6 @@ public class LoginActivity extends Activity implements OnClickListener,
 		
 			
 		
-			String str = getIntent().getStringExtra("method");
 			SharedPreferences sh = getSharedPreferences("fastD", MODE_APPEND);
 			String s = getIntent().getStringExtra("islogin");
 			
@@ -81,12 +80,13 @@ public class LoginActivity extends Activity implements OnClickListener,
 				edit.commit(); 
 			}
 			
-			
-			if(cu_page == 0 && sh.getString("userLogin", "false").equals("true") &&!"MainActivity".equals(str)){
+			String str = getIntent().getStringExtra("method");
+			if(sh.getString("userLogin", "false").equals("true") &&!"MainActivity".equals(str)){
 				startActivity(new Intent(this,MainActivity.class));
 				this.finish();
-			}else if(sh.getString("fastLogin", "false").equals("true")){
-				
+			}else if( sh.getString("fastLogin", "false").equals("true") && !"FastActivity".equals(str)){
+				startActivity(new Intent(this,FastActivity.class));
+				this.finish();
 			}
 		
 		super.onCreate(savedInstanceState);
@@ -207,8 +207,6 @@ public class LoginActivity extends Activity implements OnClickListener,
 				.setTitleText("提示")
 				.setContentText("手机号长度不正确")
 				.show();
-				
-				
 				return false;
 			}else{
 				Pattern compile = Pattern.compile("^[1]([3][0-9]{1}|59|58|88|89)[0-9]{8}$");
@@ -254,8 +252,17 @@ public class LoginActivity extends Activity implements OnClickListener,
 	}
 	
 	private void user_login() {
+		
+		
 		final String userName = username.getText().toString().trim();
 		final String password = user_passwrod.getText().toString().trim();
+		//==============================================本地账号
+		if(userName.equals("0") && password.equals("0")){
+			startActivity(new Intent(LoginActivity.this,MainActivity.class));
+			LoginActivity.this.finish();
+			return;
+		}
+		//==============================================本地账号		
 		
 		if(login_pro(userName,password)){
 			RequestParams map = new RequestParams();
@@ -271,14 +278,13 @@ public class LoginActivity extends Activity implements OnClickListener,
 					if(!NetUtils.isNetworkAvailable(LoginActivity.this)){
 						show("网络错误");
 					}else{
-						show("登录出错");
+						show(new String("连接不到服务器"));
 					}
 				}
 				@Override
 				public void onStart() {
 					// TODO Auto-generated method stub
 					user_login_but.setProgress(20);
-					super.onStart();
 					user_login_but.setMode(Mode.PROGRESS);
 					user_login_but.setProgress(20);
 					user_login_but.setClickable(false);
@@ -294,7 +300,7 @@ public class LoginActivity extends Activity implements OnClickListener,
 						user_login_but.setProgress(45);
 						if(u != null){
 							if(!u.getPassword().equals(password) ){
-								show("密码错误");
+								show("账号或密码错误");
 							}else{
 								///密码正确，开始登陆钱的准备
 								SharedPreferences s = getSharedPreferences("fastD", MODE_APPEND);
@@ -311,9 +317,8 @@ public class LoginActivity extends Activity implements OnClickListener,
 								
 								Gson g = new Gson();
 								String str = null;
-								
 								Map<String , String> map = new HashMap<String , String>();
-								map.put("method", Constants.getFormByUserId_all);
+								map.put("method", g.toJson(Constants.getFormByUserId_all));
 								map.put("param", g.toJson(u.getUser_id()));
 								user_login_but.setProgress(65);
 								try {
@@ -327,15 +332,8 @@ public class LoginActivity extends Activity implements OnClickListener,
 								if(!TextUtils.isEmpty(str)){
 									Constants.list_form_m1 =g.fromJson(str, new TypeToken<List<main>>(){}.getType());
 								}
-								
-								if(!Constants.isStartSerivice){
-									user_login_but.setProgress(90);
-									startService(new Intent(LoginActivity.this,userService.class));
-									user_login_but.setProgress(97);
-								}
-								
 								startActivity(new Intent(LoginActivity.this,MainActivity.class));
-								user_login_but.setProgress(100);
+								user_login_but.setProgress(99);
 								LoginActivity.this.finish();
 							}
 							
@@ -351,11 +349,105 @@ public class LoginActivity extends Activity implements OnClickListener,
 		}
 	}
 	private void fast_login() {
-		String userName = fastname.getText().toString().trim();
-		String password = fast_password.getText().toString().trim();
-//		tv = fast_toast;
+		final String userName = fastname.getText().toString().trim();
+		final String password = fast_password.getText().toString().trim();
+		
+		//==============================================本地账号
+				if(userName.equals("0") && password.equals("0")){
+					startActivity(new Intent(LoginActivity.this,FastActivity.class));
+					LoginActivity.this.finish();
+					return;
+				}
+		//==============================================本地账号		
+		
 		if(login_pro(userName,password)){
-			
+			//======================================================================================fast登录
+
+			RequestParams map = new RequestParams();
+			map.put("method", Constants.get_fast);
+			map.put("param", userName);
+			fast_login_but.setProgress(10);
+			AsyncHttpClient client = new AsyncHttpClient();
+			client.post(HttpUtils.url+"fastServlet", map, new AsyncHttpResponseHandler(){
+				@Override
+				public void onFailure(int arg0, Header[] arg1, byte[] arg2,
+						Throwable arg3) {
+					if(!NetUtils.isNetworkAvailable(LoginActivity.this)){
+						fast_show("网络错误");
+					}else{
+						fast_show("连接不到服务器");
+					}
+				}
+				@Override
+				public void onStart() {
+					// TODO Auto-generated method stub
+					fast_login_but.setProgress(20);
+					super.onStart();
+					fast_login_but.setMode(Mode.PROGRESS);
+					fast_login_but.setProgress(20);
+					fast_login_but.setClickable(false);
+					fast_login_but.setProgress(25);
+					
+				}
+				@Override
+				public void onSuccess(int statusCode, Header[] arg1, byte[] responseBody) {
+					fast_login_but.setProgress(40);
+					if (statusCode == 200) {
+						Gson j = new Gson();
+						fast u = j.fromJson(new String(responseBody), fast.class);
+						fast_login_but.setProgress(45);
+						if(u != null){
+							if(!u.getPassword().equals(password) ){
+								fast_show("账号或密码错误");
+							}else{
+								///密码正确，开始登陆钱的准备
+								SharedPreferences s = getSharedPreferences("fastD", MODE_APPEND);
+								Editor edit = s.edit();
+								fast_login_but.setProgress(50);
+								edit.putString("fastId", u.getFast_id());
+								edit.putString("fastName", u.getName());
+								edit.putString("fastPhone", u.getPhone());
+								edit.putString("fastPassword", u.getPassword());
+								edit.putString("fastLogin", "true");
+								edit.commit();  
+								
+								fast_login_but.setProgress(60);
+								
+								Gson g = new Gson();
+								String str = null;
+								
+								Map<String , String> map = new HashMap<String , String>();
+								map.put("method", g.toJson(Constants.getFormByFastId));
+								map.put("fastId", g.toJson(u.getFast_id()));
+								map.put("state", g.toJson(Constants.formState_doing_unfinish));
+								fast_login_but.setProgress(65);
+								try {
+									str = HttpUtils.postRequest(HttpUtils.url+"formServlet", map);
+									fast_login_but.setProgress(80);
+								} catch (InterruptedException e) {
+								} catch (ExecutionException e) {
+								}
+								if(Constants.fast_list_m2 == null) Constants.fast_list_m2 = new ArrayList<main>();
+								if(Constants.fast_list_m3 == null) Constants.fast_list_m3 = new ArrayList<main>();
+								if(!TextUtils.isEmpty(str)){
+									Constants.fast_list_m1 =g.fromJson(str, new TypeToken<List<main>>(){}.getType());
+								}
+								
+								startActivity(new Intent(LoginActivity.this,FastActivity.class));
+								fast_login_but.setProgress(99);
+								LoginActivity.this.finish();
+							}
+							
+						}else{
+							fast_show("账号不存在");
+						}
+						
+					}else{
+						fast_show("登录错误");
+					}
+				}
+			});
+			//==================================================================================fast登陆
 		}
 		
 	}
@@ -376,6 +468,21 @@ public class LoginActivity extends Activity implements OnClickListener,
 		.show();
 	}
 	
+	private void fast_show(String str){
+		new SweetAlertDialog(LoginActivity.this,SweetAlertDialog.ERROR_TYPE)
+		.setTitleText(str)
+		.setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
+								
+								@Override
+								public void onClick(SweetAlertDialog sweetAlertDialog) {
+									// TODO Auto-generated method stub
+									fast_login_but.setClickable(true);
+									fast_login_but.setProgress(0);
+									sweetAlertDialog.cancel();
+								}
+							})
+		.show();
+	}
 	
 	
 	

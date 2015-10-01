@@ -66,7 +66,7 @@ public class Constants {
 	public static String formState_unfinish = "未接收";
 	public static String formState_doing = "已接收";
 	public static String formState_finish = "已完成";
-	public static String formState_finish_unfinish = "yiwancheng_and_weiwanchegn";
+	public static String formState_doing_unfinish = "yiwancheng_and_weiwanchegn";
 	public static String getFormByUserId = "getFormByUserId";
 	public static String getFormByUserId_all = "getFormByUserId_all";
 	public static String getFormByFastId_all = "getFormByFastId_all";
@@ -84,6 +84,8 @@ public class Constants {
 	public static String set_user_position = "set_user_position";
 	public static String alert_User_ad = "alert_user_add";
 	public static String alertPasswrod = "alertPasswrod";
+	public static String add_userAd= "add_user_ad";
+	
 	
 	public static String ok = "ok";
 	public static String f = "file";
@@ -93,6 +95,10 @@ public class Constants {
 	public static List<main> list_form_m1 ;
 	public static List<user_Ad> list_form_m2 ;
 	public static List<main> list_form_m3 ;
+	
+	public static List<main> fast_list_m1 ;
+	public static List<main> fast_list_m2 ;
+	public static List<main> fast_list_m3 ;
 	
 	public static double user_lat = 39.90403;
 	public static double user_lng = 116.407525;

@@ -47,6 +47,10 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity
+            android:name="cn.zh.fastD.FastActivity"
+            android:launchMode="singleTop" >
+        </activity>
         <activity android:name="cn.zh.fastD.User_register_Activity" >
         </activity>
         <activity
@@ -57,16 +61,13 @@
         </activity>
         <activity
             android:name="cn.zh.fastD.WebActivity"
-            android:label="@string/title_activity_web"
             android:windowSoftInputMode="adjustPan|stateHidden" >
         </activity>
         <activity
             android:name="cn.zh.fastD.AddReceiptAd"
             android:windowSoftInputMode="adjustPan|stateHidden" >
         </activity>
-        <activity
-            android:name="cn.zh.fastD.WebActivity_simple"
-            android:label="@string/title_activity_web_activity_simple" >
+        <activity android:name="cn.zh.fastD.WebActivity_simple" >
         </activity>
         <activity
             android:name="com.mob.tools.MobUIShell"
@@ -84,10 +85,12 @@
 
         <service android:name="cn.zh.Service.userService" >
         </service>
+        <service android:name="cn.zh.Service.fastService" >
+        </service>
 
         <activity
-            android:name="cn.zh.fastD.FastActivity"
-            android:label="@string/title_activity_fast" >
+            android:name="cn.zh.fastD.MapandInfoActivity"
+            android:label="@string/title_activity_mapand_info" >
         </activity>
     </application>
 

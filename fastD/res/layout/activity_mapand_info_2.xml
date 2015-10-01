@@ -1,0 +1,181 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical" >
+
+    <com.amap.api.maps2d.MapView
+        android:id="@+id/fast_m5_map"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:layout_marginTop="48dp"
+        android:layout_weight="1" />
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:background="#fff" >
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" >
+
+            <!-- 名字 -->-->
+
+            <RelativeLayout
+                android:id="@+id/fast_company"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:id="@+id/fast_company_f"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/paddingLeft"
+                    android:paddingBottom="10dp"
+                    android:paddingTop="10dp"
+                    android:text="名字："
+                    android:textColor="#2C2929"
+                    android:textSize="17sp" />
+
+                <TextView
+                    android:id="@+id/tv_name_"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="10dp"
+                    android:layout_toRightOf="@id/tv_name_"
+                    android:textSize="17sp" />
+            </RelativeLayout>
+
+            <!-- 电话 -->
+
+            <RelativeLayout
+                android:id="@+id/fast_Name"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/fast_company"
+                android:background="#F5F5F5" >
+
+                <TextView
+                    android:id="@+id/fastName_"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/paddingLeft"
+                    android:paddingBottom="8dp"
+                    android:paddingTop="8dp"
+                    android:text="电话："
+                    android:textColor="#2C2929"
+                    android:textSize="17sp" />
+
+                <TextView
+                    android:id="@+id/tv_fastPhone"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignBaseline="@id/tv_fastPhone"
+                    android:layout_toRightOf="@id/tv_fastPhone"
+                    android:textSize="17sp" />
+            </RelativeLayout>
+
+            <!-- 详细地址 -->
+
+            <RelativeLayout
+                android:id="@+id/fastPhone_"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/fast_Name" >
+
+                <TextView
+                    android:id="@+id/fastPhone_"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/paddingLeft"
+                    android:paddingBottom="8dp"
+                    android:paddingTop="8dp"
+                    android:text="详细地址："
+                    android:textColor="#2C2929"
+                    android:textSize="17sp" />
+
+                <TextView
+                    android:id="@+id/tv_fastAd"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignBaseline="@id/tv_fastAd"
+                    android:layout_toRightOf="@id/tv_fastAd"
+                    android:textSize="17sp" />
+            </RelativeLayout>
+
+            <!-- 时间 -->
+
+            <RelativeLayout
+                android:id="@+id/time_"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/fastPhone_"
+                android:background="#F5F5F5" >
+
+                <TextView
+                    android:id="@+id/time_"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/paddingLeft"
+                    android:paddingBottom="8dp"
+                    android:paddingTop="8dp"
+                    android:text="时间："
+                    android:textColor="#2C2929"
+                    android:textSize="17sp" />
+
+                <TextView
+                    android:id="@+id/tv_time__"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignBaseline="@id/tv_time__"
+                    android:layout_toRightOf="@id/tv_time__"
+                    android:textSize="17sp" />
+            </RelativeLayout>
+
+            <!-- 备注-->
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/time_" >
+
+                <TextView
+                    android:id="@+id/recieptAd_"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/paddingLeft"
+                    android:minLines="2"
+                    android:paddingBottom="8dp"
+                    android:paddingTop="8dp"
+                    android:text="备注："
+                    android:textColor="#2C2929"
+                    android:textSize="17sp" />
+
+                <TextView
+                    android:id="@+id/tv_mark"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignBaseline="@id/tv_mark"
+                    android:layout_toRightOf="@id/tv_mark"
+                    android:minLines="2"
+                    android:textSize="17sp" />
+            </RelativeLayout>
+            
+	         <Button
+		        android:id="@+id/but_commit"
+		        android:layout_width="match_parent"
+		        android:layout_height="40dp"
+		        android:layout_alignParentBottom="true"
+		        android:layout_marginBottom="@dimen/long_but_marginBottom"
+		        android:layout_marginLeft="@dimen/long_but_marginLR"
+		        android:layout_marginRight="@dimen/long_but_marginLR"
+		        android:background="@drawable/but_login_selector"
+		        android:text="接  单" />
+
+        </RelativeLayout>
+    </ScrollView>
+
+</LinearLayout>
